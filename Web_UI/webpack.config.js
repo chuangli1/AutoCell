@@ -5,6 +5,7 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 module.exports = {
+  watch:true,
   entry: './src/index.ts',
   mode: 'development',
   output: {
