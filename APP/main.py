@@ -10,6 +10,10 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 @app.route('/')
 def hello_world():
    return render_template( 'index.html')
+   
+@app.route('/get',methods=['GET'])
+def hello():
+   return 'HELLO'
 
 if __name__ == '__main__':
    app.run()
