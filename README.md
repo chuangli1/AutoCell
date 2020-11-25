@@ -1,3 +1,4 @@
 # AutoCell
-A project about cell, i will creat a cloud for monitor the condition of the cell living
+A web project about platform for cell culturing, this project use Flask as backend and use Vue-webpack as frontend.
+Now, this project is developing......
 
