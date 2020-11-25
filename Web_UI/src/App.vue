@@ -1,18 +1,16 @@
 <template>
   <div>
-    <div>{{number}}</div>
-    <div>
-      <button @click="add">+</button>
-      <button @click="minus">-</button>
-      <router-view></router-view>
+    <div style="text-align:center">
+      AutoCell Cloud System 1.0
     </div>
+      <router-view></router-view>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
 declare let $:any;
 export default Vue.extend({
-  name: "lifa",
+  name: "App",
   data() {
     return {
       number: 0

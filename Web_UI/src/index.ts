@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Lifa from './lifa.vue'
+import App from './App.vue'
 import router from './router'
 // let div = document.createElement('div')
 // div.id = 'app'
@@ -9,6 +9,6 @@ import router from './router'
 new Vue({
     el: '#app',
     router,
-    components: {Lifa},
-    template:'<Lifa/>'
+    components: {App},
+    template:'<App/>'
 })

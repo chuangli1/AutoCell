@@ -37,7 +37,8 @@ module.exports = {
         options: {
           appendTsSuffixTo: [/\.vue$/]
         }
-      }
+      },
+
     ]
   },
   devServer: {
@@ -58,6 +59,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
+      favicon: './src/img/favicon.ico',
       inject: true
     }),
     new VueLoaderPlugin()
