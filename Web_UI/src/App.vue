@@ -1,6 +1,7 @@
 <template>
   <div>
     <div style="text-align:center">
+      <span></span>
       AutoCell Cloud System 1.0
     </div>
       <router-view></router-view>
