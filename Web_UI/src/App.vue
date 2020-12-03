@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <div style="text-align:center">
-      <span></span>
-      AutoCell Cloud System 1.0
+  <div style="height:100%">
+    <div class='title'>
+      <span>AutoCell Cloud System 1.0</span>
     </div>
       <router-view></router-view>
   </div>
@@ -36,3 +35,15 @@ export default Vue.extend({
   }
 });
 </script>
+<style scoped>
+.title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align:center; 
+  background-color:wheat; 
+  height:5%
+}
+
+</style>
