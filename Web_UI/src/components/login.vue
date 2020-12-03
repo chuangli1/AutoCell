@@ -85,6 +85,10 @@ export default Vue.extend({
                   alert('密码错误');
               }
               else{
+                // 未记住登录
+                //localStorage.clear();
+                sessionStorage.isUser = true;
+                sessionStorage.username = self.form.username;
                 self.$router.push({path: '/home'});
               }
             })

@@ -27,6 +27,10 @@ export default Vue.extend({
           let number: number = this.number - 1
           self.number = number
       }
+  },
+  created(){
+    const self:any = this;
+    if(!sessionStorage.isUser) self.$router.push({path:'/'})
   }
 });
 </script>
