@@ -1,9 +1,21 @@
 import pymysql
+from sql import *
+
 mydb = pymysql.connect(
     host="localhost",
     port=3306,
     user="root",password="chuangli",
-    database="chuangli",
-    charset="utf8");
+    database="autocell",
+    charset="utf8")
+cur = mydb.cursor()
+
+def findUser(userName):
+    cur.execute(searchUser,[userName])
+    result = cur.fetchall()
+    return result
+
+
+
+
 
 

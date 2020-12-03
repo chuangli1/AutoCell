@@ -3,3 +3,4 @@ js/icons
 dist*
 package-lock.json
 .idea/
+__pycache__
