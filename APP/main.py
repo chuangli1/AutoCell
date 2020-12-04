@@ -3,7 +3,7 @@ from flask_cors import CORS
 import sys  
 sys.path.append('./db') 
 from db.index import *
-
+managerName = 'chuangli'
 app = Flask(__name__, 
            template_folder= "../Web_UI/dist",
            static_folder= "../Web_UI/dist",
@@ -24,7 +24,11 @@ def login():
    re =  findUser(userName)
    if re:
       pwd = findUser(userName)[0][2]
-      if(passWord==pwd): return jsonify({'code':1})
+      if(passWord==pwd):
+         if userName == managerName:
+             return jsonify({'code':3})   
+         else:
+             return jsonify({'code':1})
       else: return jsonify({'code':2})
    else:
       return jsonify({'code':0})

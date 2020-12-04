@@ -15,7 +15,7 @@
           </el-row>
           <el-row type="flex" justify="center">
               <el-form-item>
-                  <el-button style="width: 200px;" type="primary" @click="submit('form')">提交</el-button>
+                  <el-button style="width: 200px;" type="primary" @click="submit('form')">登录</el-button>
               </el-form-item>
           </el-row>
       </el-form>
@@ -84,9 +84,15 @@ export default Vue.extend({
               else if(code==2){
                   alert('密码错误');
               }
-              else{
+              else if(code==3){
                 // 未记住登录
                 //localStorage.clear();
+                sessionStorage.isUser = true;
+                sessionStorage.isManager = true;
+                sessionStorage.username = self.form.username;
+                self.$router.push({path: '/home'});
+              }
+              else{
                 sessionStorage.isUser = true;
                 sessionStorage.username = self.form.username;
                 self.$router.push({path: '/home'});
