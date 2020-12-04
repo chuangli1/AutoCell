@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div>{{number+100}}</div>
     <div>
       <button @click="add">+</button>
@@ -34,3 +35,21 @@ export default Vue.extend({
   }
 });
 </script>
+<style lang="scss" scoped>
+  .general {
+            border: 1px solid #bbbbbb;
+            border-radius: 6px;
+            padding: 16px;
+            position: relative;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            font-size: 14px;
+            .title {
+                position: absolute;
+                top: -12px;
+                font-size: 18px;
+                background-color: #ffffff;
+                padding: 0 8px;
+            }
+  }
+</style>
