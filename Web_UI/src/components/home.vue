@@ -1,17 +1,17 @@
 <template>
   <div>
     <div v-if='isManager'><span class="addUser" @click="addUser">+</span></div>
-    <add-user-box v-if='isAddUser' class='addBox'></add-user-box>
-    
-    <div>
-      <button @click="add">+</button>
-      <button @click="minus">-</button>
+    <add-user-box v-if='isAddUser' class='addBox'></add-user-box>  
+    <div id='monitor' class="monitor">
+      <monitor></monitor>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import monitor from './monitor.vue';
 import addUserBox from './tools/addUserBox.vue'
+
 export default Vue.extend({
   name: "home",
   data() {
@@ -23,6 +23,7 @@ export default Vue.extend({
   },
   components:{
     addUserBox,
+    monitor,
   },
   methods: {
     addUser(){

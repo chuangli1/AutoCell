@@ -1,6 +1,6 @@
 <template>
    <div>
-       <img src = '/'/>
+       <img src = 'http://localhost/video' width="640px" height="360px">
    </div>
 </template>
 <script lang="ts">

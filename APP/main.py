@@ -1,8 +1,10 @@
-from flask import Flask,render_template,request,jsonify
+from flask import Flask,render_template,request,jsonify,Response
 from flask_cors import CORS
 import sys  
 sys.path.append('./db') 
 from db.index import *
+from camera import gen,Camera
+
 managerName = 'chuangli'
 app = Flask(__name__, 
            template_folder= "../Web_UI/dist",
@@ -26,8 +28,7 @@ def deleteUser_m():
       else:
          return jsonify({'code':2})   
    else:
-      return jsonify({'code':0}) 
-      
+      return jsonify({'code':0})     
 @app.route('/addUser',methods=['POST'])
 def addUser_m():
    userName = request.form['username']
@@ -53,7 +54,13 @@ def login():
       else: return jsonify({'code':2})
    else:
       return jsonify({'code':0})
+
+@app.route('/video',methods=['GET'])
+def video():
+    camera = Camera()
+    return Response(gen(Camera()),
+          mimetype='multipart/x-mixed-replace; boundary=frame')
       
 
 if __name__ == '__main__':
-   app.run()
+   app.run(threaded=True)
