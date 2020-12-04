@@ -16,6 +16,9 @@ def findUser(userName):
 def addUsers(userName,passWord):
     cur.execute(addUser,[userName,passWord])
     mydb.commit()
+def deleteUsers(userName):
+    cur.execute(deleteUser,[userName])
+    mydb.commit()
     
 
 

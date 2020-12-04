@@ -13,7 +13,21 @@ cors = CORS(app)
 @app.route('/')
 def hello_world():
    return render_template( 'index.html')
-   
+@app.route('/deleteUser',methods=['POST'])
+def deleteUser_m():
+   userName = request.form['username']
+   passWord = request.form['password']
+   re =  findUser(userName)
+   if re:
+      pwd = findUser(userName)[0][2]
+      if(passWord==pwd):
+         deleteUsers(userName)
+         return jsonify({'code':1})
+      else:
+         return jsonify({'code':2})   
+   else:
+      return jsonify({'code':0}) 
+      
 @app.route('/addUser',methods=['POST'])
 def addUser_m():
    userName = request.form['username']

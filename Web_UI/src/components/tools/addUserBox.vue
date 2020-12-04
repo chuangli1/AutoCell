@@ -12,9 +12,10 @@
                   <el-input placeholder='密码' v-model="form.password"></el-input>
               </el-form-item>
           </el-row>
-          <el-row type="flex" justify="left">
+          <el-row type="flex" justify="center">
               <el-form-item>
-                  <el-button style="width: 200px;" type="primary" @click="submit('form')">提交</el-button>
+                  <el-button style="width: 90px;" type="primary" @click="add('form')">添加</el-button>
+                  <el-button style="width: 90px;" type="primary" @click="del('form')">删除</el-button>
               </el-form-item>
           </el-row>
       </el-form>
@@ -65,7 +66,7 @@ export default Vue.extend({
   },
   methods:{
       /*提交进行判断的函数 */
-      submit:function(formName){
+      add:function(formName){
         const self:any = this;
          self.$refs[formName].validate((valid) => {
           if (valid) {
@@ -96,7 +97,40 @@ export default Vue.extend({
             return false;
           }
         })
-      }
+      },
+      del:function(formName){
+        const self:any = this;
+         self.$refs[formName].validate((valid) => {
+          if (valid) {
+            $.post('http://localhost:5000/deleteUser', {
+                username: self.form.username,
+                password: self.form.password
+            })
+            .then(res => {
+              console.log(res)
+              var code = res.code
+              if(code==2) {
+                alert('密码错误');
+              }
+              if(code==1){
+                  alert('删除成功');
+              }
+              else{
+                  alert('账号不存在')
+              }
+              
+            })
+            .catch(error => {
+                    console.log(error);
+                })
+          } else {
+            alert('密码或者账号不完整');
+            console.log('error submit!!');
+            return false;
+          }
+        })
+      },
+
   },
 })
 </script>
