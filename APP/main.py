@@ -4,6 +4,8 @@ import sys
 sys.path.append('./db') 
 from db.index import *
 from camera import gen,Camera
+camera = Camera()
+camera.start()
 
 managerName = 'chuangli'
 app = Flask(__name__, 
@@ -57,8 +59,8 @@ def login():
 
 @app.route('/video',methods=['GET'])
 def video():
-    camera = Camera()
-    return Response(gen(Camera()),
+    global camera
+    return Response(gen(camera),
           mimetype='multipart/x-mixed-replace; boundary=frame')
       
 

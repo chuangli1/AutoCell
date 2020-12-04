@@ -2,7 +2,7 @@
 <template>
 <div  class="back">
   <div class="login">
-      <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="100px">
+      <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="0px">
           <el-row type="flex" justify="center">
               <el-form-item prop="username">
                   <el-input placeholder='账户' v-model="form.username"></el-input>
@@ -116,7 +116,7 @@ export default Vue.extend({
 .login{
   position: absolute;
   top:40%;
-  left:calc(50% - 200px);
+  left:calc(50% - 100px);
 }
 .back{
   background-color: gray;
