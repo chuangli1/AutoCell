@@ -1,8 +1,7 @@
 <!--基本html代码区域-->
 <template>
-<div  class="back">
-  <div class="login">
-      <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="100px">
+  <div class="general addBox">
+      <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="0px">
           <el-row type="flex" justify="center">
               <el-form-item prop="username">
                   <el-input placeholder='账户' v-model="form.username"></el-input>
@@ -13,14 +12,13 @@
                   <el-input placeholder='密码' v-model="form.password"></el-input>
               </el-form-item>
           </el-row>
-          <el-row type="flex" justify="center">
+          <el-row type="flex" justify="left">
               <el-form-item>
-                  <el-button style="width: 200px;" type="primary" @click="submit('form')">登录</el-button>
+                  <el-button style="width: 200px;" type="primary" @click="submit('form')">提交</el-button>
               </el-form-item>
           </el-row>
       </el-form>
          
-  </div>
   </div>
 </template>
 
@@ -71,7 +69,7 @@ export default Vue.extend({
         const self:any = this;
          self.$refs[formName].validate((valid) => {
           if (valid) {
-            $.post('http://localhost:5000/login', {
+            $.post('http://localhost:5000/addUser', {
                 username: self.form.username,
                 password: self.form.password
             })
@@ -79,25 +77,15 @@ export default Vue.extend({
               console.log(res)
               var code = res.code
               if(code==0) {
-                alert('账号不存在');
+                alert('账号已存在');
               }
-              else if(code==2){
-                  alert('密码错误');
-              }
-              else if(code==3){
-                // 未记住登录
-                //localStorage.clear();
-                sessionStorage.isUser = true;
-                sessionStorage.isManager = true;
-                sessionStorage.username = self.form.username;
-                self.$router.push({path: '/home'});
+              if(code==1){
+                  alert('保存成功');
               }
               else{
-                sessionStorage.isUser = true;
-                sessionStorage.isManager = false;
-                sessionStorage.username = self.form.username;
-                self.$router.push({path: '/home'});
+                  alert('保存失败')
               }
+              
             })
             .catch(error => {
                     console.log(error);
@@ -112,15 +100,30 @@ export default Vue.extend({
   },
 })
 </script>
-<style scoped>
-.login{
-  position: absolute;
-  top:40%;
-  left:calc(50% - 200px);
+
+<style lang='scss' scoped>
+ .general {
+            border: 1px solid #bbbbbb;
+            border-radius: 6px;
+            padding: 16px;
+            position: relative;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            font-size: 14px;
+            .title {
+                position: absolute;
+                top: -12px;
+                font-size: 18px;
+                background-color: #ffffff;
+                padding: 0 8px;
+            }
+  }
+.addBox{
+  position: relative;
+  float:right;
+  top:0%;
+  right:5%;
 }
-.back{
-  background-color: gray;
-  width: 100%;
-  height:95%;
-}
+
 </style>
+

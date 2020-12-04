@@ -1,7 +1,8 @@
 <template>
   <div>
-
-    <div>{{number+100}}</div>
+    <div v-if='isManager'><span class="addUser" @click="addUser">+</span></div>
+    <add-user-box v-if='isAddUser' class='addBox'></add-user-box>
+    
     <div>
       <button @click="add">+</button>
       <button @click="minus">-</button>
@@ -10,20 +11,30 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
+import addUserBox from './tools/addUserBox.vue'
 export default Vue.extend({
-  name: "lifa",
+  name: "home",
   data() {
     return {
-      number: 0
+      number: 0,
+      isAddUser: false,
+      isManager:false
     }
   },
+  components:{
+    addUserBox,
+  },
   methods: {
-      add() {
+    addUser(){
+      const self:any = this;
+      self.isAddUser = !self.isAddUser;
+    },
+    add() {
           const self:any = this;
           let number: number = this.number + 1
           self.number = number
       },
-      minus() {
+    minus() {
           const self:any = this;
           let number: number = this.number - 1
           self.number = number
@@ -32,6 +43,7 @@ export default Vue.extend({
   created(){
     const self:any = this;
     if(!sessionStorage.isUser) self.$router.push({path:'/'})
+    sessionStorage.isManager==='true'?self.isManager = true:self.isManager = false;
   }
 });
 </script>
@@ -52,4 +64,11 @@ export default Vue.extend({
                 padding: 0 8px;
             }
   }
+  .addUser{
+  position: absolute;
+  cursor: pointer;
+  top:-1.5%;
+  left:95%;
+  font-size:36px;
+}
 </style>

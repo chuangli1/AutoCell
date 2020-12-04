@@ -13,6 +13,11 @@ def findUser(userName):
     cur.execute(searchUser,[userName])
     result = cur.fetchall()
     return result
+def addUsers(userName,passWord):
+    cur.execute(addUser,[userName,passWord])
+    mydb.commit()
+    
+
 
 
 

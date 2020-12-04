@@ -14,9 +14,16 @@ cors = CORS(app)
 def hello_world():
    return render_template( 'index.html')
    
-@app.route('/get',methods=['GET'])
-def hello():
-   return 'HELLO'
+@app.route('/addUser',methods=['POST'])
+def addUser_m():
+   userName = request.form['username']
+   passWord = request.form['password']
+   re =  findUser(userName)
+   if re:
+      return jsonify({'code':0})
+   else:
+      addUsers(userName,passWord)
+      return jsonify({'code':1})
 @app.route('/login',methods=['POST'])
 def login():
    userName = request.form['username']
