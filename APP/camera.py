@@ -6,12 +6,20 @@ import threading
 from functools import partial
 
 def gen(camera):
+    camera.userNum+=1
+    if camera.userNum==1:
+        camera.resume()
+        time.sleep(0.1)
     while True:
         frame = camera.frame
         ret, frame = cv2.imencode('.jpg', frame)
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n\r\n')
-  
+        try:
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n\r\n')
+        except:
+            camera.pause()
+            break
+
 
 
 class Camera(threading.Thread):
@@ -19,11 +27,13 @@ class Camera(threading.Thread):
         super(Camera,self).__init__()
         self.__flag = threading.Event() 
         self.__flag.set()       # 设置为True
+        self.userNum = 0
         self.__running = threading.Event()      # 用于停止线程的标识
         self.__running.set()      # 将running设置为True
         self.test = 2 #验证是否进行视频拍摄
         self.cap = cv2.VideoCapture(0)
         ret,self.frame = self.cap.read()
+        self.cap.release()
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         self.out = cv2.VideoWriter('testwrite.avi',fourcc, 20.0, (640,480),True)
         self.i = 0
@@ -52,15 +62,21 @@ class Camera(threading.Thread):
         print('stop')
 
     def pause(self):
-        self.__flag.clear()     # 设置为False, 让线程阻塞
- 
+        self.userNum-=1
+        if self.userNum>0:
+            pass
+        else:
+            self.__flag.clear()     # 设置为False, 让线程阻塞
+            self.cap.release()  #常规操作
+            print('close camera')
     def resume(self):
+        self.cap = cv2.VideoCapture(0)
+        ret,self.frame = self.cap.read()
         self.__flag.set()    # 设置为True, 让线程停止阻塞
+        print('open camera')
     def stop(self):
         self.__flag.set()       # 将线程从暂停状态恢复, 如何已经暂停的话
         self.__running.clear()        # 设置为False
         print(self.__running.isSet())
-        self.cap.release()
-        cv2.destroyAllWindows()
-        print(self.i,"chuangliq12")
+        print('close camera')
     

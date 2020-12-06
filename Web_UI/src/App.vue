@@ -43,7 +43,8 @@ export default Vue.extend({
   flex-direction: column;
   text-align:center; 
   background-color:wheat; 
-  height:5%
+  height:5%;
+  position: sticky;
 }
 
 </style>
