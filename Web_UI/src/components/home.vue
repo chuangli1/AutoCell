@@ -1,9 +1,34 @@
 <template>
-  <div>
-    <div v-if='isManager'><span class="addUser" @click="addUser">+</span></div>
-    <add-user-box v-if='isAddUser' class='addBox'></add-user-box>  
-    <div id='monitor' class="monitor">
-      <monitor></monitor>
+  <div style="height:100%">
+    <div class="container home" style="height:100%">
+      <div class="row" style="height:100%">
+        <div class="left-area col-sm-3">
+          <div>
+            <i class="el-icon-bell"></i>
+            <span>留言板</span>
+          </div>
+          <div class="info">
+
+          </div>
+        </div>
+        <div class="right-area col-sm-9">
+          <el-tabs v-model="activeName" @tab-click="handleClick">
+            <el-tab-pane label="实时监控" name="first">
+              <div id='monitor' class="monitor">
+                <monitor></monitor>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane label="实验配置" name="second">配置管理</el-tab-pane>
+            <el-tab-pane label="数据管理" name="third">角色管理</el-tab-pane>
+            <el-tab-pane label="用户设置" name="fourth">
+              <div v-if='isManager'  @click="addUser" class="addUser">
+                <i :class="{ 'el-icon-plus': !isAddUser, 'el-icon-minus': isAddUser}"></i>
+              </div>
+              <add-user-box v-if='isAddUser' class='addBox'></add-user-box>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -30,16 +55,9 @@ export default Vue.extend({
       const self:any = this;
       self.isAddUser = !self.isAddUser;
     },
-    add() {
-          const self:any = this;
-          let number: number = this.number + 1
-          self.number = number
-      },
-    minus() {
-          const self:any = this;
-          let number: number = this.number - 1
-          self.number = number
-      }
+    handleClick(tab, event) {
+        console.log(tab, event);
+    },
   },
   created(){
     const self:any = this;
@@ -49,27 +67,29 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
-  .general {
-            border: 1px solid #bbbbbb;
-            border-radius: 6px;
-            padding: 16px;
-            position: relative;
-            margin-bottom: 16px;
-            margin-top: 24px;
-            font-size: 14px;
-            .title {
-                position: absolute;
-                top: -12px;
-                font-size: 18px;
-                background-color: #ffffff;
-                padding: 0 8px;
-            }
-  }
   .addUser{
-  position: absolute;
-  cursor: pointer;
-  top:-1.5%;
-  left:95%;
-  font-size:36px;
-}
+    cursor: pointer;
+    text-align: right;
+    font-size:16px;
+  }
+  .addBox{
+      float:right;
+    }
+  .home{
+    margin-top: 10px;
+  }
+  .left-area{
+    margin-top: 10px;
+      .info{
+        border: 1px solid #bbbbbb;
+        border-radius: 6px;
+        margin-top:8px;
+        height: 80%;
+        width: auto;
+      }
+
+  }
+  .right-area{
+      width:70%;
+  }
 </style>

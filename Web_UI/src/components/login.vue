@@ -5,12 +5,12 @@
       <el-form ref="form" :model="form" status-icon :rules="rules2" label-width="0px">
           <el-row type="flex" justify="center">
               <el-form-item prop="username">
-                  <el-input placeholder='账户' v-model="form.username"></el-input>
+                  <el-input style="width: 200px;" placeholder='账户' v-model="form.username"></el-input>
               </el-form-item>
           </el-row>
           <el-row type="flex" justify="center">
               <el-form-item prop="password">
-                  <el-input placeholder='密码' v-model="form.password"></el-input>
+                  <el-input style="width: 200px;" placeholder='密码' v-model="form.password"></el-input>
               </el-form-item>
           </el-row>
           <el-row type="flex" justify="center">

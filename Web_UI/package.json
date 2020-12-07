@@ -12,6 +12,7 @@
   "author": "chuangli",
   "license": "ISC",
   "devDependencies": {
+    "@types/bootstrap": "^5.0.1",
     "@types/jquery": "^3.5.4",
     "express": "^4.17.1",
     "file-loader": "^6.2.0",
@@ -30,6 +31,7 @@
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "css-loader": "^5.0.1",
     "element-ui": "^2.14.1",
     "jquery": "^3.5.1",

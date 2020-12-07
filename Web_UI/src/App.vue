@@ -13,38 +13,27 @@ export default Vue.extend({
   name: "App",
   data() {
     return {
-      number: 0
+      isManager: 0
     }
   },
   methods: {
-      add() {
-          const self:any = this;
-          let number: number = this.number + 1
-          self.number = number
-          $.get('/get',function(data){
-            alert(data);
-          })
-          //self.$router.push('/home')
-      },
-      minus() {
-          const self:any = this;
-          let number: number = this.number - 1
-          self.number = number
-          self.$router.push('/')
-      }
   }
 });
 </script>
 <style scoped>
 .title{
+  width:100%;
   display: flex;
+
   align-items: center;
+  text-align: center;
   justify-content: center;
   flex-direction: column;
-  text-align:center; 
-  background-color:wheat; 
+  background-color:#75B0ED; 
   height:5%;
   position: sticky;
+  top:0%;
+  z-index: 1000;
 }
 
 </style>

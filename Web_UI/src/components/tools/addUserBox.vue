@@ -139,10 +139,11 @@ export default Vue.extend({
  .general {
             border: 1px solid #bbbbbb;
             border-radius: 6px;
-            padding: 16px;
+            padding: 16px 16px 0px 16px;
+            padding-bottom: 0px;
             position: relative;
             margin-bottom: 16px;
-            margin-top: 24px;
+            margin-top: 6px;
             font-size: 14px;
             .title {
                 position: absolute;
@@ -154,9 +155,8 @@ export default Vue.extend({
   }
 .addBox{
   position: relative;
-  float:right;
+  float:left;
   top:0%;
-  right:5%;
 }
 
 </style>
