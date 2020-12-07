@@ -71,7 +71,7 @@ class Camera(threading.Thread):
             print('close camera')
     def resume(self):
         self.cap = cv2.VideoCapture(0)
-        ret,self.frame = self.cap.read()
+        #,self.frame = self.cap.read()
         self.__flag.set()    # 设置为True, 让线程停止阻塞
         print('open camera')
     def stop(self):
