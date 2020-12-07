@@ -9,7 +9,6 @@ def gen(camera):
     camera.userNum+=1
     if camera.userNum==1:
         camera.resume()
-        time.sleep(0.1)
     while True:
         frame = camera.frame
         ret, frame = cv2.imencode('.jpg', frame)
@@ -71,7 +70,7 @@ class Camera(threading.Thread):
             print('close camera')
     def resume(self):
         self.cap = cv2.VideoCapture(0)
-        #,self.frame = self.cap.read()
+        ret,self.frame = self.cap.read()
         self.__flag.set()    # 设置为True, 让线程停止阻塞
         print('open camera')
     def stop(self):
