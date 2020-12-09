@@ -19,6 +19,21 @@ def addUsers(userName,passWord):
 def deleteUsers(userName):
     cur.execute(deleteUser,[userName])
     mydb.commit()
+
+def addInfos(info_user,info_content,info_date):
+    cur.execute(addInfo,[info_user,info_content,info_date])
+    mydb.commit()
+def deleteInfos(info_id):
+    cur.execute(deleteInfo,[info_id])
+    mydb.commit()
+def deleteAllInfos():
+    cur.execute(deleteAllInfo)
+    mydb.commit()
+def findInfos():
+    cur.execute(searchInfo)
+    result = cur.fetchall()
+    return result
+
     
 
 

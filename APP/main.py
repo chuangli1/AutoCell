@@ -1,3 +1,4 @@
+#main
 from flask import Flask,render_template,request,jsonify,Response
 from flask_cors import CORS
 import sys  
@@ -13,8 +14,10 @@ app = Flask(__name__,
            template_folder= "../Web_UI/dist",
            static_folder= "../Web_UI/dist",
            static_url_path='')
+app.config['JSON_AS_ASCII'] = False
 cors = CORS(app)
 
+#登录相关
 @app.route('/')
 def hello_world():
    return render_template( 'index.html')
@@ -58,11 +61,47 @@ def login():
    else:
       return jsonify({'code':0})
 
+#视频传输相关
 @app.route('/video',methods=['GET'])
 def video():
     return Response(gen(camera),
           mimetype='multipart/x-mixed-replace; boundary=frame')
-      
+
+#留言板相关
+@app.route('/addInfo',methods=['POST'])
+def addInfo():
+   info_user = request.form['info_user']
+   info_content = request.form['info_content']
+   info_date = request.form['info_date']
+   try:
+      addInfos(info_user,info_content,info_date)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/deleteInfo',methods=['POST'])
+def deleteInfo():
+   info_id = request.form['info_id']
+   try:
+      deleteInfos(info_id)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/deleteAllInfo',methods=['POST'])
+def deleteAllInfo():
+   try:
+      deleteAllInfos()
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/loadInfos',methods=['GET'])
+def loadInfo():
+   try:
+      re = findInfos()
+      return jsonify({'code':1,'infos':re})
+   except:
+      return jsonify({'code':0})
+    
+
 
 if __name__ == '__main__':
    app.run(threaded=True)

@@ -8,7 +8,7 @@
             <span>留言板</span>
           </div>
           <div class="info">
-
+           <info-box></info-box>
           </div>
         </div>
         <div class="right-area col-sm-9">
@@ -36,6 +36,7 @@
 import Vue from 'vue'
 import monitor from './monitor.vue';
 import addUserBox from './tools/addUserBox.vue'
+import infoBox from './tools/infoBox.vue'
 
 export default Vue.extend({
   name: "home",
@@ -43,12 +44,14 @@ export default Vue.extend({
     return {
       number: 0,
       isAddUser: false,
-      isManager:false
+      isManager:false,
+      activeName:'first'
     }
   },
   components:{
     addUserBox,
     monitor,
+    infoBox
   },
   methods: {
     addUser(){
@@ -81,13 +84,12 @@ export default Vue.extend({
   .left-area{
     margin-top: 10px;
       .info{
-        border: 1px solid #bbbbbb;
-        border-radius: 6px;
+        // border: 1px solid #bbbbbb;
+        // border-radius: 6px;
         margin-top:8px;
-        height: 80%;
+        min-height: 90%;
         width: auto;
       }
-
   }
   .right-area{
       width:70%;
