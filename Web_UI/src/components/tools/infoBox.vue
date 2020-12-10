@@ -12,9 +12,9 @@
         <div>
             <div>
             <i class="el-icon-warning-outline"></i>
-            <span>{{info[2]}}</span>
+            <span style="font-size:14px">{{info[2]}}</span>
             </div>
-            <div style="float: right; padding: 3px 0">{{info[3].split(' ')[0]}}</div>
+            <div style="float: right; padding: 3px 0;font-size:14px">{{info[3].split(' ')[0]}}</div>
         </div>
         </el-card>
   </div>
