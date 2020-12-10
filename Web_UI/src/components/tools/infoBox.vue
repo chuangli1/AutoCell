@@ -37,8 +37,8 @@ export default Vue.extend({
             self.$prompt('请输入留言', '留言', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
-                inputPattern: /^\S{1,100}$/,
-                inputErrorMessage: '留言字数不符合要求'
+                inputPattern: /^[\s\S]{1,200}$/,
+                inputErrorMessage: '留言字数不能超过200个'
                 }).then(({ value }) => {
                     const infoData = {
                     'info_user':self.userName,
@@ -63,12 +63,6 @@ export default Vue.extend({
                     message: '取消输入'
                 });       
             });
-            const infoData = {
-                  'info_user':'chuangli',
-                  'info_content':"请chuangli留意第5个芯片的工作情况, 并把论文赶快改完！",
-                  'info_date': self.myDate.toLocaleString()
-            }
-            
         },
         deleteInfo(ID){
             const self:any = this;
@@ -111,7 +105,7 @@ export default Vue.extend({
  .addIcon{
         text-align: right;
         height: 6px;
-        padding: 0 10px;
+        padding: 0 0px;
         font-size: 18px;
         position: relative;
         top: -34px;
