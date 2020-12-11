@@ -2,7 +2,8 @@
 from flask import Flask,render_template,request,jsonify,Response
 from flask_cors import CORS
 import sys  
-sys.path.append('./db') 
+sys.path.append('./db')
+import os
 from db.index import *
 from camera import gen, Camera
 camera = Camera()
@@ -66,6 +67,36 @@ def login():
 def video():
     return Response(gen(camera),
           mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/videoRecordStart',methods=['POST'])
+def videoRecordStart():
+    videoName = request.form['videoName']
+    if os.path.exists('./video/'+videoName+'.avi'):
+         videoName = videoName+'(1)'
+    print(videoName)
+    try:
+      camera.start_c(videoName)
+      return jsonify({'code':1})
+    except:
+      return jsonify({'code':0})
+@app.route('/videoRecordStop',methods=['POST'])
+def videoRecordStop():
+    try:
+      camera.stop_c()
+      return jsonify({'code':1})
+    except:
+      return jsonify({'code':0})
+@app.route('/videoRecordSave',methods=['POST'])
+def videoRecordSave():
+    userName = request.form['userName']
+    videoName = request.form['videoName']
+    videoDate = request.form['videoDate']
+    if os.path.exists('./video/'+videoName+'.avi'):
+         videoName = videoName+'(1)'
+    try:
+      addVideos(userName,videoName,videoDate)
+      return jsonify({'code':1})
+    except:
+      return jsonify({'code':0})
 
 #留言板相关
 @app.route('/addInfo',methods=['POST'])

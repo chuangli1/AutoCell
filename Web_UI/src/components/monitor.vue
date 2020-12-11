@@ -24,7 +24,7 @@
                 <div style="margin:10px"><el-button type="info" icon="el-icon-top"></el-button></div>
                 <div style="margin:10px"><el-button type="info" icon="el-icon-bottom"></el-button></div>
             </div>
-            <div style="float:left; position:relative; bottom:140px; height:140px; width:200px; font-size:14px">
+            <div style="float:left; position:relative; bottom:140px; left:10px; height:140px; width:200px; font-size:14px">
                 <div style="margin-bottom:10px">
                     运动步长：
                     <el-select style="margin-top:10px" v-model="stepValue" placeholder="请选择运动步长">
@@ -57,11 +57,11 @@
                <span><i style="padding-right:6px" class="el-icon-video-camera"></i>视频录制</span>
            </div>
            <div class="recordCard">
-                <span  v-if="recordStatus===0"><i class="el-icon-video-play"></i>开始录制</span>
-               <span v-if="recordStatus===1"><i  class="el-icon-video-pause"></i>正在录制</span>
-               <span v-if="recordStatus===2"><i  class="el-icon-video-success"></i>完成录制</span>
-               <span><i  class="el-icon-refresh-left"></i>重新录制</span>
-               <span><i  class="el-icon-s-release"></i>保存录制</span>
+               <span @click="recordStart()" v-if="recordStatus===0"><i class="el-icon-video-play"></i>开始录制</span>
+               <span @click="recordStop()" v-if="recordStatus===1"><i  class="el-icon-video-pause"></i>正在录制</span>
+               <span v-if="recordStatus===2"><i  class="el-icon-success"></i>完成录制</span>
+               <span @click="recordRe()"><i  class="el-icon-refresh-left"></i>重新录制</span>
+               <span @click="recordSave()"><i  class="el-icon-s-release"></i>保存录制</span>
            </div>
        </el-card>
    </div>
@@ -74,6 +74,8 @@ export default Vue.extend({
     data(){
         return {
             recordStatus: 0,
+            videoName:'',
+            myDate: new Date(),
             stepOptions:[
                 {
                     label:'1 mm',
@@ -115,6 +117,85 @@ export default Vue.extend({
 
         }
 
+    },
+    methods:{
+       recordStart(){
+            const self:any = this;
+            self.$prompt('请输入视频文件名', '视频录制', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                inputPattern: /^[\s\S]{1,200}$/,
+                inputErrorMessage: '视频文件名长度不能超过200个'
+                }).then(({ value })=>{
+                   $.post('http://localhost:5000/videoRecordStart',{videoName: value}).then(data=>{
+                       if(data.code===1){
+                            self.videoName = value;
+                            self.recordStatus = 1;
+                            self.$message({
+                                message: '开始成功',
+                                type: 'success'
+                            });
+                       }
+                       else{
+                           self.$message.error('未知错误');
+                       }
+                   })
+                }).catch(() => {
+                self.$message({
+                    type: 'info',
+                    message: '取消输入'
+                }); });
+       },
+       recordStop(){
+           const self:any = this;
+           $.post('http://localhost:5000/videoRecordStop').then(data=>{
+                if(data.code===1){
+                        self.recordStatus = 2;
+                        self.$message({
+                            message: '结束成功',
+                            type: 'success'
+                        });
+                }
+                else{
+                    self.$message.error('未知错误');
+                }
+            });
+       },
+       recordRe(){
+           const self:any = this;
+            if(self.recordStatus!==2){
+                self.$notify({
+                    title: '警告',
+                    message: '请录制完视频后操作',
+                    type: 'warning'
+                    });
+                return;}
+           self.recordStatus = 0;
+       },
+       recordSave(){
+            const self:any = this;
+            if(self.recordStatus!==2){
+                self.$notify({
+                    title: '警告',
+                    message: '请录制完视频后操作',
+                    type: 'warning'
+                    });
+                return;}
+            $.post('http://localhost:5000/videoRecordSave',{userName:sessionStorage.username,
+            videoName:self.videoName,videoDate:self.myDate.toLocaleString()
+            }).then(data=>{
+                if(data.code===1){
+                        self.recordStatus = 1;
+                        self.$message({
+                            message: '保存成功',
+                            type: 'success'
+                        });
+                }
+                else{
+                    self.$message.error('未知错误');
+                }
+            });
+       }
     }
     
 })

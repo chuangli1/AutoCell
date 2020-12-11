@@ -33,11 +33,16 @@ class Camera(threading.Thread):
         self.test = 2 #验证是否进行视频拍摄
         self.cap = cv2.VideoCapture(0)
         ret,self.frame = self.cap.read()
+        self.capWidth = int(self.cap.get(3))
+        print(self.capWidth)
+        self.capHeight = int(self.cap.get(4))
+        print(self.capHeight)
         self.cap.release()
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        self.out = cv2.VideoWriter('testwrite.avi',fourcc, 20.0, (640,480),True)
+        self.out = 0
         self.i = 0
-    def start_c(self):
+    def start_c(self,videoName):
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        self.out = cv2.VideoWriter('./video/'+videoName+'.avi',fourcc, 20.0, (self.capWidth,self.capHeight),True)
         self.test = 1
         self.i = 0
         print('开始拍摄，将视频写入文件')
@@ -51,9 +56,6 @@ class Camera(threading.Thread):
             #cv2.imshow('img',self.frame)
             if self.test == 1:
                 self.out.write(self.frame)
-                if(self.i==300):
-                    self.test=0
-                    print('停止将视频写入文件')
             if self.test == 0:
                 self.out.release()
                 print('chuangli')
