@@ -24,6 +24,30 @@
                 <div style="margin:10px"><el-button type="info" icon="el-icon-top"></el-button></div>
                 <div style="margin:10px"><el-button type="info" icon="el-icon-bottom"></el-button></div>
             </div>
+            <div style="float:left; position:relative; bottom:140px; height:140px; width:200px; font-size:14px">
+                <div style="margin-bottom:10px">
+                    运动步长：
+                    <el-select style="margin-top:10px" v-model="stepValue" placeholder="请选择运动步长">
+                        <el-option
+                            v-for="item in stepOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div style="margin-top:10px">
+                    运动速度：
+                    <el-select style="margin-top:10px" v-model="speedValue" placeholder="请选择运动速度">
+                        <el-option
+                            v-for="item in speedOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+            </div>
         
        </el-card>
    </div>
@@ -49,7 +73,46 @@ export default Vue.extend({
     name:'monitor',
     data(){
         return {
-            recordStatus: 0
+            recordStatus: 0,
+            stepOptions:[
+                {
+                    label:'1 mm',
+                    value:0
+                },
+                {
+                    label:'2 mm',
+                    value:1
+                },
+                {
+                    label:'3 mm',
+                    value:2
+                },
+                {
+                    label:'4 mm',
+                    value:3
+                }
+            ],
+            stepValue:1,
+            speedOptions:[
+                {
+                    label:'1 mm/s',
+                    value:0
+                },
+                {
+                    label:'2 mm/s',
+                    value:1
+                },
+                {
+                    label:'3 mm/s',
+                    value:2
+                },
+                {
+                    label:'4 mm/s',
+                    value:3
+                }
+            ],
+            speedValue:1
+
         }
 
     }
