@@ -166,7 +166,7 @@ export default Vue.extend({
             if(self.recordStatus!==2){
                 self.$notify({
                     title: '警告',
-                    message: '请录制完视频后操作',
+                    message: '尚未录制视频，请录制完视频后操作',
                     type: 'warning'
                     });
                 return;}
