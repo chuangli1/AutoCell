@@ -185,7 +185,7 @@ export default Vue.extend({
             videoName:self.videoName,videoDate:self.myDate.toLocaleString()
             }).then(data=>{
                 if(data.code===1){
-                        self.recordStatus = 1;
+                        self.recordStatus = 0;
                         self.$message({
                             message: '保存成功',
                             type: 'success'

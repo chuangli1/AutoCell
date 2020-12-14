@@ -12,14 +12,16 @@
           </div>
         </div>
         <div class="right-area col-sm-9">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName">
             <el-tab-pane label="实时监控" name="first">
               <div id='monitor' class="monitor">
                 <monitor></monitor>
               </div>
             </el-tab-pane>
             <el-tab-pane label="实验配置" name="second">配置管理</el-tab-pane>
-            <el-tab-pane label="数据管理" name="third">角色管理</el-tab-pane>
+            <el-tab-pane label="数据管理" name="third">
+              <data-manager></data-manager>
+            </el-tab-pane>
             <el-tab-pane label="用户设置" name="fourth">
               <div v-if='isManager'  @click="addUser" class="addUser">
                 <i :class="{ 'el-icon-plus': !isAddUser, 'el-icon-minus': isAddUser}"></i>
@@ -37,6 +39,7 @@ import Vue from 'vue'
 import monitor from './monitor.vue';
 import addUserBox from './tools/addUserBox.vue'
 import infoBox from './tools/infoBox.vue'
+import dataManager from './dataManager.vue'
 
 export default Vue.extend({
   name: "home",
@@ -51,7 +54,8 @@ export default Vue.extend({
   components:{
     addUserBox,
     monitor,
-    infoBox
+    infoBox,
+    dataManager
   },
   methods: {
     addUser(){

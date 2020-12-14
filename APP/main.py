@@ -90,14 +90,26 @@ def videoRecordSave():
     userName = request.form['userName']
     videoName = request.form['videoName']
     videoDate = request.form['videoDate']
-    if os.path.exists('./video/'+videoName+'.avi'):
+    if os.path.exists('./video/'+videoName+'(1).avi'):
          videoName = videoName+'(1)'
+         
     try:
       addVideos(userName,videoName,videoDate)
       return jsonify({'code':1})
     except:
       return jsonify({'code':0})
+@app.route('/videoGet',methods=['GET'])
+def videoGet():
+   userName = request.args.get('user_name')
+   try:
+      videoList =  searchVideos(userName)
+      return jsonify({'code':1,'videoList':videoList})
+   except:
+      return jsonify({'code':0})
+   
 
+
+    
 #留言板相关
 @app.route('/addInfo',methods=['POST'])
 def addInfo():
