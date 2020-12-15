@@ -1,51 +1,81 @@
 <template>
-    <epm-2-table v-bind:items ="currentItems" :headers ="headers" v-if='isDataValid'>
-          
-      <!-- <template v-slot:name={item}>
-          <span> {{item.name}}</span> -->
-           <!-- <router-link :to="`/${item.routerLink}/${item.id}${item.routerLink==='report'||item.routerLink==='dashboard'? '/false':''}`"
-                            v-if="!item.isGroup" :key="item.id">
-                <span class="nameIcon pictureIcon" :class="icon"/>
-                <a class="sheet-name">{{item.name}}</a>
-            </router-link>
-            <div v-else @click="openFolder(item)">
-                <span class="nameIcon pictureIcon folderIcon"/>
-                <a class="sheet-name">{{item.name}}</a>
-            </div> -->
-      <!-- </template> -->
-      <!-- <template v-slot:action={item}>
-            <button class='actionBtn' v-if="!item.isGroup">
-                <span class="glyphicon glyphicon-trash"></span>
+<div>
+    <epm-2-table v-bind:items ="currentItems" :headers ="headers" v-if='isDataValid'>      
+      <template v-slot:name={item}>
+        <span :class="{'el-icon-film':item.Type==='video','el-icon-toilet-paper':item.Type==='number'}" class="icon"/>
+        <span class="sheet-name">{{item.name}}</span>
+      </template>
+      <template v-slot:action={item}>
+            <button class='actionBtn' v-if="item.Type==='video'" @click="dialogVisible = true">
+                <span class="el-icon-video-play"></span>
             </button>
-            <button class='actionBtn' v-if="!item.isGroup && item.routerLink ==='sheet2'">
-                <span class="glyphicon glyphicon-copy"></span>
+            <button class='actionBtn'>
+                <span class="el-icon-download"></span>
             </button>
-            <button class='actionBtn' v-if="!item.isGroup && item.routerLink !=='freeSheet'">
-                <span class="glyphicon glyphicon-edit"></span>
+            <button class='actionBtn' v-if="item.isMe">
+                <span class="el-icon-delete"></span>
             </button>
-      </template>  -->
-
+      </template> 
      </epm-2-table>
+     <el-dialog
+                :visible.sync="dialogVisible"
+                width='680px'
+                heigth="400px"
+                top="15vh"
+                :before-close="handleClose">
+ 
+            <video-player  class="vjs-default-skin vjs-big-play-centered"
+                          :options="playerOptions"
+                          @play="onPlayerPlay($event)"
+                          @pause="onPlayerPause($event)"
+            >
+            </video-player>
+ 
+     </el-dialog>
+</div>
 </template>
 <script lang="ts">
 import Vue from 'vue'
 import epm2Table from './tools/tableCard.vue'
+import { videoPlayer } from 'vue-video-player' // video 插件
+// import 'videojs-contrib-hls' // 引入hls
+import 'video.js/dist/video-js.css'
+import 'vue-video-player/src/custom-theme.css'
+
 export default Vue.extend({
     name: 'dataManager',
     data(){
         return{
             currentItems:[],
             headers:[],
-            isDataValid:false
+            isDataValid:false,
+            dialogVisible: false,
+            playerOptions:{
+                    height: '360',
+                    sources: [{
+                        type: "rtmp/mp4",
+                        src:'http://localhost:5000',
+ 
+                    }],
+                    techOrder: ['flash'],
+                    autoplay: false,
+                    controls: true,
+                },
 
         }
     },
 
     components:{
-        epm2Table
+        epm2Table,
+        videoPlayer
     },
     methods:{
-
+        onPlayerPlay:function () {
+            
+        },
+        onPlayerPause:function () {
+            
+        },
     },
     created(){
         const self:any = this;
@@ -54,15 +84,16 @@ export default Vue.extend({
             {text:'日期', value: 'date',sortable: true},
             {text:'', value: 'action',sortable: false},
         ];
-        $.get('http://localhost:5000/videoGet',{"user_name":"1"}).then(function(data){
+        $.get('http://localhost:5000/videoGetAll').then(function(data){
             console.log(data);
             if(data.code=='1'){
                 data.videoList.forEach(e => {
                     self.currentItems.push({
                         'name': e[1],
                         'date': e[3],
-                        'isGroup':false,
-                        'action':''
+                        'Type':'video',
+                        'action':'',
+                        'isMe':e[2]===sessionStorage.username
                     })
                 });
                 console.log(self.currentItems);
@@ -76,5 +107,15 @@ export default Vue.extend({
 })
 </script>
 <style lang='scss' scoped>
+.actionBtn{
+    border: none;
+    outline: none;
+    :hover{
+        color: #409EFF;
+    }
+    :focus{
+        outline: none;
+    }
+}
 
 </style>

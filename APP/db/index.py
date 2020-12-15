@@ -42,7 +42,8 @@ def addVideos(user_name, video_name, video_date):
     mydb.commit()
 def searchAllVideos():
     cur.execute(searchAllVideo)
-    mydb.commit()
+    result = cur.fetchall()
+    return result
 def searchVideos(user_name):
     cur.execute(searchVideo,[user_name])
     result = cur.fetchall()

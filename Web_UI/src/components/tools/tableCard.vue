@@ -17,8 +17,8 @@
             <tbody>
                 <tr  v-for="(item,i) in currentItems" :key="i">
                     <td v-for="(header,j) in headers"  :key="j">
-                        <span>{{item[header.value]}}</span>
-                        <!-- <slot :name='header.value' :item='item'>{{item[header.value]}}</slot> -->
+                        <!-- <span>{{item[header.value]}}</span> -->
+                        <slot :name='header.value' :item='item'>{{item[header.value]}}</slot>
                     </td>
                 </tr>   
             </tbody>
@@ -313,6 +313,8 @@ th:hover{
     .removeIcon{
         width:14px;
         height: 14px;
+        position: relative;
+        bottom: 3px;
         color: rgb(99,99,99);
 
 

@@ -106,6 +106,13 @@ def videoGet():
       return jsonify({'code':1,'videoList':videoList})
    except:
       return jsonify({'code':0})
+@app.route('/videoGetAll',methods=['GET'])
+def videoGetAll():
+   try:
+      videoList =  searchAllVideos()
+      return jsonify({'code':1,'videoList':videoList})
+   except:
+      return jsonify({'code':0})
    
 
 
