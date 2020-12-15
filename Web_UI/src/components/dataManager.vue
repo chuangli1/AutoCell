@@ -6,10 +6,10 @@
         <span class="sheet-name">{{item.name}}</span>
       </template>
       <template v-slot:action={item}>
-            <button class='actionBtn' v-if="item.Type==='video'" @click="dialogVisible = true">
+            <button class='actionBtn' v-if="item.Type==='video'" @click="videoPlay">
                 <span class="el-icon-video-play"></span>
             </button>
-            <button class='actionBtn'>
+            <button class='actionBtn' @click="videoPlayStop"> 
                 <span class="el-icon-download"></span>
             </button>
             <button class='actionBtn' v-if="item.isMe">
@@ -19,28 +19,22 @@
      </epm-2-table>
      <el-dialog
                 :visible.sync="dialogVisible"
+                @close='videoPlayStop'
                 width='680px'
                 heigth="400px"
                 top="15vh"
-                :before-close="handleClose">
- 
-            <video-player  class="vjs-default-skin vjs-big-play-centered"
-                          :options="playerOptions"
-                          @play="onPlayerPlay($event)"
-                          @pause="onPlayerPause($event)"
-            >
-            </video-player>
+                >
+                <img :src="videoSrc" width="640px" height="480px">
+                sdfgwaehgwah
  
      </el-dialog>
 </div>
 </template>
 <script lang="ts">
+declare let $:any;
 import Vue from 'vue'
 import epm2Table from './tools/tableCard.vue'
-import { videoPlayer } from 'vue-video-player' // video 插件
-// import 'videojs-contrib-hls' // 引入hls
-import 'video.js/dist/video-js.css'
-import 'vue-video-player/src/custom-theme.css'
+
 
 export default Vue.extend({
     name: 'dataManager',
@@ -50,26 +44,26 @@ export default Vue.extend({
             headers:[],
             isDataValid:false,
             dialogVisible: false,
-            playerOptions:{
-                    height: '360',
-                    sources: [{
-                        type: "rtmp/mp4",
-                        src:'http://localhost:5000',
- 
-                    }],
-                    techOrder: ['flash'],
-                    autoplay: false,
-                    controls: true,
-                },
-
+            videoSrc:'http://localhost:5000/videoPlay?video_name=你好啊，小朋友.avi'
         }
     },
 
     components:{
-        epm2Table,
-        videoPlayer
+        epm2Table
     },
     methods:{
+        videoPlay(){
+           const self:any = this;
+           self.dialogVisible = true;
+           self.videoSrc = 'http://localhost:5000/videoPlay?video_name=你好啊，小朋友.avi';
+
+        },
+        videoPlayStop(){
+           const self:any = this;
+           self.dialogVisible = false;
+           self.videoSrc = 0;
+
+        },
         onPlayerPlay:function () {
             
         },

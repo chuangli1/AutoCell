@@ -19,7 +19,19 @@ def gen(camera):
         except:
             camera.pause()
             break
-
+def genVideo(videoName):
+    cap = cv2.VideoCapture('./video/'+videoName)
+    while True:
+        ret, frame = cap.read()
+        if(!ret):
+            break
+        ret, frame = cv2.imencode('.jpg', frame)
+        try:
+            yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n\r\n')
+        except:
+            cap.release()
+            break
 
 
 class Camera(threading.Thread):

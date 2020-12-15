@@ -5,7 +5,7 @@ import sys
 sys.path.append('./db')
 import os
 from db.index import *
-from camera import gen, Camera
+from camera import gen, Camera,genVideo
 camera = Camera()
 camera.start()
 
@@ -66,6 +66,11 @@ def login():
 @app.route('/video',methods=['GET'])
 def video():
     return Response(gen(camera),
+          mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/videoPlay',methods=['GET'])
+def videoPlay():
+    videoName = request.args.get('video_name')
+    return Response(genVideo(videoName),
           mimetype='multipart/x-mixed-replace; boundary=frame')
 @app.route('/videoRecordStart',methods=['POST'])
 def videoRecordStart():

@@ -1,7 +1,7 @@
 <template>
 <div class = "row">
    <div class = "col-sm-9">   
-       <img src = 'http://localhost:5000/video' width="640px" height="360px">
+       <img src = 'http://localhost:5000/video' width="640px" height="480px">
        <el-card style="width: 640px;height:230px">
            <div slot="header" style="margin-left:6px; width: 640px">
                <span><i style="padding-right:6px" class="el-icon-s-tools"></i>位移台控制</span>
@@ -68,6 +68,7 @@
 </div>
 </template>
 <script lang="ts">
+declare let $:any;
 import Vue from 'vue'
 export default Vue.extend({
     name:'monitor',
