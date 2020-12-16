@@ -12,7 +12,7 @@
             <button class='actionBtn' @click="downloadVideo(item.name)"> 
                 <span class="el-icon-download"></span>
             </button>
-            <button class='actionBtn' v-if="item.isMe">
+            <button class='actionBtn' v-if="item.isMe" @click="deleteVideo(item.id)">
                 <span class="el-icon-delete"></span>
             </button>
       </template> 
@@ -36,6 +36,15 @@ import epm2Table from './tools/tableCard.vue'
 
 export default Vue.extend({
     name: 'dataManager',
+    props:{
+        refresh:Boolean
+    },
+    watch:{
+        refresh: function(){
+            const self:any = this;
+            self.refreshData();
+        }
+    },
     data(){
         return{
             currentItems:[],
@@ -67,18 +76,30 @@ export default Vue.extend({
              let url = 'http://localhost:5000/videoDownload?video_name='+video_name+'.avi'
              window.open(url);
         },
-        onPlayerPause:function () {
-            
+        deleteVideo(videoID) {
+            const self:any = this;
+            let url = 'http://localhost:5000/videoDelete'
+            $.post(url,{'video_id':videoID}).then(function(data){
+               if(data.code===1){
+                    for(let i=0; i<self.currentItems.length; i++){
+                        if(self.currentItems[i].id===videoID){
+                            self.currentItems.splice(i,1);
+                            break;
+                        }
+                    }
+                    self.$message({
+                            message: '删除成功',
+                            type: 'success'
+                    });
+               }
+               else{
+                   self.$message.error('未知错误');
+               }
+            });
         },
-    },
-    created(){
-        const self:any = this;
-        self.headers = [
-            {text:'名称', value: 'name',sortable: true},
-            {text:'日期', value: 'date',sortable: true},
-            {text:'', value: 'action',sortable: false},
-        ];
-        $.get('http://localhost:5000/videoGetAll').then(function(data){
+        refreshData(){
+            const self:any = this;
+             $.get('http://localhost:5000/videoGetAll').then(function(data){
             console.log(data);
             if(data.code=='1'){
                 data.videoList.forEach(e => {
@@ -87,6 +108,7 @@ export default Vue.extend({
                         'date': e[3],
                         'Type':'video',
                         'action':'',
+                        'id':e[0],
                         'isMe':e[2]===sessionStorage.username
                     })
                 });
@@ -97,6 +119,17 @@ export default Vue.extend({
                 self.$message.error('未知错误');
             }
         });
+        }
+    },
+    created(){
+        const self:any = this;
+        alert(12345)
+        self.headers = [
+            {text:'名称', value: 'name',sortable: true},
+            {text:'日期', value: 'date',sortable: true},
+            {text:'', value: 'action',sortable: false},
+        ];
+        self.refreshData();
     }
 })
 </script>

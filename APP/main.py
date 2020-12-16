@@ -122,6 +122,16 @@ def videoGetAll():
 def videoDownload():
    videoName = request.args.get('video_name')
    return send_from_directory('./video',filename=videoName,as_attachment=True)
+@app.route('/videoDelete',methods=['POST'])
+def videoRemove():
+    videoID = request.form['video_id']
+    try:
+       deleteVideos(videoID)
+       return jsonify({'code':1})
+    except:
+       return jsonify({'code':0})
+    
+
    
 
 

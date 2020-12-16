@@ -191,6 +191,7 @@ export default Vue.extend({
                             message: '保存成功',
                             type: 'success'
                         });
+                        self.$emit('refreshData')
                 }
                 else{
                     self.$message.error('未知错误');
