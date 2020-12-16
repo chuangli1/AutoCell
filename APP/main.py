@@ -1,5 +1,5 @@
 #main
-from flask import Flask,render_template,request,jsonify,Response
+from flask import Flask,render_template,request,jsonify,Response,send_from_directory
 from flask_cors import CORS
 import sys  
 sys.path.append('./db')
@@ -118,6 +118,10 @@ def videoGetAll():
       return jsonify({'code':1,'videoList':videoList})
    except:
       return jsonify({'code':0})
+@app.route('/videoDownload',methods=['GET'])
+def videoDownload():
+   videoName = request.args.get('video_name')
+   return send_from_directory('./video',filename=videoName,as_attachment=True)
    
 
 

@@ -62,8 +62,10 @@ export default Vue.extend({
            self.videoSrc = 0;
 
         },
-        downloadVideo () {
-            
+        downloadVideo (video_name) {
+            const self:any = this;
+             let url = 'http://localhost:5000/videoDownload?video_name='+video_name+'.avi'
+             window.open(url);
         },
         onPlayerPause:function () {
             
