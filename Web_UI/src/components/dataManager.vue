@@ -99,6 +99,7 @@ export default Vue.extend({
         },
         refreshData(){
             const self:any = this;
+            self.currentItems=[];
              $.get('http://localhost:5000/videoGetAll').then(function(data){
             console.log(data);
             if(data.code=='1'){
