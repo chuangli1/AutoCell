@@ -23,12 +23,13 @@ def genVideo(videoName):
     cap = cv2.VideoCapture('./video/'+videoName)
     while True:
         ret, frame = cap.read()
-        if(!ret):
-            break
+        if(ret==False):
+           break
         ret, frame = cv2.imencode('.jpg', frame)
         try:
             yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n\r\n')
+            time.sleep(0.03)
         except:
             cap.release()
             break

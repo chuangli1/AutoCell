@@ -6,10 +6,10 @@
         <span class="sheet-name">{{item.name}}</span>
       </template>
       <template v-slot:action={item}>
-            <button class='actionBtn' v-if="item.Type==='video'" @click="videoPlay">
+            <button class='actionBtn' v-if="item.Type==='video'" @click="videoPlay(item.name)">
                 <span class="el-icon-video-play"></span>
             </button>
-            <button class='actionBtn' @click="videoPlayStop"> 
+            <button class='actionBtn' @click="downloadVideo(item.name)"> 
                 <span class="el-icon-download"></span>
             </button>
             <button class='actionBtn' v-if="item.isMe">
@@ -21,12 +21,10 @@
                 :visible.sync="dialogVisible"
                 @close='videoPlayStop'
                 width='680px'
-                heigth="400px"
+                heigth="480px"
                 top="15vh"
                 >
                 <img :src="videoSrc" width="640px" height="480px">
-                sdfgwaehgwah
- 
      </el-dialog>
 </div>
 </template>
@@ -44,7 +42,7 @@ export default Vue.extend({
             headers:[],
             isDataValid:false,
             dialogVisible: false,
-            videoSrc:'http://localhost:5000/videoPlay?video_name=你好啊，小朋友.avi'
+            videoSrc:'0'
         }
     },
 
@@ -52,10 +50,10 @@ export default Vue.extend({
         epm2Table
     },
     methods:{
-        videoPlay(){
+        videoPlay(video_name){
            const self:any = this;
            self.dialogVisible = true;
-           self.videoSrc = 'http://localhost:5000/videoPlay?video_name=你好啊，小朋友.avi';
+           self.videoSrc = 'http://localhost:5000/videoPlay?video_name='+video_name+'.avi';
 
         },
         videoPlayStop(){
@@ -64,7 +62,7 @@ export default Vue.extend({
            self.videoSrc = 0;
 
         },
-        onPlayerPlay:function () {
+        downloadVideo () {
             
         },
         onPlayerPause:function () {
