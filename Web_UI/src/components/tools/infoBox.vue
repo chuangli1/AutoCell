@@ -21,6 +21,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue'
+declare let $:any;
 export default Vue.extend({
     name:'infoBox',
     data(){

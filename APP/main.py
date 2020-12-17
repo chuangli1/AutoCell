@@ -77,7 +77,6 @@ def videoRecordStart():
     videoName = request.form['videoName']
     if os.path.exists('./video/'+videoName+'.avi'):
          videoName = videoName+'(1)'
-    print(videoName)
     try:
       camera.start_c(videoName)
       return jsonify({'code':1})
@@ -130,12 +129,7 @@ def videoRemove():
        return jsonify({'code':1})
     except:
        return jsonify({'code':0})
-    
-
    
-
-
-    
 #留言板相关
 @app.route('/addInfo',methods=['POST'])
 def addInfo():
@@ -169,7 +163,68 @@ def loadInfo():
       return jsonify({'code':1,'infos':re})
    except:
       return jsonify({'code':0})
-    
+
+#任务相关
+@app.route('/addTask',methods=['POST'])
+def addTask():
+   taskType = request.form['type']
+   taskName = request.form['task_name']
+   taskUser = request.form['task_username']
+   taskTime = request.form['task_time']
+   taskInterval = request.form['task_interval']
+   taskDate= request.form['task_date']
+   try:
+      if(taskType=='regants'):
+         taskValve = request.form['task_valve']
+         taskPres = request.form['task_pres']
+         addRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval)
+      else:
+         addMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/deleteTask',methods=['POST'])
+def deleteTask():
+   taskType = request.form['type'] 
+   taskID = request.form['task_id']
+   try:
+      if(taskType=='regants'):
+         deleteRegantTasks(taskID)
+      else:
+         deleteMonitorTasks(taskID)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/updateTask',methods=['POST'])
+def updateTask():
+   taskType = request.form['type']
+   taskName = request.form['task_name']
+   taskUser = request.form['task_username']
+   taskTime = request.form['task_time']
+   taskInterval = request.form['task_interval']
+   taskDate= request.form['task_date']
+   taskID = request.form['task_id']
+   try:
+      if(taskType=='regants'):
+         taskValve = request.form['task_valve']
+         taskPres = request.form['task_pres']
+         updateRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval,taskID)
+      else:
+         updateMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval,taskID)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/loadTasks',methods=['GET'])
+def loadTask():
+   taskType = request.args.get('Type')
+   try:
+      if(taskType=='regants'):
+         searchRegantTasks()
+      else:
+         searchMonitorTasks()
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
 
 
 if __name__ == '__main__':

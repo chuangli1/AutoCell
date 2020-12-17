@@ -124,7 +124,6 @@ export default Vue.extend({
     },
     created(){
         const self:any = this;
-        alert(12345)
         self.headers = [
             {text:'名称', value: 'name',sortable: true},
             {text:'日期', value: 'date',sortable: true},
@@ -144,6 +143,9 @@ export default Vue.extend({
     :focus{
         outline: none;
     }
+}
+.icon{
+    color:  #409EFF;
 }
 
 </style>

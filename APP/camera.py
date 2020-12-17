@@ -74,6 +74,7 @@ class Camera(threading.Thread):
                 print('chuangli')
                 self.test = 2
             self.i+=1
+            time.sleep(0.05)
         print('stop')
 
     def pause(self):

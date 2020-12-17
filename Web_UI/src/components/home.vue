@@ -18,7 +18,9 @@
                 <monitor @refreshData="refreshData=!refreshData"></monitor>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="实验配置" name="second">配置管理</el-tab-pane>
+            <el-tab-pane label="实验配置" name="second">
+              <lab-manager></lab-manager>
+            </el-tab-pane>
             <el-tab-pane label="数据管理" name="third">
               <data-manager :refresh="refreshData"></data-manager>
             </el-tab-pane>
@@ -40,6 +42,7 @@ import monitor from './monitor.vue';
 import addUserBox from './tools/addUserBox.vue'
 import infoBox from './tools/infoBox.vue'
 import dataManager from './dataManager.vue'
+import labManager from './labManager.vue'
 
 export default Vue.extend({
   name: "home",
@@ -56,7 +59,8 @@ export default Vue.extend({
     addUserBox,
     monitor,
     infoBox,
-    dataManager
+    dataManager,
+    labManager
   },
   methods: {
     addUser(){

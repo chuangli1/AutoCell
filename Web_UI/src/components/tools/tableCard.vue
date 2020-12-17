@@ -276,7 +276,7 @@ th:hover{
     border-radius: 6px;
     background-color: #f6f6f6;
     position: fixed;
-    top: 0px;
+    top: 4px;
     right: 20px;
     z-index: 1000;
     .oval {

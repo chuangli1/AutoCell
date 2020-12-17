@@ -52,6 +52,35 @@ def deleteVideos(video_id):
     cur.execute(deleteVideo,[video_id])
     mydb.commit()
 
+#task
+def addRegantTasks(task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval):
+    cur.execute(addRegantTask,[task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval])
+    mydb.commit()
+def searchRegantTasks():
+    cur.execute(searchRegantTask)
+    result = cur.fetchall()
+    return result
+def deleteRegantTasks(task_id):
+    cur.execute(deleteRegantTask,[task_id])
+    mydb.commit()
+def updateRegantTasks(task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval,task_id):
+    cur.execute(addRegantTask,[task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval,task_id])
+    mydb.commit()
+
+def addMonitorTasks(task_name,task_username,task_date,task_time,task_interval):
+    cur.execute(addMonitorTask,[task_name,task_username,task_date,task_time,task_interval])
+    mydb.commit()
+def searchMonitorTasks():
+    cur.execute(searchMonitorTask)
+    result = cur.fetchall()
+    return result
+def deleteMonitorTasks(task_id):
+    cur.execute(deleteMonitorTask,[task_id])
+    mydb.commit()
+def updateMonitorTasks(task_name,task_username,task_date,task_time,task_interval,task_id):
+    cur.execute(addMonitorTask,[task_name,task_username,task_date,task_time,task_interval,task_id])
+    mydb.commit()
+
 
 
 
