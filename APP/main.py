@@ -5,6 +5,7 @@ import sys
 sys.path.append('./db')
 import os
 from db.index import *
+import time
 from camera import gen, Camera,genVideo
 camera = Camera()
 camera.start()
@@ -174,7 +175,7 @@ def addTask():
    taskInterval = request.form['task_interval']
    taskDate= request.form['task_date']
    try:
-      if(taskType=='regants'):
+      if(taskType=='regant'):
          taskValve = request.form['task_valve']
          taskPres = request.form['task_pres']
          addRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval)
@@ -188,7 +189,7 @@ def deleteTask():
    taskType = request.form['type'] 
    taskID = request.form['task_id']
    try:
-      if(taskType=='regants'):
+      if(taskType=='regant'):
          deleteRegantTasks(taskID)
       else:
          deleteMonitorTasks(taskID)
@@ -205,7 +206,7 @@ def updateTask():
    taskDate= request.form['task_date']
    taskID = request.form['task_id']
    try:
-      if(taskType=='regants'):
+      if(taskType=='regant'):
          taskValve = request.form['task_valve']
          taskPres = request.form['task_pres']
          updateRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval,taskID)
@@ -215,16 +216,20 @@ def updateTask():
    except:
       return jsonify({'code':0})
 @app.route('/loadTasks',methods=['GET'])
-def loadTask():
-   taskType = request.args.get('Type')
+def loadTasks():
+   taskType = request.args.get('type')
    try:
-      if(taskType=='regants'):
-         searchRegantTasks()
+      if(taskType=='regant'):
+         time.sleep(0.3)
+         re = searchRegantTasks()
+         return jsonify({'code':1,'tasks':re})
       else:
-         searchMonitorTasks()
-      return jsonify({'code':1})
+         time.sleep(0.5)
+         re1 = searchMonitorTasks()
+         return jsonify({'code':1,'tasks':re1})
    except:
       return jsonify({'code':0})
+
 
 
 if __name__ == '__main__':

@@ -30,9 +30,9 @@ export default Vue.extend({
   justify-content: center;
   flex-direction: column;
   background-color:#75B0ED; 
-  height:6%;
+  height:6vh;
   position: sticky;
-  top:0%;
+  top:0;
   z-index: 1000;
 }
 

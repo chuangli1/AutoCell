@@ -55,7 +55,7 @@ export default Vue.extend({
                                 message: '添加成功',
                                 type: 'success'
                             });
-                            self.reloadInfo()
+                            self.reloadInfo().reverse()
                         }
                     });
                 }).catch(() => {
@@ -79,14 +79,14 @@ export default Vue.extend({
                         message: '删除成功',
                         type: 'success'
                     });
-                    self.reloadInfo()
+                    self.reloadInfo().reverse()
                 }
             });
         },
         reloadInfo(){
             const self:any = this;
             $.get('http://localhost:5000/loadInfos').then(function(data){
-            self.infos = data.infos;
+            self.infos = data.infos.reverse();
         });
         }
     },
@@ -95,7 +95,7 @@ export default Vue.extend({
         self.userName = sessionStorage.username;
         self.isManager = (sessionStorage.isManager == 'true')? true:false;
         $.get('http://localhost:5000/loadInfos').then(function(data){
-            self.infos = data.infos;
+            self.infos = data.infos.reverse();
         });
     }
 

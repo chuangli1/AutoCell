@@ -112,7 +112,7 @@ export default Vue.extend({
   },
 })
 </script>
-<style scoped>
+<style>
 .login{
   position: absolute;
   top:40%;
@@ -121,6 +121,6 @@ export default Vue.extend({
 .back{
   background-color: gray;
   width: 100%;
-  height:95%;
+  height:94%;
 }
 </style>
