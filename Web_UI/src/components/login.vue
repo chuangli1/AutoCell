@@ -9,8 +9,8 @@
               </el-form-item>
           </el-row>
           <el-row type="flex" justify="center">
-              <el-form-item prop="password">
-                  <el-input style="width: 200px;" placeholder='密码' v-model="form.password"></el-input>
+              <el-form-item prop="password" @keyup.enter.native="submit('form')">
+                  <el-input  style="width: 200px;" placeholder='密码' v-model="form.password"></el-input>
               </el-form-item>
           </el-row>
           <el-row type="flex" justify="center">
