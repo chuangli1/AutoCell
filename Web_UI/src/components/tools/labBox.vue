@@ -5,15 +5,22 @@
         <div slot="header" class="clearfix">
             <span>{{task.name}}</span>
             <span style="float: right; padding: 3px 0">
-                <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task.id)"></i>
-                <i v-if='task.access' class="el-icon-edit-outline icon" @click="editTask(task.id)"></i>
+                <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task)"></i>
+                <i v-if='task.access' class="el-icon-edit-outline icon" @click="editTask(task)"></i>
             </span>
         </div>
         <div>
             <div>
-            <i class="el-icon-warning-outline"></i>
+                <i class="el-icon-warning-outline">任务开始时间：{{task.time[0]}}分钟后</i>
+                <i class="el-icon-warning-outline">任务结束时间：{{task.time[1]}}分钟后</i>
+                <i class="el-icon-warning-outline">任务执行间隔：{{task.interval[0]}}分钟</i>
+                <i class="el-icon-warning-outline">单次任务时间：{{task.interval[1]}}秒</i>
             </div>
-            <div style="float: right; padding: 3px 0;font-size:14px">{{task.username}}</div>
+            <div v-if="taskType==='regant'">
+                 <i class="el-icon-warning-outline">阀门开启：{{task.valves}}</i>
+                 <i class="el-icon-warning-outline">压力大小：{{task.pres}}</i>
+            </div>
+            <div style="float: right; padding: 3px 0;font-size:14px">{{task.username+'于'+task.date+'创建'}}</div>
         </div>
     </el-card>
     <el-dialog
@@ -82,7 +89,7 @@ export default Vue.extend({
         return{
            dialogVisible:false,
            valves:['valve1','valve2','valve3','valve4','valve5','valve6','valve7','valve8'],
-           valvesChecked:['valve1','valve2'],
+           valvesChecked:[],
            presValue:0,
            taskNew:{
                name:'',
@@ -90,43 +97,76 @@ export default Vue.extend({
                interval:[0,0]
            },
            myDate:new Date(),
+           editId:-1
         }
     },
     methods:{
         deleteTask(id){
 
         },
-        editTask(id){
+        editTask(task){
            const self:any = this;
+           self.taskNew = {
+               name:task.name,
+               time:task.time.slice(),
+               interval:task.interval.slice(),
+           }
+           if(self.taskType==='regant'){
+               self.presValue = task.pres;
+               self.valvesChecked = []
+               for(let i=0; i<task.valves.length; i++){
+                   self.valvesChecked.push(self.valves[parseInt(task.valves[i])-1]);
+               }
+           }
            self.dialogVisible = true;
-           self.add = false;
+           self.editId = task.id;
+
+        },
+        reload(editId){
+            const self:any = this;
+            let temp = self.tasks.filter(d=>{return d.id===editId})[0];
+            temp.name = self.taskNew.name;
+            temp.time = self.taskNew.time;
+            temp.interval =  self.taskNew.interval;
+            temp.valves = ''
+            self.valvesChecked.forEach(e => {
+                  temp.valves = temp.valves+e[5];
+              });
+            temp.pres = self.presValue;
         },
         addTask(){
             const self:any = this;
-            self.dialogVisible = true;
-            self.add = true;
+            self.taskNew = {
+               name:'',
+               time:[0,0],
+               interval:[0,0],
+           }
+           self.valvesChecked = [];
+           self.presValue = 0;
+           self.dialogVisible = true;
+           self.editId = -1;
+
         },
         teskTask(data){
             const self:any = this;
             if(data.task_name===''||isNaN(self.taskNew.interval[0])||isNaN(self.taskNew.interval[1])||isNaN(self.taskNew.time[0])||isNaN(self.taskNew.time[1])
-            ||self.taskNew.time[1]<=self.taskNew.time[0]||self.taskNew.interval[0]===0||self.taskNew.interval[1]===0||self.taskNew.interval[0]>=self.taskNew.time[1]-self.taskNew.time[0]
-            ||self.taskNew.interval[1]>=self.taskNew.time[1]-self.taskNew.time[0]||self.presValue==0){
+            ||parseInt(self.taskNew.time[1])<=parseInt(self.taskNew.time[0])||parseInt(self.taskNew.interval[0])===0||parseInt(self.taskNew.interval[1])===0||
+            parseInt(self.taskNew.interval[0])>=parseInt(self.taskNew.time[1])-parseInt(self.taskNew.time[0])){
                 return false;
             }
+            if(self.taskType==='regant'&&(!self.valvesChecked||self.presValue==0)) return false;
             else return true;
-            
-
         },
         saveTask(){
             const self:any = this;
             self.dialogVisible = false;
-            const url = self.add?'http://localhost:5000/addTask':'http://localhost:5000/updateTask';
+            const url = !self.editId?'http://localhost:5000/addTask':'http://localhost:5000/updateTask';
             if(self.taskType==='regant'){
               let val = '';
               self.valvesChecked.forEach(e => {
                   val = val+e[5];
               });
-              let data = {
+              let data:any = {
                   type:'regant',
                   task_name:self.taskNew.name,
                   task_date:self.myDate.toLocaleString(),
@@ -136,6 +176,7 @@ export default Vue.extend({
                   task_pres:self.presValue,
                   task_username:sessionStorage.username
               }
+              if(self.editId!==-1) data.task_id = self.editId;
               if(self.teskTask(data)){
                   $.post(url,data).then(function(data){
                         if(data.code === 0){
@@ -146,7 +187,7 @@ export default Vue.extend({
                                 message: '添加成功',
                                 type: 'success'
                             });
-                            //self.reloadInfo().reverse()
+                            self.reload(self.editId)
                         }
                     });
                }
@@ -155,7 +196,7 @@ export default Vue.extend({
                }
             }
             else{
-                let data = {
+                let data:any = {
                   type:'monitor',
                   task_name:self.taskNew.name,
                   task_date:self.myDate.toLocaleString(),
@@ -163,6 +204,7 @@ export default Vue.extend({
                   task_time:self.taskNew.time[0].toString()+','+self.taskNew.time[1].toString(),
                   task_username:sessionStorage.username
               }
+              if(self.editId!==-1) data.task_id = self.editId;
               if(self.teskTask(data)){
                   $.post(url,data).then(function(data){
                         if(data.code === 0){
@@ -173,7 +215,8 @@ export default Vue.extend({
                                 message: '添加成功',
                                 type: 'success'
                             });
-                            //self.reloadInfo().reverse()
+                            self.reload(self.editId)
+                           
                         }
                     });
               }

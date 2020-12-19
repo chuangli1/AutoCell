@@ -7,6 +7,7 @@
      <div class="general" style="margin-top:20px; min-height:300px">
         <span class="title"><span><i style="padding-right:6px" class="el-icon-monitor"></i>监视系统控制</span></span>
         <lab-box  v-if="monitorTasks" :tasks="monitorTasks" taskType="monitor"></lab-box>
+        {{monitorTasks}}
     </div>
 </div>
 </template>
@@ -19,7 +20,8 @@ export default Vue.extend({
     data() {
         return{
            regantTasks:[],
-           monitorTasks:[]
+           monitorTasks:[],
+           userName:''
         }
 
     },
@@ -31,18 +33,19 @@ export default Vue.extend({
     },
     created(){
        const self:any = this;
+       self.userName = sessionStorage.username;
         $.get('http://localhost:5000/loadTasks?type=regant').then(function(data){
            data.tasks.forEach(e => {
-               console.log(e)
                 self.regantTasks.push({
                     id:e[0],
                     name:e[1],
                     username:e[2],
                     date:e[3],
                     valves:e[4],
-                    time:e[5],
+                    time:e[5].split(','),
                     pres:e[6],
-                    interval:e[7]
+                    interval:e[7].split(','),
+                    access:self.userName===e[2]
                 })
             });
         });
@@ -53,8 +56,9 @@ export default Vue.extend({
                     name:e[1],
                     username:e[2],
                     date:e[3],
-                    time:e[5],
-                    interval:e[7]
+                    time:e[4].split(','),
+                    interval:e[5].split(','),
+                    access:self.userName===e[2]
                 })
             });
         });

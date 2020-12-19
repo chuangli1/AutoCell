@@ -211,6 +211,7 @@ def updateTask():
          taskPres = request.form['task_pres']
          updateRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval,taskID)
       else:
+         print(taskName,taskUser,taskDate,taskTime,taskInterval,taskID)
          updateMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval,taskID)
       return jsonify({'code':1})
    except:
