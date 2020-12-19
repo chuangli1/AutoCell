@@ -73,7 +73,6 @@ def addMonitorTasks(task_name,task_username,task_date,task_time,task_interval):
 def searchMonitorTasks():
     cur.execute(searchMonitorTask)
     result = cur.fetchall()
-    print(result)
     return result
 def deleteMonitorTasks(task_id):
     cur.execute(deleteMonitorTask,[task_id])

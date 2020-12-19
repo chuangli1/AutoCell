@@ -5,7 +5,7 @@
         <div slot="header" class="clearfix">
             <span>{{task.name}}</span>
             <span style="float: right; padding: 3px 0">
-                <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task)"></i>
+                <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task.id)"></i>
                 <i v-if='task.access' class="el-icon-edit-outline icon" @click="editTask(task)"></i>
             </span>
         </div>
@@ -35,11 +35,11 @@
            </el-input>
            <el-input placeholder="输入小于24的整数" v-model="taskNew.time[0]" class="input-with-select inputSub">
                <template slot="prepend">开始时间：</template>
-                <template slot="append">分钟</template>>
+                <template slot="append">分钟后</template>>
            </el-input>
            <el-input placeholder="输入大于开始时间的整数" v-model="taskNew.time[1]" class="input-with-select inputSub">
                <template slot="prepend">结束时间：</template>
-                <template slot="append">分钟</template>
+                <template slot="append">分钟后</template>
            </el-input>
            <el-input placeholder="请输入小于总时间的整数" v-model="taskNew.interval[0]" class="input-with-select inputSub">
                <template slot="prepend">任务间隔：</template>
@@ -102,7 +102,23 @@ export default Vue.extend({
     },
     methods:{
         deleteTask(id){
-
+            const self:any = this;
+            const dataD = {
+                'type':self.taskType,
+                  'task_id':id
+            }
+             $.post('http://localhost:5000/deleteTask',dataD).then(function(data){
+                if(data.code === 0){
+                    self.$message.error('未知错误');
+                }
+                else{
+                    self.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                    self.tasks.splice(self.tasks.findIndex(e => e.id === id), 1) 
+                }
+            });
         },
         editTask(task){
            const self:any = this;
@@ -118,13 +134,14 @@ export default Vue.extend({
                    self.valvesChecked.push(self.valves[parseInt(task.valves[i])-1]);
                }
            }
-           self.dialogVisible = true;
            self.editId = task.id;
+           self.dialogVisible = true;
 
         },
         reload(editId){
             const self:any = this;
-            let temp = self.tasks.filter(d=>{return d.id===editId})[0];
+            let temp:any = self.tasks.filter(d=>{return d.id===editId})[0];
+            if(!temp) temp = {};
             temp.name = self.taskNew.name;
             temp.time = self.taskNew.time;
             temp.interval =  self.taskNew.interval;
@@ -133,6 +150,8 @@ export default Vue.extend({
                   temp.valves = temp.valves+e[5];
               });
             temp.pres = self.presValue;
+            console.log(temp)
+            if(editId===-1){self.tasks.push(temp)}
         },
         addTask(){
             const self:any = this;
@@ -143,8 +162,8 @@ export default Vue.extend({
            }
            self.valvesChecked = [];
            self.presValue = 0;
-           self.dialogVisible = true;
            self.editId = -1;
+           self.dialogVisible = true;
 
         },
         teskTask(data){
@@ -160,7 +179,7 @@ export default Vue.extend({
         saveTask(){
             const self:any = this;
             self.dialogVisible = false;
-            const url = !self.editId?'http://localhost:5000/addTask':'http://localhost:5000/updateTask';
+            const url = (self.editId===-1)?'http://localhost:5000/addTask':'http://localhost:5000/updateTask';
             if(self.taskType==='regant'){
               let val = '';
               self.valvesChecked.forEach(e => {
@@ -184,7 +203,7 @@ export default Vue.extend({
                         }
                         else{
                             self.$message({
-                                message: '添加成功',
+                                message: (self.editId===-1)?'添加成功':'修改成功',
                                 type: 'success'
                             });
                             self.reload(self.editId)
@@ -212,7 +231,7 @@ export default Vue.extend({
                         }
                         else{
                             self.$message({
-                                message: '添加成功',
+                                message: (self.editId===-1)?'添加成功':'修改成功',
                                 type: 'success'
                             });
                             self.reload(self.editId)

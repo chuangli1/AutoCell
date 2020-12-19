@@ -3,7 +3,9 @@
     <div class='title'>
       <span>AutoCell Cloud System 1.0</span>
     </div>
+    <div class="body">
       <router-view></router-view>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -30,10 +32,15 @@ export default Vue.extend({
   justify-content: center;
   flex-direction: column;
   background-color:#75B0ED; 
-  height:6vh;
-  position: sticky;
+  height:6%;
+  position: fixed;
   top:0;
   z-index: 1000;
+}
+.body{
+   position: relative;
+   top:6%;
+   height: 94%;
 }
 
 </style>

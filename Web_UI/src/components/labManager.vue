@@ -7,7 +7,6 @@
      <div class="general" style="margin-top:20px; min-height:300px">
         <span class="title"><span><i style="padding-right:6px" class="el-icon-monitor"></i>监视系统控制</span></span>
         <lab-box  v-if="monitorTasks" :tasks="monitorTasks" taskType="monitor"></lab-box>
-        {{monitorTasks}}
     </div>
 </div>
 </template>
