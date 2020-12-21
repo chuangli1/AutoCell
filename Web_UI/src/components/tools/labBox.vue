@@ -3,13 +3,13 @@
     <div class="addIcon"><span @click="addTask"><i class="el-icon-plus"></i></span></div>
     <el-card v-for="(task,index) in tasks" :key='index' class="box-card labBox">
         <div slot="header" class="clearfix">
-            <span>{{task.name}}</span>
+            <span><el-switch v-model="task.isActive" :active-text=task.name :disabled=!task.access @change='changeStatus($event,task)'></el-switch></span>
             <span style="float: right; padding: 3px 0">
                 <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task.id)"></i>
                 <i v-if='task.access' class="el-icon-edit-outline icon" @click="editTask(task)"></i>
             </span>
         </div>
-        <div>
+        <div style="font-size:14px">
             <div>
                 <i class="el-icon-warning-outline">任务开始时间：{{task.time[0]}}分钟后</i>
                 <i class="el-icon-warning-outline">任务结束时间：{{task.time[1]}}分钟后</i>
@@ -82,7 +82,7 @@ declare let $:any;
 export default Vue.extend({
     name:'labBox',
     props:{
-        tasks:Array,
+        activeList:Array,
         taskType:String
     },
     data(){
@@ -97,7 +97,8 @@ export default Vue.extend({
                interval:[0,0]
            },
            myDate:new Date(),
-           editId:-1
+           editId:-1,
+           tasks:[]
         }
     },
     methods:{
@@ -119,6 +120,21 @@ export default Vue.extend({
                     self.tasks.splice(self.tasks.findIndex(e => e.id === id), 1) 
                 }
             });
+            if(self.activeList.findIndex(d=>d===id)!==-1){
+            $.post('http://localhost:5000/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
+                if(data.code === 0){
+                            self.$message.error('未知错误');
+                        }
+                else{
+                        self.$message({
+                            message: '任务关闭成功',
+                            type: 'success'
+                        });
+                        self.activeList.splice(self.activeList.findIndex(d=>d===id),1);
+                    }
+                        
+                });
+            }
         },
         editTask(task){
            const self:any = this;
@@ -138,20 +154,54 @@ export default Vue.extend({
            self.dialogVisible = true;
 
         },
-        reload(editId){
+        reload(){
             const self:any = this;
-            let temp:any = self.tasks.filter(d=>{return d.id===editId})[0];
-            if(!temp) temp = {};
-            temp.name = self.taskNew.name;
-            temp.time = self.taskNew.time;
-            temp.interval =  self.taskNew.interval;
-            temp.valves = ''
-            self.valvesChecked.forEach(e => {
-                  temp.valves = temp.valves+e[5];
-              });
-            temp.pres = self.presValue;
-            console.log(temp)
-            if(editId===-1){self.tasks.push(temp)}
+            let tasks:any = [];
+            if(self.taskType==='regant'){
+                $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+                data.tasks.forEach(e => {
+                    tasks.push({
+                        id:e[0],
+                        name:e[1],
+                        username:e[2],
+                        date:e[3],
+                        valves:e[4],
+                        time:e[5].split(','),
+                        pres:e[6],
+                        interval:e[7].split(','),
+                        access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
+                        isActive:false
+                    })
+                    });
+                    for(let e of tasks){
+                        console.log(self.activeList.findIndex(d=>d===e.id))
+                        if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                    }
+                    self.tasks = tasks;
+                });
+            }
+            else{
+                 $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+                data.tasks.forEach(e => {
+                    tasks.push({
+                        id:e[0],
+                        name:e[1],
+                        username:e[2],
+                        date:e[3],
+                        time:e[4].split(','),
+                        interval:e[5].split(','),
+                        access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
+                        isActive:false
+                    })
+                    });
+                    for(let e of tasks){
+                        console.log(self.activeList.findIndex(d=>d===e.id))
+                        if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                    }
+                    self.tasks = tasks;
+                });
+            }
+   
         },
         addTask(){
             const self:any = this;
@@ -175,6 +225,39 @@ export default Vue.extend({
             }
             if(self.taskType==='regant'&&(!self.valvesChecked||self.presValue==0)) return false;
             else return true;
+        },
+        changeStatus(status,task){
+            const self:any = this;
+            if(status){
+                 $.post('http://localhost:5000/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
+                      if(data.code === 0){
+                            self.$message.error('未知错误');
+                            task.isActive = !status;
+                        }
+                        else{
+                            self.$message({
+                                message: '任务开启成功',
+                                type: 'success'
+                            });
+                            self.activeList.push(task.id);
+                        }
+                });
+            }
+            else{
+                $.post('http://localhost:5000/deleteTaskList',{task_id:task.id, task_type:self.taskType}).then(data=>{
+                      if(data.code === 0){
+                            self.$message.error('未知错误');
+                            task.isActive = !status;
+                        }
+                        else{
+                            self.$message({
+                                message: '任务关闭成功',
+                                type: 'success'
+                            });
+                            self.activeList.splice(self.activeList.findIndex(d=>d===task.id),1);
+                        }
+                });
+            }
         },
         saveTask(){
             const self:any = this;
@@ -206,7 +289,7 @@ export default Vue.extend({
                                 message: (self.editId===-1)?'添加成功':'修改成功',
                                 type: 'success'
                             });
-                            self.reload(self.editId)
+                            self.reload()
                         }
                     });
                }
@@ -234,7 +317,7 @@ export default Vue.extend({
                                 message: (self.editId===-1)?'添加成功':'修改成功',
                                 type: 'success'
                             });
-                            self.reload(self.editId)
+                            self.reload()
                            
                         }
                     });
@@ -251,7 +334,52 @@ export default Vue.extend({
         }
     },
     created(){
-
+        const self:any = this;
+        let tasks:any = [];
+        if(self.taskType==='regant'){
+            $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+            data.tasks.forEach(e => {
+                tasks.push({
+                    id:e[0],
+                    name:e[1],
+                    username:e[2],
+                    date:e[3],
+                    valves:e[4],
+                    time:e[5].split(','),
+                    pres:e[6],
+                    interval:e[7].split(','),
+                    access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
+                    isActive:false
+                })
+                });
+                for(let e of tasks){
+                    console.log(self.activeList.findIndex(d=>d===e.id))
+                    if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                }
+                self.tasks = tasks;
+            });
+        }
+        else{
+                $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+            data.tasks.forEach(e => {
+                tasks.push({
+                    id:e[0],
+                    name:e[1],
+                    username:e[2],
+                    date:e[3],
+                    time:e[4].split(','),
+                    interval:e[5].split(','),
+                    access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
+                    isActive:false
+                })
+                });
+                for(let e of tasks){
+                    console.log(self.activeList.findIndex(d=>d===e.id))
+                    if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                }
+                self.tasks = tasks;
+            });
+        }
     }
     
 })

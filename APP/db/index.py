@@ -81,6 +81,17 @@ def updateMonitorTasks(task_name,task_username,task_date,task_time,task_interval
     cur.execute(updateMonitorTask,[task_name,task_username,task_date,task_time,task_interval,task_id])
     mydb.commit()
 
+#ontasklist
+def addTaskLists(task_type,task_id,list_date):
+    cur.execute(addTaskList,[task_type,task_id,list_date])
+    mydb.commit()
+def searchTasklists():
+    cur.execute(searchTaskList)
+    result = cur.fetchall()
+    return result
+def deleteTaskLists(task_id,task_type):
+    cur.execute(deleteTaskList,[task_id,task_type])
+    mydb.commit()
 
 
 

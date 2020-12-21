@@ -230,7 +230,35 @@ def loadTasks():
          return jsonify({'code':1,'tasks':re1})
    except:
       return jsonify({'code':0})
-
+#正在执行的任务
+@app.route('/addTaskList',methods=['POST'])
+def addTaskList():
+   taskType = request.form['type']
+   taskId = request.form['task_id']
+   listDate= request.form['list_date']
+   try:
+      addTaskLists(taskType,taskId,listDate)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/loadTaskList',methods=['GET'])
+def loadTaskList():
+   try:
+      time.sleep(0.1)
+      re = searchTasklists()
+      return jsonify({'code':1,'taskList':re})
+   except:
+      return jsonify({'code':0})
+@app.route('/deleteTaskList',methods=['POST'])
+def deleteTaskList():
+   taskId = request.form['task_id']
+   taskType = request.form['task_type']
+   try:
+      time.sleep(0.1)
+      deleteTaskLists(taskId,taskType)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
 
 
 if __name__ == '__main__':
