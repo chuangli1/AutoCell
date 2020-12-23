@@ -20,6 +20,12 @@ def addUsers(userName,passWord):
 def deleteUsers(userName):
     cur.execute(deleteUser,[userName])
     mydb.commit()
+def searchAllUsers():
+    cur.execute(searchAlluser)
+    result = cur.fetchall()
+    return result
+
+
 
 #info
 def addInfos(info_user,info_content,info_date):

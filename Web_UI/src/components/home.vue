@@ -25,10 +25,7 @@
               <data-manager :refresh="refreshData"></data-manager>
             </el-tab-pane>
             <el-tab-pane label="用户设置" name="fourth">
-              <div v-if='isManager'  @click="addUser" class="addUser">
-                <i :class="{ 'el-icon-plus': !isAddUser, 'el-icon-minus': isAddUser}"></i>
-              </div>
-              <add-user-box v-if='isAddUser' class='addBox'></add-user-box>
+              <user-manager></user-manager>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -43,6 +40,7 @@ import addUserBox from './tools/addUserBox.vue'
 import infoBox from './tools/infoBox.vue'
 import dataManager from './dataManager.vue'
 import labManager from './labManager.vue'
+import userManager from './userManager.vue'
 
 export default Vue.extend({
   name: "home",
@@ -60,7 +58,8 @@ export default Vue.extend({
     monitor,
     infoBox,
     dataManager,
-    labManager
+    labManager,
+    userManager
   },
   methods: {
     addUser(){
@@ -79,14 +78,7 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
-  .addUser{
-    cursor: pointer;
-    text-align: right;
-    font-size:16px;
-  }
-  .addBox{
-      float:right;
-    }
+
   .home{
     margin-top: 10px;
   }

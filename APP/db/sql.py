@@ -2,6 +2,7 @@
 addUser = 'insert into user (user_name,user_password) values(%s,%s);'
 deleteUser = "delete from user where user_name=%s;"
 searchUser = 'select * from user where user_name=%s;'
+searchAlluser = 'select user_name,user_mail,user_phone,user_office,user_address,level from user;'
 
 addInfo = 'insert into info (info_user,info_content,info_date) values(%s,%s,%s);'
 searchInfo = 'select * from info;'

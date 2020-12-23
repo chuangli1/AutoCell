@@ -5,7 +5,7 @@ import sys
 sys.path.append('./db')
 import os
 from db.index import *
-import time
+import time #主要是用于处理Flask不适用于生产环境的原因
 from camera import gen, Camera,genVideo
 camera = Camera()
 camera.start()
@@ -62,6 +62,16 @@ def login():
       else: return jsonify({'code':2})
    else:
       return jsonify({'code':0})
+@app.route('/loadTeam',methods=['GET'])
+def loadTeam():
+   time.sleep(0.4)
+   try:
+      re =  searchAllUsers()
+      return jsonify({'code':1,'members':re})
+   except:
+      return jsonify({'code':0})
+
+
 
 #视频传输相关
 @app.route('/video',methods=['GET'])

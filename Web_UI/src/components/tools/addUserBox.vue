@@ -157,6 +157,7 @@ export default Vue.extend({
   position: relative;
   float:left;
   top:0%;
+  z-index: 10000;
 }
 
 </style>

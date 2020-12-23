@@ -386,12 +386,13 @@ export default Vue.extend({
 </script>
 <style lang='scss' scoped>
  .addIcon{
-        text-align: right;
-        height: 6px;
-        padding: 0 0px;
-        font-size: 18px;
-        position: relative;
-        top: -15px;
+    cursor: pointer;
+    text-align: right;
+    height: 6px;
+    padding: 0 0px;
+    font-size: 18px;
+    position: relative;
+    top: -15px;
 
 }
 .labBox{
