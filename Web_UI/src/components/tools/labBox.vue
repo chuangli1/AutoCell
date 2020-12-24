@@ -393,6 +393,9 @@ export default Vue.extend({
     font-size: 18px;
     position: relative;
     top: -15px;
+    :hover{
+       color: #409EFF;
+    }
 
 }
 .labBox{

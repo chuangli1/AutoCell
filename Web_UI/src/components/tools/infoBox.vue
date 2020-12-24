@@ -103,13 +103,16 @@ export default Vue.extend({
 })
 </script>
 <style lang='scss' scoped>
- .addIcon{
-        text-align: right;
-        height: 6px;
-        padding: 0 0px;
-        font-size: 18px;
-        position: relative;
-        top: -34px;
+.addIcon{
+    text-align: right;
+    height: 6px;
+    padding: 0 0px;
+    font-size: 18px;
+    position: relative;
+    top: -34px;
+    :hover{
+    color: #409EFF;
+    }
 
 }
 .infoBox{
