@@ -12,10 +12,10 @@
                 {{member.name}}
             </div>
             <div class="boxContent">
-                <span class="Content"><i class="el-icon-message" style="padding-right:6px"></i>{{member.email?member.email:'未填写'}}</span>
-                <span class="Content"><i class="el-icon-phone-outline" style="padding-right:6px"></i>{{member.phone?member.phone:'未填写'}}</span>
-                <span class="Content"><i class="el-icon-suitcase" style="padding-right:6px"></i>{{member.office?member.office:'未填写'}}</span>
-                <span class="Content"><i class="el-icon-location" style="padding-right:6px"></i>{{member.address?member.address:'未填写'}}</span>
+                <span class="Content"><i class="el-icon-message" style="padding-right:6px"></i>{{member.email!==''?member.email:'未填写'}}</span>
+                <span class="Content"><i class="el-icon-phone-outline" style="padding-right:6px"></i>{{member.phone!==''?member.phone:'未填写'}}</span>
+                <span class="Content"><i class="el-icon-suitcase" style="padding-right:6px"></i>{{member.office!==''?member.office:'未填写'}}</span>
+                <span class="Content"><i class="el-icon-location" style="padding-right:6px"></i>{{member.address!==''?member.address:'未填写'}}</span>
             </div>
         </el-card>
     </el-col>

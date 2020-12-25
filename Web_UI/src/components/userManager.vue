@@ -37,7 +37,13 @@ export default Vue.extend({
             data.members.forEach(e => {
                 self.members.push({
                     'name':e[0],
-                    'isManager':e[5]===0
+                    'isManager':e[5]===0,
+                    'email':e[1],
+                    'phone':e[2],
+                    'office':e[3],
+                    'address':e[4],
+                    'id':e[6]
+
                 });
             });
             self.user = self.members.filter(d=>d.name===sessionStorage.username)[0];

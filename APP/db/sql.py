@@ -1,8 +1,10 @@
 
-addUser = 'insert into user (user_name,user_password) values(%s,%s);'
+addUser = 'insert into user (user_name,user_password,user_mail,user_phone,user_office,user_address,level) values(%s,%s,'','','','',1);'
 deleteUser = "delete from user where user_name=%s;"
 searchUser = 'select * from user where user_name=%s;'
-searchAlluser = 'select user_name,user_mail,user_phone,user_office,user_address,level from user;'
+searchAlluser = 'select user_name,user_mail,user_phone,user_office,user_address,level,user_id from user;'
+updateUser = 'update user set user_mail=%s,user_phone=%s,user_office=%s,user_address=%s,user_password=%s where user_id=%s;'
+updateUser1 = 'update user set user_mail=%s,user_phone=%s,user_office=%s,user_address=%s where user_id=%s;'
 
 addInfo = 'insert into info (info_user,info_content,info_date) values(%s,%s,%s);'
 searchInfo = 'select * from info;'

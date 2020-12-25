@@ -23,6 +23,8 @@ cors = CORS(app)
 @app.route('/')
 def hello_world():
    return render_template( 'index.html')
+
+#用户账户相关
 @app.route('/deleteUser',methods=['POST'])
 def deleteUser_m():
    userName = request.form['username']
@@ -41,12 +43,14 @@ def deleteUser_m():
 def addUser_m():
    userName = request.form['username']
    passWord = request.form['password']
-   re =  findUser(userName)
-   if re:
-      return jsonify({'code':0})
-   else:
+   try:
+      re =  findUser(userName)
+      if re:
+         return jsonify({'code':0})
       addUsers(userName,passWord)
       return jsonify({'code':1})
+   except:
+      return jsonify({'code':2})
 @app.route('/login',methods=['POST'])
 def login():
    userName = request.form['username']
@@ -64,10 +68,23 @@ def login():
       return jsonify({'code':0})
 @app.route('/loadTeam',methods=['GET'])
 def loadTeam():
-   time.sleep(0.4)
    try:
+      time.sleep(0.5)
       re =  searchAllUsers()
       return jsonify({'code':1,'members':re})
+   except:
+      return jsonify({'code':0})
+@app.route('/updateUser',methods=['POST'])
+def updateUser():
+   userID = request.form['user_id']
+   passWord = request.form['user_password']
+   email = request.form['user_mail']
+   phone = request.form['user_phone']
+   address = request.form['user_address']
+   office = request.form['user_office']
+   try:
+       updateUsers(email,phone,office,address,passWord,userID)
+       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
 
@@ -124,6 +141,7 @@ def videoGet():
 @app.route('/videoGetAll',methods=['GET'])
 def videoGetAll():
    try:
+      time.sleep(0.4)
       videoList =  searchAllVideos()
       return jsonify({'code':1,'videoList':videoList})
    except:
@@ -170,6 +188,7 @@ def deleteAllInfo():
 @app.route('/loadInfos',methods=['GET'])
 def loadInfo():
    try:
+      time.sleep(0.1)
       re = findInfos()
       return jsonify({'code':1,'infos':re})
    except:
@@ -185,6 +204,7 @@ def addTask():
    taskInterval = request.form['task_interval']
    taskDate= request.form['task_date']
    try:
+      time.sleep(0.3)
       if(taskType=='regant'):
          taskValve = request.form['task_valve']
          taskPres = request.form['task_pres']
@@ -231,11 +251,9 @@ def loadTasks():
    taskType = request.args.get('type')
    try:
       if(taskType=='regant'):
-         time.sleep(0.3)
          re = searchRegantTasks()
          return jsonify({'code':1,'tasks':re})
       else:
-         time.sleep(0.5)
          re1 = searchMonitorTasks()
          return jsonify({'code':1,'tasks':re1})
    except:
@@ -254,7 +272,6 @@ def addTaskList():
 @app.route('/loadTaskList',methods=['GET'])
 def loadTaskList():
    try:
-      time.sleep(0.1)
       re = searchTasklists()
       return jsonify({'code':1,'taskList':re})
    except:
@@ -264,7 +281,6 @@ def deleteTaskList():
    taskId = request.form['task_id']
    taskType = request.form['task_type']
    try:
-      time.sleep(0.1)
       deleteTaskLists(taskId,taskType)
       return jsonify({'code':1})
    except:
