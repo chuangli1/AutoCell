@@ -33,7 +33,7 @@ export default Vue.extend({
     },
     created(){
         const self:any = this;
-        $.get('http://localhost:5000/loadTeam').then(data=>{
+        $.get('/loadTeam').then(data=>{
             data.members.forEach(e => {
                 self.members.push({
                     'name':e[0],

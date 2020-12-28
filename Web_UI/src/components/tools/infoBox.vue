@@ -46,7 +46,7 @@ export default Vue.extend({
                     'info_content':value,
                     'info_date': self.myDate.toLocaleString()
                     };
-                    $.post('http://localhost:5000/addInfo',infoData).then(function(data){
+                    $.post('/addInfo',infoData).then(function(data){
                         if(data.code === 0){
                             self.$message.error('未知错误');
                         }
@@ -70,7 +70,7 @@ export default Vue.extend({
             const infoData = {
                   'info_id':ID,
             }
-             $.post('http://localhost:5000/deleteInfo',infoData).then(function(data){
+             $.post('/deleteInfo',infoData).then(function(data){
                 if(data.code === 0){
                     self.$message.error('未知错误');
                 }
@@ -85,7 +85,7 @@ export default Vue.extend({
         },
         reloadInfo(){
             const self:any = this;
-            $.get('http://localhost:5000/loadInfos').then(function(data){
+            $.get('/loadInfos').then(function(data){
             self.infos = data.infos.reverse();
         });
         }
@@ -94,7 +94,7 @@ export default Vue.extend({
         const self:any = this;
         self.userName = sessionStorage.username;
         self.isManager = (sessionStorage.isManager == 'true')? true:false;
-        $.get('http://localhost:5000/loadInfos').then(function(data){
+        $.get('/loadInfos').then(function(data){
             self.infos = data.infos.reverse();
         });
     }

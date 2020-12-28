@@ -70,7 +70,7 @@ export default Vue.extend({
         const self:any = this;
          self.$refs[formName].validate((valid) => {
           if (valid) {
-            $.post('http://localhost:5000/addUser', {
+            $.post('/addUser', {
                 username: self.form.username,
                 password: self.form.password
             })
@@ -102,7 +102,7 @@ export default Vue.extend({
         const self:any = this;
          self.$refs[formName].validate((valid) => {
           if (valid) {
-            $.post('http://localhost:5000/deleteUser', {
+            $.post('/deleteUser', {
                 username: self.form.username,
                 password: self.form.password
             })

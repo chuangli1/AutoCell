@@ -108,7 +108,7 @@ export default Vue.extend({
                 'type':self.taskType,
                   'task_id':id
             }
-             $.post('http://localhost:5000/deleteTask',dataD).then(function(data){
+             $.post('/deleteTask',dataD).then(function(data){
                 if(data.code === 0){
                     self.$message.error('未知错误');
                 }
@@ -121,7 +121,7 @@ export default Vue.extend({
                 }
             });
             if(self.activeList.findIndex(d=>d===id)!==-1){
-            $.post('http://localhost:5000/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
+            $.post('/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
                 if(data.code === 0){
                             self.$message.error('未知错误');
                         }
@@ -158,7 +158,7 @@ export default Vue.extend({
             const self:any = this;
             let tasks:any = [];
             if(self.taskType==='regant'){
-                $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+                $.get('/loadTasks?type='+self.taskType).then(function(data){
                 data.tasks.forEach(e => {
                     tasks.push({
                         id:e[0],
@@ -181,7 +181,7 @@ export default Vue.extend({
                 });
             }
             else{
-                 $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+                 $.get('/loadTasks?type='+self.taskType).then(function(data){
                 data.tasks.forEach(e => {
                     tasks.push({
                         id:e[0],
@@ -229,7 +229,7 @@ export default Vue.extend({
         changeStatus(status,task){
             const self:any = this;
             if(status){
-                 $.post('http://localhost:5000/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
+                 $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
                       if(data.code === 0){
                             self.$message.error('未知错误');
                             task.isActive = !status;
@@ -244,7 +244,7 @@ export default Vue.extend({
                 });
             }
             else{
-                $.post('http://localhost:5000/deleteTaskList',{task_id:task.id, task_type:self.taskType}).then(data=>{
+                $.post('/deleteTaskList',{task_id:task.id, task_type:self.taskType}).then(data=>{
                       if(data.code === 0){
                             self.$message.error('未知错误');
                             task.isActive = !status;
@@ -262,7 +262,7 @@ export default Vue.extend({
         saveTask(){
             const self:any = this;
             self.dialogVisible = false;
-            const url = (self.editId===-1)?'http://localhost:5000/addTask':'http://localhost:5000/updateTask';
+            const url = (self.editId===-1)?'/addTask':'/updateTask';
             if(self.taskType==='regant'){
               let val = '';
               self.valvesChecked.forEach(e => {
@@ -337,7 +337,7 @@ export default Vue.extend({
         const self:any = this;
         let tasks:any = [];
         if(self.taskType==='regant'){
-            $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+            $.get('/loadTasks?type='+self.taskType).then(function(data){
             data.tasks.forEach(e => {
                 tasks.push({
                     id:e[0],
@@ -360,7 +360,7 @@ export default Vue.extend({
             });
         }
         else{
-                $.get('http://localhost:5000/loadTasks?type='+self.taskType).then(function(data){
+                $.get('/loadTasks?type='+self.taskType).then(function(data){
             data.tasks.forEach(e => {
                 tasks.push({
                     id:e[0],

@@ -10,7 +10,7 @@
           </el-row>
           <el-row type="flex" justify="center">
               <el-form-item prop="password" @keyup.enter.native="submit('form')">
-                  <el-input  style="width: 200px;" placeholder='密码' v-model="form.password"></el-input>
+                  <el-input  style="width: 200px;" placeholder='密码' v-model="form.password" show-password></el-input>
               </el-form-item>
           </el-row>
           <el-row type="flex" justify="center">
@@ -71,7 +71,7 @@ export default Vue.extend({
         const self:any = this;
          self.$refs[formName].validate((valid) => {
           if (valid) {
-            $.post('http://localhost:5000/login', {
+            $.post('/login', {
                 username: self.form.username,
                 password: self.form.password
             })

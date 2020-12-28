@@ -36,7 +36,7 @@ export default Vue.extend({
     },
     created(){
        const self:any = this;
-        $.get('http://localhost:5000/loadTaskList').then(data=>{
+        $.get('/loadTaskList').then(data=>{
             self.activeMonitorList = data.taskList.filter(d=>{return d[3]==='monitor'}).map(d=>{return d[1]});
             self.activeRegantList = data.taskList.filter(d=>{return d[3]==='regant'}).map(d=>{return d[1]});
             self.taskFlag++;

@@ -55,7 +55,7 @@ export default Vue.extend({
           }
           if(!self.testF(data)) self.$message.error('输入格式错误');
           else
-            $.post('http://localhost:5000/updateUser',data).then(data=>{
+            $.post('/updateUser',data).then(data=>{
                if(data.code === 0){
                   self.$message.error('未知错误');
                }

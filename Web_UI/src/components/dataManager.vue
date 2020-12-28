@@ -62,7 +62,7 @@ export default Vue.extend({
         videoPlay(video_name){
            const self:any = this;
            self.dialogVisible = true;
-           self.videoSrc = 'http://localhost:5000/videoPlay?video_name='+video_name+'.avi';
+           self.videoSrc = '/videoPlay?video_name='+video_name+'.avi';
 
         },
         videoPlayStop(){
@@ -73,12 +73,12 @@ export default Vue.extend({
         },
         downloadVideo (video_name) {
             const self:any = this;
-             let url = 'http://localhost:5000/videoDownload?video_name='+video_name+'.avi'
+             let url = '/videoDownload?video_name='+video_name+'.avi'
              window.open(url);
         },
         deleteVideo(videoID) {
             const self:any = this;
-            let url = 'http://localhost:5000/videoDelete'
+            let url = '/videoDelete'
             $.post(url,{'video_id':videoID}).then(function(data){
                if(data.code===1){
                     for(let i=0; i<self.currentItems.length; i++){
@@ -100,7 +100,7 @@ export default Vue.extend({
         refreshData(){
             const self:any = this;
             self.currentItems=[];
-             $.get('http://localhost:5000/videoGetAll').then(function(data){
+             $.get('/videoGetAll').then(function(data){
             console.log(data);
             if(data.code=='1'){
                 data.videoList.forEach(e => {

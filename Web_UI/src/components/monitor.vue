@@ -1,7 +1,7 @@
 <template>
 <div class = "row">
    <div class = "col-sm-9">   
-       <img src = 'http://localhost:5000/video' width="640px" height="360px">
+       <img src = '/video' width="640px" height="360px">
        <el-card style="width: 640px;height:230px">
            <div slot="header" style="margin-left:6px; width: 640px">
                <span><i style="padding-right:6px" class="el-icon-s-tools"></i>位移台控制</span>
@@ -128,7 +128,7 @@ export default Vue.extend({
                 inputPattern: /^[\s\S]{1,200}$/,
                 inputErrorMessage: '视频文件名长度不能超过200个'
                 }).then(({ value })=>{
-                   $.post('http://localhost:5000/videoRecordStart',{videoName: value}).then(data=>{
+                   $.post('/videoRecordStart',{videoName: value}).then(data=>{
                        if(data.code===1){
                             self.videoName = value;
                             self.recordStatus = 1;
@@ -149,7 +149,7 @@ export default Vue.extend({
        },
        recordStop(){
            const self:any = this;
-           $.post('http://localhost:5000/videoRecordStop').then(data=>{
+           $.post('/videoRecordStop').then(data=>{
                 if(data.code===1){
                         self.recordStatus = 2;
                         self.$message({
@@ -182,7 +182,7 @@ export default Vue.extend({
                     type: 'warning'
                     });
                 return;}
-            $.post('http://localhost:5000/videoRecordSave',{userName:sessionStorage.username,
+            $.post('/videoRecordSave',{userName:sessionStorage.username,
             videoName:self.videoName,videoDate:self.myDate.toLocaleString()
             }).then(data=>{
                 if(data.code===1){
