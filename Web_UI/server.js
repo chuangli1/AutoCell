@@ -12,7 +12,7 @@ process.on('uncaughtException', function (err) {
 });
 
 const app = express();
-app.use("/dist", express.static(path.join(__dirname, '/dist')));
+app.use(express.static('dist'));
 
 
 const remoteInst = "http://localhost:5000";
