@@ -1,5 +1,5 @@
 
-addUser = 'insert into user (user_name,user_password,user_mail,user_phone,user_office,user_address,level) values(%s,%s,'','','','',1);'
+addUser = 'insert into user (user_name,user_password,user_mail,user_phone,user_office,user_address,level) values(%s,%s,"","","","",1);'
 deleteUser = "delete from user where user_name=%s;"
 searchUser = 'select * from user where user_name=%s;'
 searchAlluser = 'select user_name,user_mail,user_phone,user_office,user_address,level,user_id from user;'

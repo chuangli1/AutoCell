@@ -31,6 +31,7 @@ app.use(function(req, res, next) {
 const server = http.createServer(app);
 
 server.listen(6789);
+console.log("App is running on http://localhost:6789")
 
 
 // // 端口号
