@@ -6,7 +6,7 @@ sys.path.append('./db')
 import os
 from db.index import *
 import time #主要是用于处理Flask不适用于生产环境的原因
-from camera import gen, Camera,genVideo
+from imaging.camera import gen, Camera,genVideo
 camera = Camera()
 camera.start()
 

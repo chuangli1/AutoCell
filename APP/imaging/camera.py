@@ -20,7 +20,7 @@ def gen(camera):
             camera.pause()
             break
 def genVideo(videoName):
-    cap = cv2.VideoCapture('./video/'+videoName)
+    cap = cv2.VideoCapture('../video/'+videoName)
     while True:
         ret, frame = cap.read()
         if(ret==False):
@@ -55,7 +55,7 @@ class Camera(threading.Thread):
         self.i = 0
     def start_c(self,videoName):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        self.out = cv2.VideoWriter('./video/'+videoName+'.avi',fourcc, 20.0, (self.capWidth,self.capHeight),True)
+        self.out = cv2.VideoWriter('../video/'+videoName+'.avi',fourcc, 20.0, (self.capWidth,self.capHeight),True)
         self.test = 1
         self.i = 0
         print('开始拍摄，将视频写入文件')
