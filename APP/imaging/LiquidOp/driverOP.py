@@ -18,18 +18,27 @@ class Opto():
     def start(self):
         self.s=serial.Serial(port='COM6', baudrate=115200)
         self.s.write("Start".encode('ascii'))
-        if(str(self.readData())[2:7] == 'Ready'): print('连接成功！')
+        if(str(self.readData())[2:7] == 'Ready'): print('液体镜头连接成功！')
     def close(self):
         #关闭端口
         self.s.close()
-
     def getTemp(self):
         data = [0x54,0x41]
         data = self.getData(data)
         self.sendCom(data)
         print(self.readData())
+    def setCurrent(self,value):
+        data = [0x41,0x77]
+        values = value.to_bytes(2, byteorder='big')
+        data.append(values[0])
+        data.append(values[1])
+        data = self.getData(data)
+        self.sendCom(data)
+
 
 
 if __name__ == "__main__":
     TEST = Opto()
+    TEST.getTemp()
+    TEST.setCurrent(1234)
     TEST.getTemp()
