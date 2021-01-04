@@ -27,3 +27,5 @@ if __name__ == "__main__":
     taskM.addMonitorTask('lst',2)
     while True:
         a = 1
+        time.sleep(60)
+        taskM.apsTask.deleteTask()
