@@ -106,7 +106,7 @@ def videoRecordStart():
     if os.path.exists('./video/'+videoName+'.avi'):
          videoName = videoName+'(1)'
     try:
-      camera.start_c(videoName)
+      camera.start_c(videoName,-1)
       return jsonify({'code':1})
     except:
       return jsonify({'code':0})

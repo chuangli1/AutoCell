@@ -40,40 +40,47 @@ class Camera(threading.Thread):
         super(Camera,self).__init__()
         self.__flag = threading.Event() 
         self.__flag.set()       # 设置为True
-        self.userNum = 0
+        self.userNum = 1
         self.__running = threading.Event()      # 用于停止线程的标识
         self.__running.set()      # 将running设置为True
-        self.test = 2 #验证是否进行视频拍摄
+        self.testCap = 2 #验证是否进行视频拍摄
         self.cap = cv2.VideoCapture(0)
         ret,self.frame = self.cap.read()
         self.capWidth = int(self.cap.get(3))
         print(self.capWidth)
         self.capHeight = int(self.cap.get(4))
         print(self.capHeight)
-        self.cap.release()
+        self.pause()
         self.out = 0
         self.i = 0
-    def start_c(self,videoName):
+    def start_c(self,videoName,long):
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         self.out = cv2.VideoWriter('../video/'+videoName+'.avi',fourcc, 20.0, (self.capWidth,self.capHeight),True)
-        self.test = 1
+        self.testCap = 1
         self.i = 0
+        self.long = long
+        if(self.userNum==0): 
+            self.resume()
+            time.sleep(0.01)
         print('开始拍摄，将视频写入文件')
     def stop_c(self):
-        self.test = 0
+        self.testCap = 0
+        if(self.userNum==0):
+            self.userNum+=1
+            self.pause()
         print('停止将视频写入文件')
     def run(self):
         while self.__running.isSet():
             self.__flag.wait()
             ret,self.frame = self.cap.read()
             #cv2.imshow('img',self.frame)
-            if self.test == 1:
+            if self.testCap == 1:
                 self.out.write(self.frame)
-            if self.test == 0:
+                self.i+=1
+            if(self.i==self.long*20): self.stop_c()
+            if self.testCap == 0:
                 self.out.release()
-                print('chuangli')
-                self.test = 2
-            self.i+=1
+                self.testCap = 2
             time.sleep(0.05)
         print('stop')
 
@@ -96,4 +103,3 @@ class Camera(threading.Thread):
         self.__running.clear()        # 设置为False
         print(self.__running.isSet())
         print('close camera')
-    
