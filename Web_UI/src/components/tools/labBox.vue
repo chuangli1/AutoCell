@@ -4,6 +4,7 @@
     <el-card v-for="(task,index) in tasks" :key='index' class="box-card labBox">
         <div slot="header" class="clearfix">
             <span><el-switch v-model="task.isActive" :active-text=task.name :disabled=!task.access @change='changeStatus($event,task)'></el-switch></span>
+            <span v-if='task.isActive'>上次开启时间：{{task.activeDate}}</span>
             <span style="float: right; padding: 3px 0">
                 <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task.id)"></i>
                 <i v-if='task.access' class="el-icon-edit-outline icon" @click="editTask(task)"></i>
@@ -239,7 +240,8 @@ export default Vue.extend({
                                 message: '任务开启成功',
                                 type: 'success'
                             });
-                            self.activeList.push(task.id);
+                            task.activeDate = self.myDate.toLocaleString();
+                            self.activeList.push([task.id,self.myDate.toLocaleString()]);
                         }
                 });
             }
@@ -254,6 +256,7 @@ export default Vue.extend({
                                 message: '任务关闭成功',
                                 type: 'success'
                             });
+                            task.activeDate = -1;
                             self.activeList.splice(self.activeList.findIndex(d=>d===task.id),1);
                         }
                 });
@@ -349,12 +352,13 @@ export default Vue.extend({
                     pres:e[6],
                     interval:e[7].split(','),
                     access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
-                    isActive:false
+                    isActive:false,
+                    activeDate:-1
                 })
                 });
                 for(let e of tasks){
-                    console.log(self.activeList.findIndex(d=>d===e.id))
-                    if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                    let t = self.activeList.findIndex(d=>d[0]===e.id)
+                    if(t!==-1) {e.isActive = true;e.activeDate=self.activeList[t][1]}
                 }
                 self.tasks = tasks;
             });
@@ -370,12 +374,13 @@ export default Vue.extend({
                     time:e[4].split(','),
                     interval:e[5].split(','),
                     access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
-                    isActive:false
+                    isActive:false,
+                    activeDate:-1
                 })
                 });
                 for(let e of tasks){
-                    console.log(self.activeList.findIndex(d=>d===e.id))
-                    if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                    let t = self.activeList.findIndex(d=>d[0]===e.id)
+                    if(t!==-1) {e.isActive = true;e.activeDate=self.activeList[t][1]}
                 }
                 self.tasks = tasks;
             });

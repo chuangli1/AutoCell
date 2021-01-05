@@ -12,7 +12,7 @@ class apsTask():
     def addTask(self,task,times,interval):
         taskId = 'id'+str(self.i)
         self.i+=1
-        self.scheduler.add_job(task, 'interval', seconds=interval, start_date =times[0], end_date=time[1], id=taskId)
+        self.scheduler.add_job(task, 'interval', seconds=interval, start_date =times[0], end_date=times[1], id=taskId)
 
     def deleteTask(self):
         print('停止任务')

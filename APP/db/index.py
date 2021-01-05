@@ -83,7 +83,13 @@ def addRegantTasks(task_name,task_username,task_date,task_valve,task_pres,task_t
     cur.execute(addRegantTask,[task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval])
     mydb.commit()
 def searchRegantTasks():
+    mydb.ping(reconnect=True)
     cur.execute(searchRegantTask)
+    result = cur.fetchall()
+    return result
+def findRegantTasks(task_id):
+    mydb.ping(reconnect=True)
+    cur.execute(findRegantTask,[task_id])
     result = cur.fetchall()
     return result
 def deleteRegantTasks(task_id):
@@ -101,6 +107,11 @@ def addMonitorTasks(task_name,task_username,task_date,task_time,task_interval):
 def searchMonitorTasks():
     mydb.ping(reconnect=True)
     cur.execute(searchMonitorTask)
+    result = cur.fetchall()
+    return result
+def findMonitorTasks(task_id):
+    mydb.ping(reconnect=True)
+    cur.execute(findMonitorTask,[task_id])
     result = cur.fetchall()
     return result
 def deleteMonitorTasks(task_id):

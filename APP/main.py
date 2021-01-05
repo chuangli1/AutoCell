@@ -7,7 +7,9 @@ import os
 from db.index import *
 import time #主要是用于处理Flask不适用于生产环境的原因
 from imaging.camera import gen, Camera,genVideo
+from taskTime.index import taskManager
 camera = Camera()
+taskM = taskManager(camera)
 camera.start()
 
 
@@ -266,6 +268,10 @@ def addTaskList():
    listDate= request.form['list_date']
    try:
       addTaskLists(taskType,taskId,listDate)
+      if(taskType=='regant'):
+             pass
+      else:
+         taskM.addMonitorTask(taskId)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})

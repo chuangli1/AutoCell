@@ -19,10 +19,12 @@ searchAllVideo = 'select * from video;'
 addRegantTask = 'insert into regants (task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval) values(%s,%s,%s,%s,%s,%s,%s);'
 deleteRegantTask = "delete from regants where task_id=%s;"
 searchRegantTask = 'select * from regants;'
+findRegantTask = 'select * from regants where task_id=%s;'
 updateRegantTask = 'update regants set task_name=%s,task_username=%s,task_date=%s,task_valve=%s,task_pres=%s,task_time=%s,task_interval=%s where task_id=%s'
 
 addMonitorTask = 'insert into monitor (task_name,task_username,task_date,task_time,task_interval) values(%s,%s,%s,%s,%s);'
 deleteMonitorTask = "delete from monitor where task_id=%s;"
+findMonitorTask = "select * from monitor where task_id=%s;"
 searchMonitorTask = 'select * from monitor;'
 updateMonitorTask = 'update monitor set task_name=%s,task_username=%s,task_date=%s,task_time=%s,task_interval=%s where task_id=%s'
 
