@@ -121,7 +121,7 @@ export default Vue.extend({
                     self.tasks.splice(self.tasks.findIndex(e => e.id === id), 1) 
                 }
             });
-            if(self.activeList.findIndex(d=>d===id)!==-1){
+            if(self.activeList.findIndex(d=>d[0]===id)!==-1){
             $.post('/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
                 if(data.code === 0){
                             self.$message.error('未知错误');
@@ -131,7 +131,7 @@ export default Vue.extend({
                             message: '任务关闭成功',
                             type: 'success'
                         });
-                        self.activeList.splice(self.activeList.findIndex(d=>d===id),1);
+                        self.activeList.splice(self.activeList.findIndex(d=>d[0]===id),1);
                     }
                         
                 });
@@ -171,12 +171,13 @@ export default Vue.extend({
                         pres:e[6],
                         interval:e[7].split(','),
                         access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
-                        isActive:false
+                        isActive:false,
+                        activeDate:-1
                     })
                     });
                     for(let e of tasks){
-                        console.log(self.activeList.findIndex(d=>d===e.id))
-                        if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                        let t = self.activeList.findIndex(d=>d[0]===e.id)
+                        if(t!==-1) {e.isActive = true;e.activeDate=e[1]}
                     }
                     self.tasks = tasks;
                 });
@@ -192,12 +193,13 @@ export default Vue.extend({
                         time:e[4].split(','),
                         interval:e[5].split(','),
                         access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
-                        isActive:false
+                        isActive:false,
+                        activeDate:-1
                     })
                     });
                     for(let e of tasks){
-                        console.log(self.activeList.findIndex(d=>d===e.id))
-                        if(self.activeList.findIndex(d=>d===e.id)!==-1) e.isActive = true;
+                        let t = self.activeList.findIndex(d=>d[0]===e.id)
+                        if(t!==-1) {e.isActive = true;e.activeDate=e[1]}
                     }
                     self.tasks = tasks;
                 });
