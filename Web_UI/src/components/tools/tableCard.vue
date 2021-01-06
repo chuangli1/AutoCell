@@ -215,6 +215,7 @@ table tbody {
     bottom: 0px;
     left: 0px;
     // height: 480px;
+    font-size:14px;
     overflow-y: auto;
 }
 
@@ -229,6 +230,9 @@ thead th,
 tbody td {
     width: 100%;
     padding-left: 6px;
+}
+td{
+     white-space: nowrap;
 }
 
 table thead {

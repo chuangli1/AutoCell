@@ -124,8 +124,8 @@ export default Vue.extend({
             if(self.activeList.findIndex(d=>d[0]===id)!==-1){
             $.post('/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
                 if(data.code === 0){
-                            self.$message.error('未知错误');
-                        }
+                        self.$message.error('未知错误');
+                    }
                 else{
                         self.$message({
                             message: '任务关闭成功',

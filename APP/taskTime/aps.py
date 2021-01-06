@@ -9,15 +9,10 @@ class apsTask():
         self.scheduler.start()
         self.i = 0
 
-    def addTask(self,task,times,interval):
-        taskId = 'id'+str(self.i)
+    def addTask(self,task,times,interval,taskId):
         self.i+=1
-        self.scheduler.add_job(task, 'interval', seconds=interval, start_date =times[0], end_date=times[1], id=taskId)
+        self.scheduler.add_job(task, 'interval', minutes=interval, start_date =times[0], end_date=times[1], id=str(taskId))
 
-    def deleteTask(self):
-        print('停止任务')
-        # self.scheduler.remove_job(taskId)
-        # self.scheduler.remove_job(taskId+'_s')
-        Job_list=self.scheduler.get_jobs()
-        print(Job_list)
-        #self.scheduler.start()
+    def deleteTask(self,taskId):
+        print('停止任务'+str(taskId))
+        self.scheduler.remove_job(str(taskId))

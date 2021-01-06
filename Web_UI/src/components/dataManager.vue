@@ -18,13 +18,13 @@
       </template> 
      </epm-2-table>
      <el-dialog
-                :visible.sync="dialogVisible"
-                @close='videoPlayStop'
-                width='680px'
-                heigth="480px"
-                top="15vh"
-                >
-                <img :src="videoSrc" width="640px" height="480px">
+        :visible.sync="dialogVisible"
+        @close='videoPlayStop'
+        width='680px'
+        heigth="480px"
+        top="15vh"
+        >
+        <img :src="videoSrc" width="640px" height="480px">
      </el-dialog>
 </div>
 </template>

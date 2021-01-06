@@ -288,6 +288,10 @@ def deleteTaskList():
    taskType = request.form['task_type']
    try:
       deleteTaskLists(taskId,taskType)
+      if(taskType=='regant'):
+            taskM.deleteMonitorTask(taskId)
+      else:
+            taskM.deleteMonitorTask(taskId)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})

@@ -22,8 +22,8 @@ class monitorTask():
         if(videoData):
             self.videoName = videoData[1]
             timet = videoData[4].split(",")
-            start_dates = (datetime.now()+timedelta(seconds=int(timet[0]))).strftime("%Y-%m-%d %H:%M:%S")
-            end_dates = (datetime.now()+timedelta(seconds=int(timet[1]))).strftime("%Y-%m-%d %H:%M:%S")
+            start_dates = (datetime.now()+timedelta(minutes=int(timet[0]))).strftime("%Y-%m-%d %H:%M:%S")
+            end_dates = (datetime.now()+timedelta(minutes=int(timet[1]))).strftime("%Y-%m-%d %H:%M:%S")
             self.times = [start_dates,end_dates]
             self.interval = videoData[5].split(",")
             self.long = int(self.interval[1])
