@@ -16,10 +16,12 @@ class taskManager():
         monitorTaskt.initVideo(taskId)
         times = monitorTaskt.times
         interval = int(monitorTaskt.interval[0])
+        taskId = str(taskId)+'M'
         print('视频任务'+str(taskId)+':'+times[0]+'至'+times[1]+', 任务间隔：'+monitorTaskt.interval[0]+'分')
         self.apsTask.addTask(monitorTaskt.monitorCap,times,interval,taskId)
         self.mi+=1
     def deleteMonitorTask(self,taskId):
+        taskId = str(taskId)+'M'
         self.apsTask.deleteTask(taskId)
 
 
