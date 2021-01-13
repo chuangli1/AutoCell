@@ -10,7 +10,7 @@
 import sys          
 import time
 import datetime
-import SDL_Pi_HDC1000
+from . import SDL_Pi_HDC1000
 
 
 
