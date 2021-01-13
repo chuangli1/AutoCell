@@ -6,7 +6,7 @@ sys.path.append('./db')
 import os
 from db.index import *
 import time #主要是用于处理Flask不适用于生产环境的原因
-from imaging.camera import gen, Camera,genVideo
+from monitor.camera import gen, Camera,genVideo
 from taskTime.index import taskManager
 camera = Camera()
 taskM = taskManager(camera)
@@ -298,4 +298,4 @@ def deleteTaskList():
 
 
 if __name__ == '__main__':
-   app.run(threaded=True)
+   app.run(threaded=True,port=7777)

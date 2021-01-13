@@ -2,7 +2,7 @@ import sys
 sys.path.append("./taskTime")
 from monitorTask import monitorTask
 from aps import apsTask
-from imaging.camera import Camera
+from monitor.camera import Camera
 import time
 
 
@@ -34,7 +34,4 @@ if __name__ == "__main__":
     taskM.addMonitorTask(19)
     time.sleep(10)
     taskM.addMonitorTask(19)
-    while True:
-        a = 1
-        time.sleep(60)
-        taskM.apsTask.deleteTask()
+   

@@ -273,7 +273,7 @@ th:hover{
     }
 }
 .Rectangle-2 {
-    width: 400px;
+    width: 300px;
     height: 30px;
     margin: 2px 2px 0 8px;
     padding: 6px 6px;
