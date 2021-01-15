@@ -53,7 +53,7 @@ def login():
 @app.before_request
 def load_logged_in_user():
    user_id = session.get('user_id')
-   if (request.path == '/' or user_id or request.path == '/login'):
+   if (request.path == '/' or user_id or request.path == '/bundle.js' or request.path == '/favicon.ico'):
       return
    else: 
       return redirect(url_for('hello_world'))
