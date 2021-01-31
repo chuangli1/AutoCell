@@ -293,7 +293,7 @@ th:hover{
         bottom: 3px;
     }
     .Search-Sheets {
-        width: 250px;
+        width: 240px;
         height: 16px;
         margin: 0 0 0 2px;
         font-family: Roboto;
