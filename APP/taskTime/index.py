@@ -1,7 +1,6 @@
-import sys
-sys.path.append("./taskTime")
-from monitorTask import monitorTask
-from aps import apsTask
+#sys.path.append("..")
+from .monitorTask import monitorTask
+from .aps import apsTask
 from monitor.camera import Camera
 import time
 

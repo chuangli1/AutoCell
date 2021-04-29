@@ -93,6 +93,6 @@ export default Vue.extend({
       }
   }
   .right-area{
-      width:70%;
+      width:100%;
   }
 </style>

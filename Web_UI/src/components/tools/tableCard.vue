@@ -280,7 +280,7 @@ th:hover{
     border-radius: 6px;
     background-color: #f6f6f6;
     position: fixed;
-    top: 4px;
+    top: 2px;
     right: 20px;
     z-index: 1000;
     .oval {
