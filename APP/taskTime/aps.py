@@ -8,11 +8,17 @@ class apsTask():
         self.scheduler = BackgroundScheduler()
         self.scheduler.start()
         self.i = 0
+        self.taskList = []
 
     def addTask(self,task,times,interval,taskId):
-        self.i+=1
+        self.taskList.append(taskId)
         self.scheduler.add_job(task, 'interval', minutes=interval, start_date =times[0], end_date=times[1], id=str(taskId))
 
     def deleteTask(self,taskId):
         print('停止任务'+str(taskId))
-        self.scheduler.remove_job(str(taskId))
+        try:
+            self.taskList.index(taskId)
+            self.taskList.remove(taskId)
+            self.scheduler.remove_job(str(taskId))
+        except:
+            pass

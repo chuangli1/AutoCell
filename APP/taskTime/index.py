@@ -1,8 +1,7 @@
-import sys
-sys.path.append("./taskTime")
-from monitorTask import monitorTask
-from aps import apsTask
-from imaging.camera import Camera
+#sys.path.append("..")
+from .monitorTask import monitorTask
+from .aps import apsTask
+from monitor.camera import Camera
 import time
 
 
@@ -16,10 +15,12 @@ class taskManager():
         monitorTaskt.initVideo(taskId)
         times = monitorTaskt.times
         interval = int(monitorTaskt.interval[0])
+        taskId = str(taskId)+'M'
         print('视频任务'+str(taskId)+':'+times[0]+'至'+times[1]+', 任务间隔：'+monitorTaskt.interval[0]+'分')
         self.apsTask.addTask(monitorTaskt.monitorCap,times,interval,taskId)
         self.mi+=1
     def deleteMonitorTask(self,taskId):
+        taskId = str(taskId)+'M'
         self.apsTask.deleteTask(taskId)
 
 
@@ -32,7 +33,4 @@ if __name__ == "__main__":
     taskM.addMonitorTask(19)
     time.sleep(10)
     taskM.addMonitorTask(19)
-    while True:
-        a = 1
-        time.sleep(60)
-        taskM.apsTask.deleteTask()
+   

@@ -1,5 +1,5 @@
 import pymysql
-from sql import *
+from .sql import *
 
 mydb = pymysql.connect(
     host="localhost",

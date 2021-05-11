@@ -1,14 +1,16 @@
 #main
-from flask import Flask,render_template,request,jsonify,Response,send_from_directory
+from flask import url_for,redirect, session,Flask,render_template,request,jsonify,Response,send_from_directory
 from flask_cors import CORS
 import sys  
 sys.path.append('./db')
 import os
+import re
 from db.index import *
 import time #主要是用于处理Flask不适用于生产环境的原因
-from imaging.camera import gen, Camera,genVideo
+from monitor.camera import gen, Camera,genVideo
 from taskTime.index import taskManager
 camera = Camera()
+from monitor.genSensors import genSensors
 taskM = taskManager(camera)
 camera.start()
 
@@ -20,11 +22,41 @@ app = Flask(__name__,
            static_url_path='')
 app.config['JSON_AS_ASCII'] = False
 cors = CORS(app)
+app.secret_key = '!@#$%^&*()11chuangli'
 
 #登录相关
-@app.route('/')
+@app.route('/',methods=['GET'])
 def hello_world():
    return render_template( 'index.html')
+@app.route('/login',methods=['POST'])
+def login():
+   userName = request.form['username']
+   passWord = request.form['password']
+   re =  findUser(userName)
+   if re:
+      pwd = re[0][2]
+      userid = re[0][0]
+      print('ss')
+      try:
+         session['user_id'] = userid
+         
+      except:
+        print('s',session.get('user_id'))
+      if(passWord==pwd):
+         if userName == managerName:
+             return jsonify({'code':3})   
+         else:
+             return jsonify({'code':1})
+      else: return jsonify({'code':2})
+   else:
+      return jsonify({'code':0})
+@app.before_request
+def load_logged_in_user():
+   user_id = session.get('user_id')
+   if (request.path == '/' or request.path == '/login'or user_id or request.path == '/bundle.js' or request.path == '/favicon.ico'):
+      return
+   else: 
+      return redirect(url_for('hello_world'))
 
 #用户账户相关
 @app.route('/deleteUser',methods=['POST'])
@@ -53,21 +85,6 @@ def addUser_m():
       return jsonify({'code':1})
    except:
       return jsonify({'code':2})
-@app.route('/login',methods=['POST'])
-def login():
-   userName = request.form['username']
-   passWord = request.form['password']
-   re =  findUser(userName)
-   if re:
-      pwd = findUser(userName)[0][2]
-      if(passWord==pwd):
-         if userName == managerName:
-             return jsonify({'code':3})   
-         else:
-             return jsonify({'code':1})
-      else: return jsonify({'code':2})
-   else:
-      return jsonify({'code':0})
 @app.route('/loadTeam',methods=['GET'])
 def loadTeam():
    try:
@@ -296,6 +313,14 @@ def deleteTaskList():
    except:
       return jsonify({'code':0})
 
+@app.route('/sensor',methods=['GET'])
+def sensor():
+   return Response(genSensors())
+
 
 if __name__ == '__main__':
+<<<<<<< HEAD
    app.run(threaded=True,port=7777,host='0.0.0.0')
+=======
+   app.run(threaded=True,port=5000)
+>>>>>>> 5dedb635a6ddb2588bb6fae62fded2394b9fd8b1

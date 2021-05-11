@@ -4,9 +4,33 @@
        <img src = '/video' width="640px" height="360px">
        <el-card style="width: 640px;height:230px">
            <div slot="header" style="margin-left:6px; width: 640px">
-               <span><i style="padding-right:6px" class="el-icon-s-tools"></i>位移台控制</span>
+               <span><i style="padding-right:6px" class="el-icon-s-tools"></i>视频监测控制</span>
            </div>
-           <div class="stageCard">
+           <div style="display:inline-block;width:120px;vertical-align:top">
+                <div style="margin-bottom:10px; ">
+                    运动步长：
+                    <el-select style="margin-top:10px" v-model="stepValue" placeholder="请选择运动步长">
+                        <el-option
+                            v-for="item in stepOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div style="margin-top:10px;">
+                    运动速度：
+                    <el-select style="margin-top:10px" v-model="speedValue" placeholder="请选择运动速度">
+                        <el-option
+                            v-for="item in speedOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </div>
+            </div>
+           <div class="stageCard" style="display:inline-block;;vertical-align:top">
                <div class="movetop"><i  class="el-icon-caret-top"></i></div>
                <span>
                     <div style="display:inline" class="moveleft"><i  class="el-icon-caret-left"></i></div>
@@ -19,49 +43,35 @@
                </span>
                <div class="movebottom"><i  class="el-icon-caret-bottom"></i></div>
            </div>
-           <div class="general" style="float:right;position:relative; bottom:130px;right:250px; height:140px; width:100px;">
+           <div class="general" style="height:140px; width:100px;display:inline-block;vertical-align:top">
                 <span class="title">Z轴移动</span>
                 <div style="margin:10px"><el-button type="info" icon="el-icon-top"></el-button></div>
                 <div style="margin:10px"><el-button type="info" icon="el-icon-bottom"></el-button></div>
             </div>
-            <div style="float:left; position:relative; bottom:140px; left:10px; height:140px; width:200px; font-size:14px">
-                <div style="margin-bottom:10px">
-                    运动步长：
-                    <el-select style="margin-top:10px" v-model="stepValue" placeholder="请选择运动步长">
-                        <el-option
-                            v-for="item in stepOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
+            
+            <el-card style="margin:0px 0px 0px 40px;display:inline-block;vertical-align:top">
+                <div slot="header" style="margin-left:6px">
+                    <span><i style="padding-right:6px" class="el-icon-video-camera"></i>视频录制</span>
                 </div>
-                <div style="margin-top:10px">
-                    运动速度：
-                    <el-select style="margin-top:10px" v-model="speedValue" placeholder="请选择运动速度">
-                        <el-option
-                            v-for="item in speedOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
+                <div class="recordCard">
+                    <span @click="recordStart()" v-if="recordStatus===0"><i class="el-icon-video-play"></i>开始录制</span>
+                    <span @click="recordStop()" v-if="recordStatus===1"><i  class="el-icon-video-pause"></i>正在录制</span>
+                    <span v-if="recordStatus===2"><i  class="el-icon-success"></i>完成录制</span>
+                    <span @click="recordRe()"><i  class="el-icon-refresh-left"></i>重新录制</span>
+                    <span @click="recordSave()"><i  class="el-icon-s-release"></i>保存录制</span>
                 </div>
-            </div>
-        
+            </el-card>
        </el-card>
    </div>
    <div class = "col-sm-3">
-       <el-card style="margin:0px 10px">
-           <div slot="header" style="margin-left:6px">
-               <span><i style="padding-right:6px" class="el-icon-video-camera"></i>视频录制</span>
+       <el-card style="margin:0px 10px; backgroud-color:rgba(255,255,255,0.1);">
+           <div slot="header" style="margin-left:6px;">
+               <span><i style="padding-right:6px" class="el-icon-odometer"></i>环境监测</span>
            </div>
-           <div class="recordCard">
-               <span @click="recordStart()" v-if="recordStatus===0"><i class="el-icon-video-play"></i>开始录制</span>
-               <span @click="recordStop()" v-if="recordStatus===1"><i  class="el-icon-video-pause"></i>正在录制</span>
-               <span v-if="recordStatus===2"><i  class="el-icon-success"></i>完成录制</span>
-               <span @click="recordRe()"><i  class="el-icon-refresh-left"></i>重新录制</span>
-               <span @click="recordSave()"><i  class="el-icon-s-release"></i>保存录制</span>
+
+           <div class="envCard">
+               <span><i  class="el-icon-data-line"></i>实时温度：{{Temp}}</span>
+               <span><i  class="el-icon-magic-stick"></i>实时CO2：{{CO2}}</span>
            </div>
        </el-card>
    </div>
@@ -76,6 +86,8 @@ export default Vue.extend({
         return {
             recordStatus: 0,
             videoName:'',
+            Temp:37,
+            CO2:400,
             myDate: new Date(),
             stepOptions:[
                 {
@@ -220,14 +232,31 @@ export default Vue.extend({
     }
     
 }
+.envCard{
+    cursor: pointer;
+    font-size: 12px;
+    i{
+        padding-bottom: 10px;
+        margin: 6px;
+        padding-right:4px
+
+    }
+    span{
+        display: block;
+    }
+    span:hover{
+         color: #409EFF;
+    }
+    
+}
 .stageCard{
-    position: relative;
-    left:400px;
-    bottom: 36px;
     height: 140px;
     width:200px;
     cursor: pointer;
     color: #999;
+    position: relative;
+    bottom: 30px;
+    left:20px;
    .movetop{
        font-size: 50px;
        position: relative;

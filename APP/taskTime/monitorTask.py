@@ -1,6 +1,6 @@
 import sys
-sys.path.append("..")
-sys.path.append("../db")
+#sys.path.append("..")
+##sys.path.append("../db")
 from datetime import datetime,timedelta
 from db.index import findMonitorTasks,addVideos
 class monitorTask():
