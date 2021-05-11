@@ -298,4 +298,4 @@ def deleteTaskList():
 
 
 if __name__ == '__main__':
-   app.run(threaded=True)
+   app.run(threaded=True,port=7777,host='0.0.0.0')
