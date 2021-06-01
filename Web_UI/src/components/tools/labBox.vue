@@ -2,12 +2,12 @@
   <div>
     <div class="addIcon"><span @click="addTask"><i class="el-icon-plus"></i></span></div>
     <el-card v-for="(task,index) in tasks" :key='index' class="box-card labBox">
-        <div slot="header" class="clearfix">
+        <div slot="header" class="clearfix" style="font-size:20px">
             <span><el-switch v-model="task.isActive" :active-text=task.name :disabled=!task.access @change='changeStatus($event,task)'></el-switch></span>
             <span v-if='task.isActive'>上次开启时间：{{task.activeDate}}</span>
             <span style="float: right; padding: 3px 0">
                 <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task.id)"></i>
-                <i v-if='task.access' class="el-icon-edit-outline icon" @click="editTask(task)"></i>
+                <el-button type="primary" icon="el-icon-edit" circle v-if='task.access' class="icon" @click="editTask(task)"></el-button>
             </span>
         </div>
         <div style="font-size:14px">
@@ -47,27 +47,35 @@
                <template slot="append">分钟</template>
            </el-input>
            <div v-if="taskType==='regant'" class="inputSub">
-           <el-input v-if="taskType==='regant'" placeholder="输入整数" v-model="taskNew.interval[1]" class="input-with-select">
-               <template slot="prepend">单次开启时间：</template>
-                <template slot="append">秒</template>
-           </el-input>
-           <div class="general inputSub">
-               <span class="title">阀门开关及压力设定</span>
-               <el-checkbox-group 
-                    v-model="valvesChecked"
-                    :min="1">
-                    <el-checkbox v-for="valve in valves" :label="valve" :key="valve">{{valve}}</el-checkbox>
-                </el-checkbox-group>
-                <el-slider
-                    v-model="presValue"
-                    show-input>
-                </el-slider>
-            </div>
+                <el-input v-if="taskType==='regant'" placeholder="输入整数" v-model="taskNew.interval[1]" class="input-with-select">
+                    <template slot="prepend">单次开启时间：</template>
+                        <template slot="append">秒</template>
+                </el-input>
+                <div class="general inputSub">
+                    <span class="title">阀门开关及压力设定</span>
+                    <el-checkbox-group 
+                            v-model="valvesChecked"
+                            :min="1">
+                            <el-checkbox v-for="valve in valves" :label="valve" :key="valve">{{valve}}</el-checkbox>
+                    </el-checkbox-group>
+                    <el-slider
+                        v-model="presValue"
+                        show-input>
+                    </el-slider>
+                </div>
            </div>
            <el-input v-if="taskType==='monitor'" placeholder="输入整数" v-model="taskNew.interval[1]" class="input-with-select inputSub">
                <template slot="prepend">单次录制时间：</template>
                 <template slot="append">秒</template>
            </el-input>
+           <div class="general inputSub">
+                <span class="title">成像位置设定</span>
+                <el-checkbox-group 
+                    v-model="locationChecked"
+                    :min="1">
+                    <el-checkbox v-for="location in locations" :label="location.id" :key="location">{{location.name}}</el-checkbox>
+                </el-checkbox-group>
+           </div>
           
         </div>
         <div style="text-align:right" class="inputSub">
@@ -91,6 +99,10 @@ export default Vue.extend({
            dialogVisible:false,
            valves:['valve1','valve2','valve3','valve4','valve5','valve6','valve7','valve8'],
            valvesChecked:[],
+           locations:[
+                {name:'位置1',id:'1',angle:10,line:40},
+                {name:'位置2',id:'2',angle:40,line:50}],
+           locationChecked:[],
            presValue:0,
            taskNew:{
                name:'',
@@ -409,6 +421,8 @@ export default Vue.extend({
     padding:10px 10px 10px;
     :hover  .icon{
        color: #409EFF;
+       margin-right: 10px;
+       cursor:pointer;
     }
 }
 .inputSub{

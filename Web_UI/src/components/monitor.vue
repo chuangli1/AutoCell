@@ -105,7 +105,7 @@
         </div>
         <div style="float:right;margin-top:30px;margin-right:10px">
             <el-button @click="locationVisible = false">取 消</el-button>
-            <el-button type="primary" @click="locationVisible = false">确 定</el-button>
+            <el-button type="primary" @click="locationSave">确 定</el-button>
         </div>
     </el-drawer>
 </div>
@@ -125,8 +125,8 @@ export default Vue.extend({
             myDate: new Date(),
             optLocation:'1',
             locations:[
-                {name:'位置1',id:'1'},
-                {name:'位置2',id:'2'}],
+                {name:'位置1',id:'1',angle:10,line:40},
+                {name:'位置2',id:'2',angle:40,line:50}],
             locationVisible:false,
             percentageAngle:50,
             optionsAngle:[
@@ -144,38 +144,113 @@ export default Vue.extend({
             ],
             stepAngle:10,
             percentageLine:50,
-            stepLine:10
+            stepLine:10,
+            editID:-1
 
         }
     },
     methods:{
         addLocation(){
             const self:any = this;
-            self.editLocation()
-
+            self.editLocation(-1)
         },
         editLocation(index){
             const self:any = this;
+            self.editID = index;
+            if(index!==-1){
+                self.percentageLine = self.locations[index].line;
+                self.percentageAngle = self.locations[index].angle;
+            }
             self.locationVisible = true;
 
         },
         deleteLocation(index){
             const self:any = this;
+            self.locations.splice(index,1);
+            $.post('/deleteLocation',{userName:sessionStorage.username,
+            index:index}).then(data=>{
+                if(data.code===1){
+                        self.recordStatus = 0;
+                        self.$message({
+                            message: '保存成功',
+                            type: 'success'
+                        });
+                        self.$emit('refreshData')
+                }
+                else{
+                    self.$message.error('未知错误');
+                }
+            });
 
+        },
+        locationSave(){
+            const self:any = this;
+            if(self.editID===-1){
+                let id = Number(self.locations[self.locations.length-1].id)+1;
+                let newLocation = {
+                    name:'位置'+id,
+                    id:id,
+                    angle:self.percentageAngle,
+                    line:self.percentageLine
+                }
+                self.locations.push(newLocation);
+                $.post('/addLocation',{userName:sessionStorage.username,location:newLocation}).then(data=>{
+                        if(data.code===1){
+                                self.recordStatus = 0;
+                                self.$message({
+                                    message: '保存成功',
+                                    type: 'success'
+                                });
+                                self.$emit('refreshData')
+                        }
+                        else{
+                            self.$message.error('未知错误');
+                        }
+                });        
+            }
+            else{
+                self.locations[self.editID].angle = self.percentageAngle;
+                self.locations[self.editID].line = self.percentageLine;
+                self.locations.push({});
+                self.locations.pop();
+                $.post('/editLocation',{userName:sessionStorage.username,
+                id:self.editID,angle:self.percentageAngle,line:self.percentageLine}).then(data=>{
+                        if(data.code===1){
+                                self.recordStatus = 0;
+                                self.$message({
+                                    message: '保存成功',
+                                    type: 'success'
+                                });
+                                self.$emit('refreshData')
+                        }
+                        else{
+                            self.$message.error('未知错误');
+                        }
+                });   
+            };
+            self.locationVisible = false;
         },
         increaseAngle() {
             const self:any = this
             self.percentageAngle += self.stepAngle;
             if (self.percentageAngle > 100) {
                 self.percentageAngle = 100;
+                return;
             }
+            $.post('/stage',{type:'angle',angle:self.percentageAngle}).then(data=>{
+
+            })
         },
         increaseLine() {
             const self:any = this
             self.percentageLine += self.stepLine;
             if (self.percentageLine > 100) {
                 self.percentageLine = 100;
-            }
+                return;
+            };
+            $.post('/stage',{type:'line',angle:self.percentageLine}).then(data=>{
+
+            })
         },
         format(percentage) {
             return `${360*percentage/100}°`;
@@ -188,14 +263,22 @@ export default Vue.extend({
             self.percentageAngle -= self.stepAngle;
             if (self.percentageAngle < 0) {
                 self.percentageAngle = 0;
+                return;
             }
+            $.post('/stage',{type:'angle',angle:self.percentageAngle}).then(data=>{
+
+            })
         },
         decreaseLine() {
             const self:any = this;
             self.percentageLine -= self.stepLine;
             if (self.percentageLine < 0) {
                 self.percentageLine = 0;
+                return;
             }
+            $.post('/stage',{type:'line',angle:self.percentageLine}).then(data=>{
+
+            })
         },
         recordStart(){
             const self:any = this;

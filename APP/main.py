@@ -109,7 +109,7 @@ def updateUser():
 #位移台相关
 @app.route('/stage',methods=['POST'])
 def stage():
-   dir = request.form['direction']
+   dir = request.form['type']
    if(dir=='line'):
       line = request.form['line']
    else:
