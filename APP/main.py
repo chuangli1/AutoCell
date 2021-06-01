@@ -106,7 +106,23 @@ def updateUser():
        return jsonify({'code':1})
    except:
       return jsonify({'code':0})
+#位移台相关
+@app.route('/stage',methods=['POST'])
+def stage():
+   dir = request.form['direction']
+   if(dir=='line'):
+      line = request.form['line']
+   else:
+      angle = request.form['angle']
 
+#对焦
+@app.route('/foucs',methods=['POST'])
+def foucs():
+   way = request.form['way']
+   if(way=='auto'):
+      line = request.form['line']
+   else:
+      dis = request.form['distance']
 
 
 #视频传输相关

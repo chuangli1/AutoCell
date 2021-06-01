@@ -1,80 +1,113 @@
 <template>
 <div class = "row">
-   <div class = "col-sm-9">   
-       <img src = '/video' width="640px" height="360px">
-       <el-card style="width: 640px;height:230px">
-           <div slot="header" style="margin-left:6px; width: 640px">
-               <span><i style="padding-right:6px" class="el-icon-s-tools"></i>视频监测控制</span>
-           </div>
-           <div style="display:inline-block;width:120px;vertical-align:top">
-                <div style="margin-bottom:10px; ">
-                    运动步长：
-                    <el-select style="margin-top:10px" v-model="stepValue" placeholder="请选择运动步长">
-                        <el-option
-                            v-for="item in stepOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-                <div style="margin-top:10px;">
-                    运动速度：
-                    <el-select style="margin-top:10px" v-model="speedValue" placeholder="请选择运动速度">
-                        <el-option
-                            v-for="item in speedOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                        </el-option>
-                    </el-select>
-                </div>
-            </div>
-           <div class="stageCard" style="display:inline-block;;vertical-align:top">
-               <div class="movetop"><i  class="el-icon-caret-top"></i></div>
-               <span>
-                    <div style="display:inline" class="moveleft"><i  class="el-icon-caret-left"></i></div>
-                    <div style="display:inline" class="fBtn">
-                        <el-button type="info" style="width:30px;">
-                            <span style="position:relative; left:-4px; boarder:none">F</span>
-                            </el-button>
-                        </div>
-                    <div style="display:inline" class="moveright"><i  class="el-icon-caret-right"></i></div>
-               </span>
-               <div class="movebottom"><i  class="el-icon-caret-bottom"></i></div>
-           </div>
-           <div class="general" style="height:140px; width:100px;display:inline-block;vertical-align:top">
-                <span class="title">Z轴移动</span>
-                <div style="margin:10px"><el-button type="info" icon="el-icon-top"></el-button></div>
-                <div style="margin:10px"><el-button type="info" icon="el-icon-bottom"></el-button></div>
-            </div>
-            
-            <el-card style="margin:0px 0px 0px 40px;display:inline-block;vertical-align:top">
-                <div slot="header" style="margin-left:6px">
-                    <span><i style="padding-right:6px" class="el-icon-video-camera"></i>视频录制</span>
-                </div>
-                <div class="recordCard">
-                    <span @click="recordStart()" v-if="recordStatus===0"><i class="el-icon-video-play"></i>开始录制</span>
-                    <span @click="recordStop()" v-if="recordStatus===1"><i  class="el-icon-video-pause"></i>正在录制</span>
-                    <span v-if="recordStatus===2"><i  class="el-icon-success"></i>完成录制</span>
-                    <span @click="recordRe()"><i  class="el-icon-refresh-left"></i>重新录制</span>
-                    <span @click="recordSave()"><i  class="el-icon-s-release"></i>保存录制</span>
-                </div>
-            </el-card>
-       </el-card>
-   </div>
-   <div class = "col-sm-3">
-       <el-card style="margin:0px 10px; backgroud-color:rgba(255,255,255,0.1);">
+   <div class = "col-sm-9">
+       <el-card style="margin:0px 10px;color:#FFFFFF;  background: rgba(255, 255, 255, 0); position:absolute; top:5px">
            <div slot="header" style="margin-left:6px;">
                <span><i style="padding-right:6px" class="el-icon-odometer"></i>环境监测</span>
            </div>
-
            <div class="envCard">
                <span><i  class="el-icon-data-line"></i>实时温度：{{Temp}}</span>
                <span><i  class="el-icon-magic-stick"></i>实时CO2：{{CO2}}</span>
            </div>
-       </el-card>
+       </el-card> 
+       <img src = '/video' width="100%">
    </div>
+   <div class = "col-sm-3">
+        <el-card>
+            <div slot="header" style="margin-left:6px">
+                <span><i style="padding-right:6px" class="el-icon-video-camera"></i>视频录制</span>
+            </div>
+            <div class="recordCard">
+                <span @click="recordStart()" v-if="recordStatus===0"><i class="el-icon-video-play"></i>开始录制</span>
+                <span @click="recordStop()" v-if="recordStatus===1"><i  class="el-icon-video-pause"></i>正在录制</span>
+                <span v-if="recordStatus===2"><i  class="el-icon-success"></i>完成录制</span>
+                <span @click="recordRe()"><i  class="el-icon-refresh-left"></i>重新录制</span>
+                <span @click="recordSave()"><i  class="el-icon-s-release"></i>保存录制</span>
+            </div>
+        </el-card>
+         <el-card>
+            <div slot="header" style="margin-left:6px">
+                <span><i style="padding-right:6px" class="el-icon-video-camera"></i>对焦控制</span>
+            </div>
+            <div class="recordCard">
+                <el-switch
+                    v-model="autoFocus"
+                    active-text="自动对焦">
+                </el-switch>
+                <div class="general" style="margin:14px 0 0 0; height:120px; width:100px;">
+                    <span class="title">手动控制</span>
+                    <div style="margin:0 10px"><el-button type="info" icon="el-icon-top"></el-button></div>
+                    <div style="margin:10px 10px 0 10px"><el-button type="info" icon="el-icon-bottom"></el-button></div>
+                </div>
+            </div>
+         </el-card>
+   </div>
+   <div style="width:100%">
+        <el-card style="margin:15px;vertical-align:top">
+            <div slot="header" style="margin-left:6px;">
+                <span><i style="padding-right:6px" class="el-icon-s-tools"></i>监测位置控制</span>
+            </div>
+            <div style="display:inline-block;vertical-align:top">
+                <span style="margin-right: 50px" v-for="(location,index) in locations" :key='index'>
+                    <el-radio
+                        style="margin:5px"
+                        v-model="optLocation" :label="location.id" border size="medium">
+                        {{location.name}}
+                    </el-radio>
+                    <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer"></i>
+                    <el-button @click="editLocation(index)" type="primary" icon="el-icon-edit" circle></el-button>
+                </span>
+                <el-button @click="addLocation()" type="primary" icon="el-icon-plus" circle></el-button>
+                    
+            </div>
+        </el-card>
+   </div>
+   <el-drawer
+        title="位置编辑"
+        :visible.sync ="locationVisible"
+        direction="ltr"
+        :format="format"
+        size="25%"
+        :modal="false">
+        <div style="margin:10px;text-align:center">
+            <div style="margin:10px;">转盘位置设定</div>
+            <el-progress :percentage="percentageAngle" :format="format" type="circle" :stroke-width="20"></el-progress>
+            <div style="margin:10px;">
+                <el-select v-model="stepAngle" placeholder="请选择" style="width:100px">
+                    <el-option
+                        v-for="item in optionsAngle"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-button-group style="margin:10px;">
+                    <el-button icon="el-icon-minus" @click="decreaseAngle"></el-button>
+                    <el-button icon="el-icon-plus" @click="increaseAngle"></el-button>
+                </el-button-group>
+            </div>
+            <div style="margin:30px 10px 10px 10px;">直线位置设定</div>
+            <el-progress  :text-inside="true"  :format="formatLine" :stroke-width="20" :percentage="percentageLine"></el-progress>
+            <div style="margin:10px;">
+                <el-select v-model="stepLine" placeholder="请选择" style="width:100px">
+                    <el-option
+                        v-for="item in optionsLine"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                <el-button-group style="margin:10px;">
+                    <el-button icon="el-icon-minus" @click="decreaseLine"></el-button>
+                    <el-button icon="el-icon-plus" @click="increaseLine"></el-button>
+                </el-button-group>
+            </div>
+        </div>
+        <div style="float:right;margin-top:30px;margin-right:10px">
+            <el-button @click="locationVisible = false">取 消</el-button>
+            <el-button type="primary" @click="locationVisible = false">确 定</el-button>
+        </div>
+    </el-drawer>
 </div>
 </template>
 <script lang="ts">
@@ -88,51 +121,83 @@ export default Vue.extend({
             videoName:'',
             Temp:37,
             CO2:400,
+            autoFocus:true,
             myDate: new Date(),
-            stepOptions:[
-                {
-                    label:'1 mm',
-                    value:0
-                },
-                {
-                    label:'2 mm',
-                    value:1
-                },
-                {
-                    label:'3 mm',
-                    value:2
-                },
-                {
-                    label:'4 mm',
-                    value:3
-                }
+            optLocation:'1',
+            locations:[
+                {name:'位置1',id:'1'},
+                {name:'位置2',id:'2'}],
+            locationVisible:false,
+            percentageAngle:50,
+            optionsAngle:[
+                {label:'1°',value:1/3.6},
+                {label:'3.6°',value:1},
+                {label:'36°',value:10},
+                {label:'75°',value:25},
+                {label:'180°',value:50},
             ],
-            stepValue:1,
-            speedOptions:[
-                {
-                    label:'1 mm/s',
-                    value:0
-                },
-                {
-                    label:'2 mm/s',
-                    value:1
-                },
-                {
-                    label:'3 mm/s',
-                    value:2
-                },
-                {
-                    label:'4 mm/s',
-                    value:3
-                }
+            optionsLine:[
+                {label:'1cm',value:10},
+                {label:'0.1cm',value:1},
+                {label:'0.01cm',value:0.1},
+                {label:'2cm',value:20},
             ],
-            speedValue:1
+            stepAngle:10,
+            percentageLine:50,
+            stepLine:10
 
         }
-
     },
     methods:{
-       recordStart(){
+        addLocation(){
+            const self:any = this;
+            self.editLocation()
+
+        },
+        editLocation(index){
+            const self:any = this;
+            self.locationVisible = true;
+
+        },
+        deleteLocation(index){
+            const self:any = this;
+
+        },
+        increaseAngle() {
+            const self:any = this
+            self.percentageAngle += self.stepAngle;
+            if (self.percentageAngle > 100) {
+                self.percentageAngle = 100;
+            }
+        },
+        increaseLine() {
+            const self:any = this
+            self.percentageLine += self.stepLine;
+            if (self.percentageLine > 100) {
+                self.percentageLine = 100;
+            }
+        },
+        format(percentage) {
+            return `${360*percentage/100}°`;
+        },
+        formatLine(percentage) {
+            return `${percentage*10/100} cm`;
+        },
+        decreaseAngle() {
+            const self:any = this;
+            self.percentageAngle -= self.stepAngle;
+            if (self.percentageAngle < 0) {
+                self.percentageAngle = 0;
+            }
+        },
+        decreaseLine() {
+            const self:any = this;
+            self.percentageLine -= self.stepLine;
+            if (self.percentageLine < 0) {
+                self.percentageLine = 0;
+            }
+        },
+        recordStart(){
             const self:any = this;
             self.$prompt('请输入视频文件名', '视频录制', {
                 confirmButtonText: '确定',
@@ -140,28 +205,28 @@ export default Vue.extend({
                 inputPattern: /^[\s\S]{1,200}$/,
                 inputErrorMessage: '视频文件名长度不能超过200个'
                 }).then(({ value })=>{
-                   $.post('/videoRecordStart',{videoName: value}).then(data=>{
-                       if(data.code===1){
+                    $.post('/videoRecordStart',{videoName: value}).then(data=>{
+                        if(data.code===1){
                             self.videoName = value;
                             self.recordStatus = 1;
                             self.$message({
                                 message: '开始成功',
                                 type: 'success'
                             });
-                       }
-                       else{
-                           self.$message.error('未知错误');
-                       }
-                   })
+                        }
+                        else{
+                            self.$message.error('未知错误');
+                        }
+                    })
                 }).catch(() => {
                 self.$message({
                     type: 'info',
                     message: '取消输入'
                 }); });
-       },
-       recordStop(){
-           const self:any = this;
-           $.post('/videoRecordStop').then(data=>{
+        },
+        recordStop(){
+            const self:any = this;
+            $.post('/videoRecordStop').then(data=>{
                 if(data.code===1){
                         self.recordStatus = 2;
                         self.$message({
@@ -173,9 +238,9 @@ export default Vue.extend({
                     self.$message.error('未知错误');
                 }
             });
-       },
-       recordRe(){
-           const self:any = this;
+        },
+        recordRe(){
+            const self:any = this;
             if(self.recordStatus!==2){
                 self.$notify({
                     title: '警告',
@@ -183,9 +248,9 @@ export default Vue.extend({
                     type: 'warning'
                     });
                 return;}
-           self.recordStatus = 0;
-       },
-       recordSave(){
+            self.recordStatus = 0;
+        },
+        recordSave(){
             const self:any = this;
             if(self.recordStatus!==2){
                 self.$notify({
@@ -209,7 +274,7 @@ export default Vue.extend({
                     self.$message.error('未知错误');
                 }
             });
-       }
+        }
     }
     
 })
@@ -303,7 +368,7 @@ export default Vue.extend({
     padding: 16px 16px 0px 16px;
     padding-bottom: 0px;
     position: relative;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
     margin-top: 6px;
     font-size: 12px;
     .title {

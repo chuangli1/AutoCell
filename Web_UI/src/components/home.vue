@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%">
-    <div class="container home" style="height:100%">
-      <div class="row" style="height:100%">
+    <div class="home" style="height:100%;">
+      <div class="row" style="height:100%;">
         <div class="left-area col-sm-3">
           <div>
             <i class="el-icon-bell"></i>
@@ -80,7 +80,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 
   .home{
-    margin-top: 10px;
+    margin: 20px;
   }
   .left-area{
     margin-top: 10px;
