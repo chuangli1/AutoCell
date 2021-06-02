@@ -319,8 +319,4 @@ def sensor():
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-   app.run(threaded=True,port=7777,host='0.0.0.0')
-=======
    app.run(threaded=True,port=5000)
->>>>>>> 5dedb635a6ddb2588bb6fae62fded2394b9fd8b1
