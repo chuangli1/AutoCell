@@ -185,7 +185,7 @@ export default Vue.extend({
         },
         deleteLocation(index){
             const self:any = this;
-            let location = self.locations.splice(index,1);
+            let location = self.locations.splice(index,1)[0];
             $.post('/deleteLocation',{username:sessionStorage.username,
             id:location.id}).then(data=>{
                 if(data.code===1){

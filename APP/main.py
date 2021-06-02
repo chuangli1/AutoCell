@@ -1,8 +1,9 @@
 #main
-from APP.db.index import addLocations
 from flask import url_for,redirect, session,Flask,render_template,request,jsonify,Response,send_from_directory
 from flask_cors import CORS
-import sys  
+import sys
+
+from pymysql import connections  
 sys.path.append('./db')
 import os
 import re
@@ -320,6 +321,7 @@ def updateTask():
          updateRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval,taskID)
       else:
          taskLocations = request.form['task_location']
+         print(taskLocations)
          updateMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval,taskLocations,taskID)
       return jsonify({'code':1})
    except:

@@ -64,17 +64,19 @@
                     </el-slider>
                 </div>
            </div>
-           <el-input v-if="taskType==='monitor'" placeholder="输入整数" v-model="taskNew.interval[1]" class="input-with-select inputSub">
-               <template slot="prepend">单次录制时间：</template>
-                <template slot="append">秒</template>
-           </el-input>
-           <div class="general inputSub">
-                <span class="title">成像位置设定</span>
-                <el-checkbox-group 
-                    v-model="locationChecked"
-                    :min="1">
-                    <el-checkbox v-for="(location,index) in locations" :label="location.id" :key="index**2+1">{{location.name}}</el-checkbox>
-                </el-checkbox-group>
+           <div v-if="taskType==='monitor'">
+            <el-input placeholder="输入整数" v-model="taskNew.interval[1]" class="input-with-select inputSub">
+                <template slot="prepend">单次录制时间：</template>
+                    <template slot="append">秒</template>
+            </el-input>
+            <div class="general inputSub">
+                    <span class="title">成像位置设定</span>
+                    <el-checkbox-group 
+                        v-model="locationChecked"
+                        :min="1">
+                        <el-checkbox v-for="(location,index) in locations" :label="location.id" :key="index**2+1">{{location.name}}</el-checkbox>
+                    </el-checkbox-group>
+            </div>
            </div>
           
         </div>
@@ -162,6 +164,7 @@ export default Vue.extend({
                }
            }
            else{
+               console.log(task)
                self.locationChecked = task.location.slice();
            }
            self.editId = task.id;
@@ -182,7 +185,7 @@ export default Vue.extend({
                         valves:e[4],
                         time:e[5].split(','),
                         pres:e[6],
-                        interval:e[7].split(',').map(n=>Number(n)),
+                        interval:e[7].split(','),
                         access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
                         isActive:false,
                         activeDate:-1
@@ -205,7 +208,7 @@ export default Vue.extend({
                         date:e[3],
                         time:e[4].split(','),
                         interval:e[5].split(','),
-                        location:e[6].split(','),
+                        location:e[6]===""?[]:e[6].split(',').map(n=>Number(n)),
                         access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
                         isActive:false,
                         activeDate:-1
@@ -324,7 +327,7 @@ export default Vue.extend({
                   task_interval:self.taskNew.interval[0].toString()+','+self.taskNew.interval[1].toString(),
                   task_time:self.taskNew.time[0].toString()+','+self.taskNew.time[1].toString(),
                   task_username:sessionStorage.username,
-                  task_locations:self.locationChecked.join(',')
+                  task_location:self.locationChecked.join(',')
               }
               if(self.editId!==-1) data.task_id = self.editId;
               if(self.teskTask(data)){
@@ -390,6 +393,7 @@ export default Vue.extend({
                     date:e[3],
                     time:e[4].split(','),
                     interval:e[5].split(','),
+                    location:e[6]===""?[]:e[6].split(',').map(n=>Number(n)),
                     access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
                     isActive:false,
                     activeDate:-1

@@ -26,7 +26,7 @@ addMonitorTask = 'insert into monitor (task_name,task_username,task_date,task_ti
 deleteMonitorTask = "delete from monitor where task_id=%s;"
 findMonitorTask = "select * from monitor where task_id=%s;"
 searchMonitorTask = 'select * from monitor;'
-updateMonitorTask = 'update monitor set task_name=%s,task_username=%s,task_date=%s,task_time=%s,task_interval=%s task_location=%s where task_id=%s'
+updateMonitorTask = 'update monitor set task_name=%s,task_username=%s,task_date=%s,task_time=%s,task_interval=%s,task_location=%s where task_id=%s'
 
 addTaskList = 'insert into tasklist (task_type,task_id,list_date) values(%s,%s,%s);'
 deleteTaskList = "delete from tasklist where task_id=%s and task_type=%s;"
