@@ -21,6 +21,9 @@
                  <i class="el-icon-warning-outline">阀门开启：{{task.valves}}</i>
                  <i class="el-icon-warning-outline">压力大小：{{task.pres}}</i>
             </div>
+            <div v-else>
+                 <i class="el-icon-warning-outline">成像位置：{{task.location}}</i>
+            </div>
             <div style="float: right; padding: 3px 0;font-size:14px">{{task.username+'于'+task.date+'创建'}}</div>
         </div>
     </el-card>
@@ -182,7 +185,7 @@ export default Vue.extend({
                         name:e[1],
                         username:e[2],
                         date:e[3],
-                        valves:e[4],
+                        valves:e[4].split(''),
                         time:e[5].split(','),
                         pres:e[6],
                         interval:e[7].split(','),
@@ -367,7 +370,7 @@ export default Vue.extend({
                     name:e[1],
                     username:e[2],
                     date:e[3],
-                    valves:e[4],
+                    valves:e[4].split(''),
                     time:e[5].split(','),
                     pres:e[6],
                     interval:e[7].split(','),
