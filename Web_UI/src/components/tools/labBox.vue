@@ -2,9 +2,9 @@
   <div>
     <div class="addIcon"><span @click="addTask"><i class="el-icon-plus"></i></span></div>
     <el-card v-for="(task,index) in tasks" :key='index' class="box-card labBox">
-        <div slot="header" class="clearfix" style="font-size:20px">
-            <span><el-switch v-model="task.isActive" :active-text=task.name :disabled=!task.access @change='changeStatus($event,task)'></el-switch></span>
-            <span v-if='task.isActive'>上次开启时间：{{task.activeDate}}</span>
+        <div slot="header" class="clearfix">
+            <span style="display:inline-block;margin-top:17px"><el-switch v-model="task.isActive" :active-text=task.name :disabled=!task.access @change='changeStatus($event,task)'></el-switch></span>
+            <span v-if='task.isActive' style="display:inline-block;margin-top:17px">上次开启时间：{{task.activeDate}}</span>
             <span style="float: right; padding: 3px 0">
                 <i v-if='task.access' class="el-icon-delete icon" @click="deleteTask(task.id)"></i>
                 <el-button type="primary" icon="el-icon-edit" circle v-if='task.access' class="icon" @click="editTask(task)"></el-button>
@@ -73,7 +73,7 @@
                 <el-checkbox-group 
                     v-model="locationChecked"
                     :min="1">
-                    <el-checkbox v-for="location in locations" :label="location.id" :key="location">{{location.name}}</el-checkbox>
+                    <el-checkbox v-for="(location,index) in locations" :label="location.id" :key="index**2+1">{{location.name}}</el-checkbox>
                 </el-checkbox-group>
            </div>
           
@@ -92,16 +92,14 @@ export default Vue.extend({
     name:'labBox',
     props:{
         activeList:Array,
-        taskType:String
+        taskType:String,
+        locations:Array
     },
     data(){
         return{
            dialogVisible:false,
            valves:['valve1','valve2','valve3','valve4','valve5','valve6','valve7','valve8'],
            valvesChecked:[],
-           locations:[
-                {name:'位置1',id:'1',angle:10,line:40},
-                {name:'位置2',id:'2',angle:40,line:50}],
            locationChecked:[],
            presValue:0,
            taskNew:{
@@ -119,7 +117,7 @@ export default Vue.extend({
             const self:any = this;
             const dataD = {
                 'type':self.taskType,
-                  'task_id':id
+                'task_id':id
             }
              $.post('/deleteTask',dataD).then(function(data){
                 if(data.code === 0){
@@ -163,6 +161,9 @@ export default Vue.extend({
                    self.valvesChecked.push(self.valves[parseInt(task.valves[i])-1]);
                }
            }
+           else{
+               self.locationChecked = task.location.slice();
+           }
            self.editId = task.id;
            self.dialogVisible = true;
 
@@ -181,7 +182,7 @@ export default Vue.extend({
                         valves:e[4],
                         time:e[5].split(','),
                         pres:e[6],
-                        interval:e[7].split(','),
+                        interval:e[7].split(',').map(n=>Number(n)),
                         access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
                         isActive:false,
                         activeDate:-1
@@ -204,6 +205,7 @@ export default Vue.extend({
                         date:e[3],
                         time:e[4].split(','),
                         interval:e[5].split(','),
+                        location:e[6].split(','),
                         access:sessionStorage.username===e[2]||sessionStorage.isManager==='true',
                         isActive:false,
                         activeDate:-1
@@ -321,7 +323,8 @@ export default Vue.extend({
                   task_date:self.myDate.toLocaleString(),
                   task_interval:self.taskNew.interval[0].toString()+','+self.taskNew.interval[1].toString(),
                   task_time:self.taskNew.time[0].toString()+','+self.taskNew.time[1].toString(),
-                  task_username:sessionStorage.username
+                  task_username:sessionStorage.username,
+                  task_locations:self.locationChecked.join(',')
               }
               if(self.editId!==-1) data.task_id = self.editId;
               if(self.teskTask(data)){

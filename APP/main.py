@@ -1,4 +1,5 @@
 #main
+from APP.db.index import addLocations
 from flask import url_for,redirect, session,Flask,render_template,request,jsonify,Response,send_from_directory
 from flask_cors import CORS
 import sys  
@@ -106,6 +107,7 @@ def updateUser():
        return jsonify({'code':1})
    except:
       return jsonify({'code':0})
+
 #位移台相关
 @app.route('/stage',methods=['POST'])
 def stage():
@@ -114,6 +116,46 @@ def stage():
       line = request.form['line']
    else:
       angle = request.form['angle']
+@app.route('/getLocation',methods=['POST'])
+def getLocation():
+   userName = request.form['username']
+   try:
+      time.sleep(0.4)
+      locationList =  searchLocations(userName)
+      return jsonify({'code':1,'locationList':locationList})
+   except:
+      return jsonify({'code':0})
+@app.route('/addLocation',methods=['POST'])
+def addLocation():
+   userName = request.form['username']
+   locationName = request.form['name']
+   locationAngle = request.form['angle']
+   locationLine = request.form['line']
+   try:
+      addLocations(userName,locationName,locationAngle,locationLine)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/deleteLocation',methods=['POST'])
+def deleteLocation():
+   userName = request.form['username']
+   locationID = request.form['id']
+   try:
+      deleteLocations(locationID,userName)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+@app.route('/updateLocation',methods=['POST'])
+def updateLocation():
+   userName = request.form['username']
+   locationID = request.form['id']
+   locationAngle = request.form['angle']
+   locationLine = request.form['line']
+   try:
+      updateLocations(locationAngle,locationLine,locationID,userName)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
 
 #对焦
 @app.route('/foucs',methods=['POST'])
@@ -245,7 +287,8 @@ def addTask():
          taskPres = request.form['task_pres']
          addRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval)
       else:
-         addMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval)
+         taskLocations = request.form['task_location']
+         addMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval,taskLocations)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
@@ -276,8 +319,8 @@ def updateTask():
          taskPres = request.form['task_pres']
          updateRegantTasks(taskName,taskUser,taskDate,taskValve,taskPres,taskTime,taskInterval,taskID)
       else:
-         print(taskName,taskUser,taskDate,taskTime,taskInterval,taskID)
-         updateMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval,taskID)
+         taskLocations = request.form['task_location']
+         updateMonitorTasks(taskName,taskUser,taskDate,taskTime,taskInterval,taskLocations,taskID)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})

@@ -6,7 +6,7 @@
     </div>
      <div class="general" style="margin-top:20px; min-height:300px">
         <span class="title"><span><i style="padding-right:6px" class="el-icon-monitor"></i>监视系统控制</span></span>
-        <lab-box  v-if="taskFlag==1"  :activeList="activeMonitorList" taskType="monitor"></lab-box>
+        <lab-box  v-if="taskFlag==1"  :activeList="activeMonitorList" taskType="monitor" :locations='locations'></lab-box>
     </div>
 </div>
 </template>
@@ -16,6 +16,7 @@ import labBox from './tools/labBox.vue'
 declare let $:any;
 export default Vue.extend({
     name: 'labManager',
+    props:{refresh:Boolean},
     data() {
         return{
            regantTasks:[],
@@ -23,15 +24,40 @@ export default Vue.extend({
            userName:'',
            activeregantList:[],
            activemonitorList:[],
-           taskFlag:0
+           taskFlag:0,
+           locations:[]
 
         }
 
+    },
+    watch:{
+        refresh: function(){
+            const self:any = this;
+            self.refreshData();
+        }
     },
     components:{
         labBox
     },
     methods:{
+        refreshData(){
+            const self:any = this;
+            $.post('/getLocation',{username:sessionStorage.username}).then(data=>{
+                if(data.code===1){
+                     self.locations = data.locationList.map(n=>{
+                        return {
+                            id:n[0],
+                            name:n[1],
+                            angle:n[3],
+                            line:n[4]
+                        }
+                    });                  
+                }
+                else{
+                    self.$message.error('未知错误');
+                }
+            });
+        }
 
     },
     created(){
@@ -40,6 +66,7 @@ export default Vue.extend({
             self.activeMonitorList = data.taskList.filter(d=>{return d[3]==='monitor'}).map(d=>{return [d[1],d[2]]});
             self.activeRegantList = data.taskList.filter(d=>{return d[3]==='regant'}).map(d=>{return [d[1],d[2]]});
             self.taskFlag++;
+            self.refreshData();
        })
     }
     

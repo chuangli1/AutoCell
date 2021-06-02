@@ -100,9 +100,9 @@ def updateRegantTasks(task_name,task_username,task_date,task_valve,task_pres,tas
     cur.execute(updateRegantTask,[task_name,task_username,task_date,task_valve,task_pres,task_time,task_interval,task_id])
     mydb.commit()
 
-def addMonitorTasks(task_name,task_username,task_date,task_time,task_interval):
+def addMonitorTasks(task_name,task_username,task_date,task_time,task_interval,task_location):
     mydb.ping(reconnect=True)
-    cur.execute(addMonitorTask,[task_name,task_username,task_date,task_time,task_interval])
+    cur.execute(addMonitorTask,[task_name,task_username,task_date,task_time,task_interval,task_location])
     mydb.commit()
 def searchMonitorTasks():
     mydb.ping(reconnect=True)
@@ -118,9 +118,9 @@ def deleteMonitorTasks(task_id):
     mydb.ping(reconnect=True)
     cur.execute(deleteMonitorTask,[task_id])
     mydb.commit()
-def updateMonitorTasks(task_name,task_username,task_date,task_time,task_interval,task_id):
+def updateMonitorTasks(task_name,task_username,task_date,task_time,task_interval,task_location,task_id):
     mydb.ping(reconnect=True)
-    cur.execute(updateMonitorTask,[task_name,task_username,task_date,task_time,task_interval,task_id])
+    cur.execute(updateMonitorTask,[task_name,task_username,task_date,task_time,task_interval,task_location,task_id])
     mydb.commit()
 
 #ontasklist
@@ -136,6 +136,30 @@ def searchTasklists():
 def deleteTaskLists(task_id,task_type):
     mydb.ping(reconnect=True)
     cur.execute(deleteTaskList,[task_id,task_type])
+    mydb.commit()
+
+#location
+def addLocations(user,name,angle,line):
+    mydb.ping(reconnect=True)
+    cur.execute(addLocation,[user,name,angle,line])
+    mydb.commit()
+def searchLocations(user):
+    mydb.ping(reconnect=True)
+    cur.execute(searchLocation,[user])
+    result = cur.fetchall()
+    return result
+def deleteLocations(id,user):
+    mydb.ping(reconnect=True)
+    cur.execute(deleteLocation,[id,user])
+    mydb.commit()
+def findLocations(id,user):
+    mydb.ping(reconnect=True)
+    cur.execute(findLocation,[id,user])
+    result = cur.fetchall()
+    return result
+def updateLocations(angle,line,id,user):
+    mydb.ping(reconnect=True)
+    cur.execute(findLocation,[angle,line,id,user])
     mydb.commit()
 
 

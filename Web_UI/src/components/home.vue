@@ -15,11 +15,11 @@
           <el-tabs v-model="activeName">
             <el-tab-pane label="实时监控" name="first">
               <div id='monitor' class="monitor">
-                <monitor @refreshData="refreshData=!refreshData"></monitor>
+                <monitor @refreshData="refreshData=!refreshData" @refreshLocations="refreshLocations=!refreshLocations"></monitor>
               </div>
             </el-tab-pane>
             <el-tab-pane label="实验配置" name="second">
-              <lab-manager></lab-manager>
+              <lab-manager :refresh='refreshLocations'></lab-manager>
             </el-tab-pane>
             <el-tab-pane label="数据管理" name="third">
               <data-manager :refresh="refreshData"></data-manager>
@@ -50,7 +50,8 @@ export default Vue.extend({
       isAddUser: false,
       isManager:false,
       activeName:'first',
-      refreshData:false
+      refreshData:false,
+      refreshLocations:false
     }
   },
   components:{

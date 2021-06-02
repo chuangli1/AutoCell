@@ -22,12 +22,18 @@ searchRegantTask = 'select * from regants;'
 findRegantTask = 'select * from regants where task_id=%s;'
 updateRegantTask = 'update regants set task_name=%s,task_username=%s,task_date=%s,task_valve=%s,task_pres=%s,task_time=%s,task_interval=%s where task_id=%s'
 
-addMonitorTask = 'insert into monitor (task_name,task_username,task_date,task_time,task_interval) values(%s,%s,%s,%s,%s);'
+addMonitorTask = 'insert into monitor (task_name,task_username,task_date,task_time,task_interval,task_location) values(%s,%s,%s,%s,%s,%s);'
 deleteMonitorTask = "delete from monitor where task_id=%s;"
 findMonitorTask = "select * from monitor where task_id=%s;"
 searchMonitorTask = 'select * from monitor;'
-updateMonitorTask = 'update monitor set task_name=%s,task_username=%s,task_date=%s,task_time=%s,task_interval=%s where task_id=%s'
+updateMonitorTask = 'update monitor set task_name=%s,task_username=%s,task_date=%s,task_time=%s,task_interval=%s task_location=%s where task_id=%s'
 
 addTaskList = 'insert into tasklist (task_type,task_id,list_date) values(%s,%s,%s);'
 deleteTaskList = "delete from tasklist where task_id=%s and task_type=%s;"
 searchTaskList = 'select * from tasklist;'
+
+addLocation = 'insert into locationlist (user_name,location_name,location_angle,location_line) values(%s,%s,%s,%s);'
+deleteLocation = "delete from locationlist where location_id=%s and user_name=%s;"
+searchLocation = 'select * from locationlist where user_name=%s;'
+findLocation = "select * from locationlist where location_id=%s and user_name=%s;"
+updateLocation = 'update locationList set location_angle=%s, location_line=%s where location_id=%s and user_name=%s'

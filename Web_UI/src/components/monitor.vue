@@ -164,18 +164,36 @@ export default Vue.extend({
             self.locationVisible = true;
 
         },
+        getLocations(){
+            const self:any = this;
+            $.post('/getLocation',{username:sessionStorage.username}).then(data=>{
+                if(data.code===1){
+                    self.locations = data.locationList.map(n=>{
+                        return {
+                            id:n[0],
+                            name:n[1],
+                            angle:n[3],
+                            line:n[4]
+                        }
+                    });                 
+                }
+                else{
+                    self.$message.error('未知错误');
+                }
+            });
+
+        },
         deleteLocation(index){
             const self:any = this;
-            self.locations.splice(index,1);
-            $.post('/deleteLocation',{userName:sessionStorage.username,
-            index:index}).then(data=>{
+            let location = self.locations.splice(index,1);
+            $.post('/deleteLocation',{username:sessionStorage.username,
+            id:location.id}).then(data=>{
                 if(data.code===1){
-                        self.recordStatus = 0;
                         self.$message({
                             message: '保存成功',
                             type: 'success'
                         });
-                        self.$emit('refreshData')
+                        self.$emit('refreshLocations')
                 }
                 else{
                     self.$message.error('未知错误');
@@ -186,22 +204,22 @@ export default Vue.extend({
         locationSave(){
             const self:any = this;
             if(self.editID===-1){
-                let id = Number(self.locations[self.locations.length-1].id)+1;
+                let id = self.locations.length>0?Number(self.locations[self.locations.length-1].id)+1:1;
                 let newLocation = {
+                    username:sessionStorage.username,
                     name:'位置'+id,
-                    id:id,
                     angle:self.percentageAngle,
                     line:self.percentageLine
                 }
                 self.locations.push(newLocation);
-                $.post('/addLocation',{userName:sessionStorage.username,location:newLocation}).then(data=>{
+                $.post('/addLocation',newLocation).then(data=>{
                         if(data.code===1){
-                                self.recordStatus = 0;
                                 self.$message({
                                     message: '保存成功',
                                     type: 'success'
                                 });
-                                self.$emit('refreshData')
+                                self.$emit('refreshLocations');
+                                self.getLocations();
                         }
                         else{
                             self.$message.error('未知错误');
@@ -213,15 +231,14 @@ export default Vue.extend({
                 self.locations[self.editID].line = self.percentageLine;
                 self.locations.push({});
                 self.locations.pop();
-                $.post('/editLocation',{userName:sessionStorage.username,
-                id:self.editID,angle:self.percentageAngle,line:self.percentageLine}).then(data=>{
+                let id = self.locations[self.editID].id
+                $.post('/updateLocation',{username:sessionStorage.username,
+                id:id,angle:self.percentageAngle,line:self.percentageLine}).then(data=>{
                         if(data.code===1){
-                                self.recordStatus = 0;
                                 self.$message({
-                                    message: '保存成功',
+                                    message: '修改成功',
                                     type: 'success'
                                 });
-                                self.$emit('refreshData')
                         }
                         else{
                             self.$message.error('未知错误');
@@ -253,10 +270,10 @@ export default Vue.extend({
             })
         },
         format(percentage) {
-            return `${360*percentage/100}°`;
+            return `${Math.floor(360*percentage)/100}°`;
         },
         formatLine(percentage) {
-            return `${percentage*10/100} cm`;
+            return `${Math.floor(percentage*10)/100} cm`;
         },
         decreaseAngle() {
             const self:any = this;
@@ -357,7 +374,12 @@ export default Vue.extend({
                     self.$message.error('未知错误');
                 }
             });
-        }
+        },
+    },
+    created(){
+        const self:any = this;
+        self.getLocations();
+
     }
     
 })
