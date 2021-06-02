@@ -10,11 +10,13 @@ import re
 from db.index import *
 import time #主要是用于处理Flask不适用于生产环境的原因
 from monitor.camera import gen, Camera,genVideo
+from monitor.stage import Stage
 from taskTime.index import taskManager
 camera = Camera()
 from monitor.genSensors import genSensors
 taskM = taskManager(camera)
 camera.start()
+stage = Stage()
 
 
 managerName = 'chuangli'
@@ -113,10 +115,17 @@ def updateUser():
 @app.route('/stage',methods=['POST'])
 def stage():
    dir = request.form['type']
-   if(dir=='line'):
-      line = request.form['line']
-   else:
-      angle = request.form['angle']
+   try:
+      if(dir=='line'):
+         line = request.form['line']
+         stage.MotionCommmand(3,line,100)
+         return jsonify({'code':1})
+      else:
+         angle = request.form['angle']
+         stage.rotate(angle)
+         return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
 @app.route('/getLocation',methods=['POST'])
 def getLocation():
    userName = request.form['username']

@@ -42,6 +42,10 @@ class Stage():
         self.MotionCommmand(5,x/3200,200)
         print('x ', x/3200)
     def rotate(self,angle):
+        command = "G1 X" + str(angle) +'\n'
+        if self.board:
+              self.do_commandtest(self.board, command)
+              time.sleep(2)
         
     
     def do_commandtest(self, grbl, command, wait=False):
