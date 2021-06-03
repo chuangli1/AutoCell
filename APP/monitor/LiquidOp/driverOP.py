@@ -1,6 +1,6 @@
 
 import serial
-from crc import  crc16_ibm_calc
+from .crc import  crc16_ibm_calc
 
 
 class Opto():
