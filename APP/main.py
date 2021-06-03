@@ -16,7 +16,7 @@ camera = Camera()
 from monitor.genSensors import genSensors
 taskM = taskManager(camera)
 camera.start()
-stage = Stage()
+stageM = Stage()
 
 
 managerName = 'chuangli'
@@ -118,11 +118,13 @@ def stage():
    try:
       if(dir=='line'):
          line = request.form['line']
-         stage.MotionCommmand(3,line,100)
+         print(line)
+         stageM.MotionCommmand(3,line*100,100)
          return jsonify({'code':1})
       else:
          angle = request.form['angle']
-         stage.rotate(angle)
+         print(angle)
+         stageM.rotate(angle)
          return jsonify({'code':1})
    except:
       return jsonify({'code':0})
