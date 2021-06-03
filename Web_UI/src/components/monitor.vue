@@ -36,8 +36,8 @@
                 </el-switch>
                 <div class="general" style="margin:14px 0 0 0; height:120px; width:100px;">
                     <span class="title">手动控制</span>
-                    <div style="margin:0 10px"><el-button type="info" icon="el-icon-top" @click="foucs('hand','up')"></el-button></div>
-                    <div style="margin:10px 10px 0 10px"><el-button type="info" icon="el-icon-bottom" @click="foucs('hand','up')"></el-button></div>
+                    <div style="margin:0 10px"><el-button type="info" icon="el-icon-top" @click="focus('hand','up')"></el-button></div>
+                    <div style="margin:10px 10px 0 10px"><el-button type="info" icon="el-icon-bottom" @click="focus('hand','down')"></el-button></div>
                 </div>
             </div>
          </el-card>

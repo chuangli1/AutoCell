@@ -12,7 +12,7 @@ import time #主要是用于处理Flask不适用于生产环境的原因
 from monitor.camera import gen, Camera,genVideo
 from monitor.stage import Stage
 from monitor.focus import Focus
-foucs = Focus()
+focusM = Focus()
 from taskTime.index import taskManager
 camera = Camera()
 from monitor.genSensors import genSensors
@@ -180,7 +180,8 @@ def foucs():
          line = request.form['line']
       else:
          dir = request.form['direction']
-         foucs.moveByHand(100,dir)
+         print(dir)
+         focusM.moveByHand(100,dir)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
