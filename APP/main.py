@@ -172,7 +172,7 @@ def updateLocation():
       return jsonify({'code':0})
 
 #对焦
-@app.route('/foucs',methods=['POST'])
+@app.route('/focus',methods=['POST'])
 def foucs():
    way = request.form['way']
    try:

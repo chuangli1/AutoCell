@@ -36,8 +36,8 @@
                 </el-switch>
                 <div class="general" style="margin:14px 0 0 0; height:120px; width:100px;">
                     <span class="title">手动控制</span>
-                    <div style="margin:0 10px"><el-button type="info" icon="el-icon-top"></el-button></div>
-                    <div style="margin:10px 10px 0 10px"><el-button type="info" icon="el-icon-bottom"></el-button></div>
+                    <div style="margin:0 10px"><el-button type="info" icon="el-icon-top" @click="foucs('hand','up')"></el-button></div>
+                    <div style="margin:10px 10px 0 10px"><el-button type="info" icon="el-icon-bottom" @click="foucs('hand','up')"></el-button></div>
                 </div>
             </div>
          </el-card>
@@ -150,6 +150,11 @@ export default Vue.extend({
         }
     },
     methods:{
+        focus(way,dir){
+            const self:any = this;
+            $.post('/focus',{way:way,direction:dir}).then(data=>{
+            })
+        },
         addLocation(){
             const self:any = this;
             self.editLocation(-1)
