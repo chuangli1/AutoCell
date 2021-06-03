@@ -16,7 +16,8 @@ class Opto():
     def readData(self):
         return self.s.readline()
     def start(self):
-        self.s=serial.Serial(port='COM6', baudrate=115200)
+        
+        self.s=serial.Serial('/dev/ttyACM0',115200,timeout=0.5)
         self.s.write("Start".encode('ascii'))
         if(str(self.readData())[2:7] == 'Ready'): print('液体镜头连接成功！')
     def close(self):

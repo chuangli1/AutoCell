@@ -248,24 +248,24 @@ export default Vue.extend({
             self.locationVisible = false;
         },
         increaseAngle() {
-            const self:any = this
+            const self:any = this;
+            if (self.percentageAngle > 100) return;
             self.percentageAngle += self.stepAngle;
             if (self.percentageAngle > 100) {
                 self.percentageAngle = 100;
-                return;
             }
-            $.post('/stage',{type:'angle',angle:self.percentageAngle}).then(data=>{
+            $.post('/stage',{type:'angle',angle:Math.floor(360*self.percentageAngle)/100}).then(data=>{
 
             })
         },
         increaseLine() {
             const self:any = this
+	    if (self.percentageLine > 100) return;
             self.percentageLine += self.stepLine;
             if (self.percentageLine > 100) {
                 self.percentageLine = 100;
-                return;
             };
-            $.post('/stage',{type:'line',angle:self.percentageLine}).then(data=>{
+            $.post('/stage',{type:'line',line:Math.floor(200*self.percentageLine)/100}).then(data=>{
 
             })
         },
@@ -273,27 +273,27 @@ export default Vue.extend({
             return `${Math.floor(360*percentage)/100}°`;
         },
         formatLine(percentage) {
-            return `${Math.floor(percentage*10)/100} cm`;
+            return `${Math.floor(percentage*200)/100} mm`;
         },
         decreaseAngle() {
             const self:any = this;
+	    if (self.percentageAngle < 0) return;
             self.percentageAngle -= self.stepAngle;
             if (self.percentageAngle < 0) {
                 self.percentageAngle = 0;
-                return;
             }
-            $.post('/stage',{type:'angle',angle:self.percentageAngle}).then(data=>{
+            $.post('/stage',{type:'angle',angle:Math.floor(360*self.percentageAngle)/100}).then(data=>{
 
             })
         },
         decreaseLine() {
             const self:any = this;
             self.percentageLine -= self.stepLine;
+	    if (self.percentageAngle < 0) return;
             if (self.percentageLine < 0) {
                 self.percentageLine = 0;
-                return;
             }
-            $.post('/stage',{type:'line',angle:self.percentageLine}).then(data=>{
+            $.post('/stage',{type:'line',line:Math.floor(200*self.percentageLine)/100}).then(data=>{
 
             })
         },
