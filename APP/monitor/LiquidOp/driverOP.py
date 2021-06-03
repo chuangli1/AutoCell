@@ -27,7 +27,7 @@ class Opto():
         data = [0x54,0x41]
         data = self.getData(data)
         self.sendCom(data)
-        print(self.readData())
+        return self.readData()
     def setCurrent(self,value):
         data = [0x41,0x77]
         values = value.to_bytes(2, byteorder='big')
@@ -35,6 +35,15 @@ class Opto():
         data.append(values[1])
         data = self.getData(data)
         self.sendCom(data)
+    def getCurrent(self):
+        data = [0x41,0x77,0x00,0x00]
+        data = self.getData(data)
+        self.sendCom(data)
+        return self.readData()
+    def go_to_position(self,value):
+        self.setCurrent(value)
+    def resetzero(self):
+        self.setCurrent(0)
 
 
 

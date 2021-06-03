@@ -12,13 +12,13 @@ import time #主要是用于处理Flask不适用于生产环境的原因
 from monitor.camera import gen, Camera,genVideo
 from monitor.stage import Stage
 from monitor.focus import Focus
-focusM = Focus()
 from taskTime.index import taskManager
 camera = Camera()
 from monitor.genSensors import genSensors
 taskM = taskManager(camera)
 camera.start()
 stageM = Stage()
+focusM = Focus(camera.cap)
 
 
 managerName = 'chuangli'
@@ -177,10 +177,9 @@ def foucs():
    way = request.form['way']
    try:
       if(way=='auto'):
-         line = request.form['line']
+         focusM.autoFocus()
       else:
          dir = request.form['direction']
-         print(dir)
          focusM.moveByHand(100,dir)
       return jsonify({'code':1})
    except:

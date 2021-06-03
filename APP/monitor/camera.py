@@ -4,6 +4,7 @@ import shutil
 import time
 import threading
 from functools import partial
+import RPi.GPIO as GPIO
 
 def gen(camera):
     camera.userNum+=1
@@ -38,7 +39,8 @@ def genVideo(videoName):
 class Camera(threading.Thread):
     def __init__(self):
         super(Camera,self).__init__()
-        self.__flag = threading.Event() 
+        self.__flag = threading.Event()
+        GPIO.setup(5,GPIO.OUT,initial=GPIO.LOW)
         self.__flag.set()       # 设置为True
         self.userNum = 1
         self.__running = threading.Event()      # 用于停止线程的标识
@@ -91,15 +93,18 @@ class Camera(threading.Thread):
         else:
             self.__flag.clear()     # 设置为False, 让线程阻塞
             self.cap.release()  #常规操作
+            GPIO.output(channel,GPIO.LOW)
             print('close camera')
     def resume(self):
         self.cap = cv2.VideoCapture(0)
         ret,self.frame = self.cap.read()
         time.sleep(0.1)
         self.__flag.set()    # 设置为True, 让线程停止阻塞
+        GPIO.output(channel,GPIO.HIGH)
         print('open camera')
     def stop(self):
         self.__flag.set()       # 将线程从暂停状态恢复, 如何已经暂停的话
         self.__running.clear()        # 设置为False
         print(self.__running.isSet())
+        GPIO.output(channel,GPIO.LOW)
         print('close camera')

@@ -32,6 +32,7 @@
             <div class="recordCard">
                 <el-switch
                     v-model="autoFocus"
+                    @change="focus('auto','up')"
                     active-text="自动对焦">
                 </el-switch>
                 <div class="general" style="margin:14px 0 0 0; height:120px; width:100px;">
@@ -121,7 +122,7 @@ export default Vue.extend({
             videoName:'',
             Temp:37,
             CO2:400,
-            autoFocus:true,
+            autoFocus:false,
             myDate: new Date(),
             optLocation:'1',
             locations:[
@@ -152,6 +153,14 @@ export default Vue.extend({
     methods:{
         focus(way,dir){
             const self:any = this;
+            if(way==='auto'&&!self.autoFocus) return;
+            if(way==='hand'&&self.autoFocus){
+                self.$notify({
+                        title: '警告',
+                        message: '请先关闭自动对焦!',
+                        type: 'warning'
+                });
+            return;}
             $.post('/focus',{way:way,direction:dir}).then(data=>{
             })
         },
