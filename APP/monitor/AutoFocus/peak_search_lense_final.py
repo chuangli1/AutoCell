@@ -4,7 +4,7 @@
 import time
 import sys
 import cv2
-from focus_measures import ContrastMeasures
+from .focus_measures import ContrastMeasures
         
 def fibonacci_peak(cam,focus,ak,bk,aoi,hysteresis,tolerance):
   """Fibonacci peak search taken from E. Krotkov: "Focusing" P.233"""
@@ -42,11 +42,11 @@ def fibonacci_peak(cam,focus,ak,bk,aoi,hysteresis,tolerance):
         i = 0
         while(i<30):
             i+=1
-            _,img_t = cam.read()
+            img_t = cam.frame
             img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]    
             cv2.imshow('vide0_t',img)
             cv2.waitKey(10)
-        _,img_t = cam.read()
+        img_t = cam.frame
         img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]
         y1k=fm.fm(img,'TENENGRAD1',5,0).mean()
         cv2.imwrite('./img/img'+str(k)+'.jpg',img)
@@ -56,11 +56,11 @@ def fibonacci_peak(cam,focus,ak,bk,aoi,hysteresis,tolerance):
         i = 0
         while(i<30):
             i+=1
-            _,img_t = cam.read()
+            img_t = cam.frame
             img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]    
             cv2.imshow('vide0_t',img)
             cv2.waitKey(10)
-        _,img_t = cam.read()
+        img_t = cam.frame
         img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]
         cv2.imwrite('./img/imgk'+str(k)+'.jpg',img)
         y2k=fm.fm(img,'TENENGRAD1',5,0).mean()
@@ -83,11 +83,11 @@ def fibonacci_peak(cam,focus,ak,bk,aoi,hysteresis,tolerance):
         i = 0
         while(i<30):
             i+=1
-            _,img_t = cam.read()
+            img_t = cam.frame
             img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]    
             cv2.imshow('vide0_t',img)
             cv2.waitKey(10)
-        _,img_t = cam.read()
+        img_t = cam.frame
         img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]  #grab image
         cv2.imwrite('./img/img'+str(x1k)+'.jpg',img)
         y1k=fm.fm(img,'TENENGRAD1',5,0).mean()  #calculate contrast
@@ -107,11 +107,11 @@ def fibonacci_peak(cam,focus,ak,bk,aoi,hysteresis,tolerance):
         i = 0
         while(i<30):
             i+=1
-            _,img_t = cam.read()
+            img_t = cam.frame
             img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]    
             cv2.imshow('vide0_t',img)
             cv2.waitKey(10)
-        _,img_t = cam.read()
+        img_t = cam.frame
         img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]  #grab image
         cv2.imwrite('./img/img'+str(x2k)+'.jpg',img)
         y2k=fm.fm(img,'TENENGRAD1',5,0).mean()  #calculate contrast
@@ -182,11 +182,14 @@ def global_peak_single_step_debug(cam,focus,step,start,stop,aoi):
   max_index=0       #timer value corresponding to maximum fm value
   index=start       #first timer value
   fm_vals=[]
+  print('sss')
   fm = ContrastMeasures()
   #loop through timer values
+  print('ss')
   while index<=stop:
     focus.go_to_position(index) #move lense to next position
-    _,img_t = cam.read()
+    img_t = cam.frame
+    print(img_t)
     img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]  
     #grab image and calculate fm value in AOI
     fm_vals.append(fm.fm(img,'TENENGRAD1',7,0).mean())
@@ -196,7 +199,7 @@ def global_peak_single_step_debug(cam,focus,step,start,stop,aoi):
 def global_peak_single_step(cam,focus,step,start,stop,aoi):
   # steps through complete fm curve using coarse steps
   # returns timer value for global fm maximum, fm maximum value and number of steps
-  focus.reset()
+  #focus.reset()
   max_fm=0      #maximum fm value
   max_index=0       #timer value corresponding to maximum fm value
   index=start       #first timer value
@@ -207,16 +210,15 @@ def global_peak_single_step(cam,focus,step,start,stop,aoi):
     focus.go_to_position(index) #move lense to next position
     time.sleep(0)
     print('chuangli',index)
-    _,img_t = cam.read()
+    img_t = cam.frame
     img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]
     i = 0
     while(i<30):
         i+=1
-        _,img_t = cam.read()
+        img_t = cam.frame
         img=img_t[aoi[1]:aoi[3],aoi[0]:aoi[2]]    
         cv2.imshow('vide0_t',img)
         cv2.waitKey(10)
-    cv2.imwrite('./img/img'+str(index)+'.jpg',img)
     #grab image and calculate fm value in AOI
     fm_val=fm.fm(img,'TENENGRAD1',7,0).mean()
     if fm_val > max_fm: #check if maximum occured

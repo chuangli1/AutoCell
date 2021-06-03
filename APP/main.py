@@ -18,7 +18,7 @@ from monitor.genSensors import genSensors
 taskM = taskManager(camera)
 camera.start()
 stageM = Stage()
-focusM = Focus(camera.cap)
+focusM = Focus(camera)
 
 
 managerName = 'chuangli'

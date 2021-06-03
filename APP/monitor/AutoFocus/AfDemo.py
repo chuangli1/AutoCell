@@ -5,7 +5,7 @@
 import numpy as np
 import cv2
 import sys
-import peak_search_lense_final as psl
+from . import peak_search_lense_final as psl
 import time
 
 
@@ -24,7 +24,7 @@ class AfDemo():
         self.roi = aoi
         #绑定位移控制并归零
         self.lc = stage
-        self.lc.resetzero(zero)
+        #self.lc.resetzero(zero)
 
         self.afX = 0
         self.afY = 0
@@ -39,9 +39,9 @@ class AfDemo():
         stop: 对焦终止位置
         hyst: 补偿滞后的偏移量
         """
-    
         if algorithm == 0:
             # Global peak single step algorithm.
+            print(psl.global_peak_single_step)
             self.afX, self.afY, self.afN = psl.global_peak_single_step(
                                                             self.cam,
                                                             self.lc,

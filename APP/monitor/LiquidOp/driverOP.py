@@ -36,8 +36,7 @@ class Opto():
         data = self.getData(data)
         self.sendCom(data)
     def getCurrent(self):
-        data = [0x41,0x77,0x00,0x00]
-        data = self.getData(data)
+        data = [0x41,0x72,0x00,0x00,0xb4,0x27]
         self.sendCom(data)
         return self.readData()
     def go_to_position(self,value):
