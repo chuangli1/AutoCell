@@ -409,10 +409,17 @@ export default Vue.extend({
                 }
             });
         },
+        getSensors(){
+            $.get('/sensor').then(data=>{
+                
+            })
+
+        }
     },
     created(){
         const self:any = this;
         self.getLocations();
+        setInterval(self.getSensors(),10000)
 
     }
     
