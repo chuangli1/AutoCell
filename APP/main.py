@@ -130,6 +130,15 @@ def stage():
          return jsonify({'code':1})
    except:
       return jsonify({'code':0})
+@app.route('/changeLocation',methods=['POST'])
+def changeLocation():
+   line = request.form['line']
+   angle = request.form['angle']
+   try:
+      stageM.changeLocation(line,angle)
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
 @app.route('/getLocation',methods=['POST'])
 def getLocation():
    userName = request.form['username']

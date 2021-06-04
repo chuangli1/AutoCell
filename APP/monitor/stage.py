@@ -28,19 +28,20 @@ class Stage():
         
     def reset(self):
         self.MotionCommmand(5,0,200)
+    def changeLocation(self,line,angle):
+        MotionComm = "G0 "+MotionChar[3]+str(line*100)+' '+MotionChar[1]+str(angle)+' F'+str(60*self.speed)
+        if self.board:
+            self.do_commandtest(self.board, MotionComm)
+            time.sleep(0.5)
 
     def MotionCommmand(self,dir,step,speed):
-        #用于手动扫描
+        #发送位移命令
         self.step = float(step)
         self.speed = int(speed)
         MotionComm = "G0 "+MotionChar[dir]+str(self.step)+' F'+str(60*self.speed)
-        print(dir)
         if self.board:
               self.do_commandtest(self.board, MotionComm)
               time.sleep(0.5)
-    def go_to_position(self,x):
-        self.MotionCommmand(5,x/3200,200)
-        print('x ', x/3200)
     def rotate(self,angle):
         self.MotionCommmand(1,angle,100)
         

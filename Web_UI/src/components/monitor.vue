@@ -52,7 +52,8 @@
                 <span style="margin-right: 50px" v-for="(location,index) in locations" :key='index'>
                     <el-radio
                         style="margin:5px"
-                        v-model="optLocation" :label="location.id" border size="medium">
+                        @change="locationChange"
+                        v-model="optLocation" :label="index" border size="medium">
                         {{location.name}}
                     </el-radio>
                     <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer"></i>
@@ -163,6 +164,25 @@ export default Vue.extend({
             return;}
             $.post('/focus',{way:way,direction:dir}).then(data=>{
             })
+        },
+        locationChange(index){
+            const self:any = this;
+            let location = self.locations[index];
+            $.post('/changeLocation',{angle:location.angle,
+            line:location.line}).then(data=>{
+                if(data.code===1){
+                        self.$message({
+                            message: '位置改变成功',
+                            type: 'success'
+                        });
+                        self.$emit('refreshLocations')
+                }
+                else{
+                    self.$message.error('未知错误');
+                }
+            });
+
+
         },
         addLocation(){
             const self:any = this;
