@@ -175,7 +175,7 @@ export default Vue.extend({
                             message: '位置改变成功',
                             type: 'success'
                         });
-                        self.$emit('refreshLocations')
+                        if(self.autoFocus) self.foucs('auto','up')
                 }
                 else{
                     self.$message.error('未知错误');
