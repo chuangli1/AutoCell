@@ -29,7 +29,8 @@ class Stage():
     def reset(self):
         self.MotionCommmand(5,0,200)
     def changeLocation(self,line,angle):
-        MotionComm = "G0 "+MotionChar[3]+str(line*100)+' '+MotionChar[1]+str(angle)+' F'+str(60*self.speed)
+        MotionComm = "G0 "+MotionChar[3]+str(float(line))+' '+MotionChar[1]+str(angle)+' F'+str(6000)
+        print(MotionComm)
         if self.board:
             self.do_commandtest(self.board, MotionComm)
             time.sleep(0.5)

@@ -2,8 +2,8 @@
 # -*- coding:utf-8 -*-
 
 import time
-import ADS1256#analog to digital
-import DAC8532# output pressure
+from . import ADS1256#analog to digital
+from . import DAC8532# output pressure
 import RPi.GPIO as GPIO
 
 ADC = ADS1256.ADS1256()

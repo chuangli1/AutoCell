@@ -4,7 +4,6 @@ import shutil
 import time
 import threading
 from functools import partial
-import RPi.GPIO as GPIO
 
 def gen(camera):
     camera.userNum+=1
@@ -37,12 +36,11 @@ def genVideo(videoName):
 
 
 class Camera(threading.Thread):
-    def __init__(self):
+    def __init__(self,switch):
         super(Camera,self).__init__()
         self.__flag = threading.Event()
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(4,GPIO.OUT,initial=GPIO.LOW)
         self.__flag.set()       # 设置为True
+        self.ledSwitch = switch
         self.userNum = 1
         self.__running = threading.Event()      # 用于停止线程的标识
         self.__running.set()      # 将running设置为True
@@ -65,6 +63,11 @@ class Camera(threading.Thread):
             self.resume()
             time.sleep(0.01)
         print('开始拍摄，将视频写入文件')
+    def openLed(self):
+        self.ledSwitch.openvalves(1,1)
+    def closeLed(self):
+        self.ledSwitch.openvalves(1,0)
+        
     def stop_c(self):
         self.testCap = 0
         self.long = -1
@@ -94,18 +97,18 @@ class Camera(threading.Thread):
         else:
             self.__flag.clear()     # 设置为False, 让线程阻塞
             self.cap.release()  #常规操作
-            GPIO.output(4,GPIO.LOW)
+            self.closeLed()
             print('close camera')
     def resume(self):
         self.cap = cv2.VideoCapture(0)
         ret,self.frame = self.cap.read()
         time.sleep(0.1)
         self.__flag.set()    # 设置为True, 让线程停止阻塞
-        GPIO.output(4,GPIO.HIGH)
-        print('open camera',GPIO.getmode())
+        self.openLed()
+        print('open camera')
     def stop(self):
         self.__flag.set()       # 将线程从暂停状态恢复, 如何已经暂停的话
         self.__running.clear()        # 设置为False
         print(self.__running.isSet())
-        GPIO.output(4,GPIO.LOW)
+        self.closeLed()
         print('close camera')

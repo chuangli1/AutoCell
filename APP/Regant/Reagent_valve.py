@@ -1,6 +1,6 @@
 import time
-from pres.pres_control import pres_control
-from pres.MCP23S17 import MCP23S17
+from .pres.pres_control import pres_control
+from .pres.MCP23S17 import MCP23S17
 
 class valve_control():
     
@@ -37,3 +37,7 @@ class valve_control():
         pres_control(pres_r,i)
       
          
+if __name__=='main':
+    valve = valve_control()
+    for i in range(0,8):
+      valve.openvalves(i,1)

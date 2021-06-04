@@ -12,8 +12,10 @@ import time #主要是用于处理Flask不适用于生产环境的原因
 from monitor.camera import gen, Camera,genVideo
 from monitor.stage import Stage
 from monitor.focus import Focus
+from Regant.Reagent_valve import valve_control
 from taskTime.index import taskManager
-camera = Camera()
+valves = valve_control()
+camera = Camera(valves)
 from monitor.genSensors import genSensors
 taskM = taskManager(camera)
 camera.start()
@@ -121,7 +123,7 @@ def stage():
       if(dir=='line'):
          line = request.form['line']
          print(line)
-         stageM.MotionCommmand(3,line*100,100)
+         stageM.MotionCommmand(3,line,100)
          return jsonify({'code':1})
       else:
          angle = request.form['angle']
@@ -130,10 +132,12 @@ def stage():
          return jsonify({'code':1})
    except:
       return jsonify({'code':0})
+    
 @app.route('/changeLocation',methods=['POST'])
 def changeLocation():
    line = request.form['line']
    angle = request.form['angle']
+   print(line,angle)
    try:
       stageM.changeLocation(line,angle)
       return jsonify({'code':1})
