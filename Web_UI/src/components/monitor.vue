@@ -410,7 +410,12 @@ export default Vue.extend({
             });
         },
         getSensors(){
+            const self:any = this;
             $.get('/sensor').then(data=>{
+                if(data.code===1){
+                        self.Temp = data[1];
+                        self.CO2 = data[0];
+                }
                 
             })
 

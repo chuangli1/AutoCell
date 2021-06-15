@@ -5,8 +5,7 @@ from .aps import apsTask
 from ..monitor.camera import Camera
 import time
 
-
-class taskManager():
+lass taskManager():
     def __init__(self,cap,stage):
         self.apsTask = apsTask()
         self.cap = cap
