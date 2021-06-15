@@ -147,7 +147,8 @@ export default Vue.extend({
             stepAngle:10,
             percentageLine:50,
             stepLine:10,
-            editID:-1
+            editID:-1,
+            getSensor:null
 
         }
     },
@@ -413,8 +414,8 @@ export default Vue.extend({
             const self:any = this;
             $.get('/sensor').then(data=>{
                 if(data.code===1){
-                        self.Temp = data[1];
-                        self.CO2 = data[0];
+                        self.Temp = data.data[2].toFixed(2)+' C';
+                        self.CO2 = (data.data[0]/10000).toFixed(2)+' %';
                 }
                 
             })
@@ -424,7 +425,12 @@ export default Vue.extend({
     created(){
         const self:any = this;
         self.getLocations();
-        setInterval(self.getSensors(),30000)
+	self.getSensors();	
+        self.getSensor = setInterval(()=>{self.getSensors()},30000)
+    },
+    beforeDestroy() {
+      const self:any = this;
+      clearInterval(self.getSensor);
     }
     
 })

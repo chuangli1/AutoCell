@@ -1,5 +1,4 @@
-from ..db.index import findLocations,findMonitorTasks
-from stage import Sta
+from db.index import findLocations,findMonitorTasks
 
 class moveToChip():
     def __init__(self,stage):

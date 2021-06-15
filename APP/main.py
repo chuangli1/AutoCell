@@ -16,7 +16,7 @@ from Regant.Reagent_valve import valve_control
 from taskTime.index import taskManager
 valves = valve_control()
 camera = Camera(valves)
-from .monitor.genSensors import genSensors
+from monitor.genSensors import genSensors
 stageM = Stage()
 taskM = taskManager(camera,stageM)
 camera.start()

@@ -2,10 +2,10 @@
 from .monitorTask import monitorTask
 from .regantTask import regantTask
 from .aps import apsTask
-from ..monitor.camera import Camera
+from monitor.camera import Camera
 import time
 
-lass taskManager():
+class taskManager():
     def __init__(self,cap,stage):
         self.apsTask = apsTask()
         self.cap = cap

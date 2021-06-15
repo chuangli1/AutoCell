@@ -7,6 +7,7 @@ class valve_control():
     def __init__(self):
         super().__init__()
         self.setup()
+        self.sourceClose = True;
     def setup(self):
 
         #气压模块绑定
@@ -15,6 +16,7 @@ class valve_control():
         self.MCP.DirGIPOB(0x00)
     
     def openvalves(self,channel,valve):
+        #if(channel==15 and self.sourceClose and valve==1): return
        
         #开关阀门
         if channel<8:
@@ -35,9 +37,13 @@ class valve_control():
     def pressure(self,pres_r,i):
         print('启动压力调整程序')
         pres_control(pres_r,i)
-      
-         
-if __name__=='main':
-    valve = valve_control()
-    for i in range(0,8):
-      valve.openvalves(i,1)
+    def openSource(self):
+        self.openvalves(8,1)
+        time.sleep(5)
+        self.sourceClose = False
+        self.openvalves(15,1)
+    def closeSource(self):
+        self.openvalves(15,0)
+        time.sleep(1)
+        self.sourceClose = True
+        self.openvalves(8,0)

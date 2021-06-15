@@ -2,8 +2,8 @@ import sys
 #sys.path.append("..")
 ##sys.path.append("../db")
 from datetime import datetime,timedelta
-from ..db.index import findMonitorTasks,addVideos
-from ..monitor.chipCaputer import moveToChip
+from db.index import findMonitorTasks,addVideos
+from monitor.chipCaputer import moveToChip
 class monitorTask():
     def __init__(self, cap,stage):
         self.cap = cap

@@ -68,6 +68,8 @@ print( "configure register = 0x%X" % hdc1080.readConfigRegister())
 def readTemp():
     temp = hdc1080.readTemperature()
     humidity = hdc1080.readHumidity()
+    
 
     print( "Temperature = %3.1f C" % temp)
     print( "Humidity = %3.1f %%" % humidity)
+    return temp,humidity

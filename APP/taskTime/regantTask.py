@@ -1,7 +1,7 @@
 from datetime import datetime,timedelta
 import time
-from ..db.index import findRegantTasks
-from ..Regant.Reagent_valve import valve_control
+from db.index import findRegantTasks
+from Regant.Reagent_valve import valve_control
 class regantTask():
     def __init__(self):
         #初始化
