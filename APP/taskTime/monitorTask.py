@@ -4,7 +4,6 @@ import sys
 from datetime import datetime,timedelta
 from ..db.index import findMonitorTasks,addVideos
 class monitorTask():
-
     def __init__(self, cap):
         self.cap = cap
         self.times = [0,0]

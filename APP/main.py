@@ -378,7 +378,7 @@ def addTaskList():
    try:
       addTaskLists(taskType,taskId,listDate)
       if(taskType=='regant'):
-             pass
+         taskM.addRegantTask(taskId)
       else:
          taskM.addMonitorTask(taskId)
       return jsonify({'code':1})
@@ -398,9 +398,9 @@ def deleteTaskList():
    try:
       deleteTaskLists(taskId,taskType)
       if(taskType=='regant'):
-            taskM.deleteMonitorTask(taskId)
+            taskM.deleteMonitorTask(taskId,'regant')
       else:
-            taskM.deleteMonitorTask(taskId)
+            taskM.deleteMonitorTask(taskId,'monitor')
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
