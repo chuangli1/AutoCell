@@ -7,12 +7,13 @@ import time
 
 
 class taskManager():
-    def __init__(self,cap):
+    def __init__(self,cap,stage):
         self.apsTask = apsTask()
         self.cap = cap
         self.mi = 0
+        self.stage = stage
     def addMonitorTask(self,taskId):
-        monitorTaskt = monitorTask(self.cap)
+        monitorTaskt = monitorTask(self.cap,self.stage)
         monitorTaskt.initVideo(taskId)
         times = monitorTaskt.times
         interval = int(monitorTaskt.interval[0])

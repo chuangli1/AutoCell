@@ -28,7 +28,7 @@ class regantTask():
         #执行任务
         for i in range(0,8):
             self.valveControl.openvalves(i,0);
-        for i in range(0,self.valve.length):
+        for i in range(0,len(self.valve)):
             valve = int(self.valve[i]);
             self.valveControl.openvalves(valve,1);
         time.sleep(self.long)

@@ -419,8 +419,7 @@ export default Vue.extend({
     created(){
         const self:any = this;
         self.getLocations();
-        setInterval(self.getSensors(),10000)
-
+        setInterval(self.getSensors(),30000)
     }
     
 })

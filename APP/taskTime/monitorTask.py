@@ -3,11 +3,14 @@ import sys
 ##sys.path.append("../db")
 from datetime import datetime,timedelta
 from ..db.index import findMonitorTasks,addVideos
+from ..monitor.chipCaputer import moveToChip
 class monitorTask():
-    def __init__(self, cap):
+    def __init__(self, cap,stage):
         self.cap = cap
         self.times = [0,0]
         self.interval = [0,0]
+        self.location = []
+        self.moveToChip = moveToChip(stage)
 
     def taskWait(self):
         print('任务进入队列')
@@ -27,8 +30,13 @@ class monitorTask():
             self.interval = videoData[5].split(",")
             self.long = int(self.interval[1])
             self.userName = videoData[2]
+            self.location = videoData[6].split(',')
     def monitorCap(self):
-        self.taskWait()
-        self.videoNames = self.videoName+datetime.now().strftime(" %Y_%m_%d %H_%M_%S")
-        addVideos(self.userName,self.videoNames,datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
-        self.cap.start_c(self.videoNames,self.long)
+        for i in range(0,len(self.location)):
+            location = self.location[i]
+            self.moveToChip.moveNext(int(location),self.userName)
+            self.taskWait()
+            self.videoNames = self.videoName+'locaiton'+str(location)+datetime.now().strftime(" %Y_%m_%d %H_%M_%S")
+            addVideos(self.userName,self.videoNames,datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
+            self.cap.start_c(self.videoNames,self.long)
+
