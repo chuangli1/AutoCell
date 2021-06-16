@@ -18,7 +18,7 @@ valves = valve_control()
 camera = Camera(valves)
 from monitor.genSensors import genSensors
 stageM = Stage()
-taskM = taskManager(camera,stageM)
+taskM = taskManager(camera,stageM,valves)
 camera.start()
 focusM = Focus(camera)
 
