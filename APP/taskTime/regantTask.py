@@ -1,14 +1,13 @@
 from datetime import datetime,timedelta
 import time
 from db.index import findRegantTasks
-from Regant.Reagent_valve import valve_control
 class regantTask():
-    def __init__(self):
+    def __init__(self,valves):
         #初始化
         self.times = [0,0]
         self.interval = [0,0]
         self.valve = []
-        self.valveControl = valve_control()
+        self.valveControl = valves
     def taskWait(self):
         print('任务进入队列')
         #排队

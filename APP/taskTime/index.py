@@ -6,11 +6,12 @@ from monitor.camera import Camera
 import time
 
 class taskManager():
-    def __init__(self,cap,stage):
+    def __init__(self,cap,stage,valves):
         self.apsTask = apsTask()
         self.cap = cap
         self.mi = 0
         self.stage = stage
+        self.valves = valves
     def addMonitorTask(self,taskId):
         monitorTaskt = monitorTask(self.cap,self.stage)
         monitorTaskt.initVideo(taskId)
@@ -27,7 +28,7 @@ class taskManager():
             taskId = str(taskId)+'R'
         self.apsTask.deleteTask(taskId)
     def addRegantTask(self,taskID):
-        regantTaskt = regantTask()
+        regantTaskt = regantTask(self.valves)
         regantTaskt.initRegant()
         times = regantTaskt.times
         interval = int(regantTaskt.interval[0]);

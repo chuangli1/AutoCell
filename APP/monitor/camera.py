@@ -64,9 +64,9 @@ class Camera(threading.Thread):
             time.sleep(0.01)
         print('开始拍摄，将视频写入文件')
     def openLed(self):
-        self.ledSwitch.openvalves(1,1)
+        self.ledSwitch.openvalves(8,1)
     def closeLed(self):
-        self.ledSwitch.openvalves(1,0)
+        self.ledSwitch.openvalves(8,0)
         
     def stop_c(self):
         self.testCap = 0
