@@ -7,7 +7,6 @@ AutoCell是基于本人毕业设计的开源项目，致力于打造一个自动
 
 <div style="text-align: center;"><img src="imgs/front.png" width="80%"></div>
 
-<div style="color:green">ddd</div>
 硬件部分的控制核心为一个树莓派4B, 位移台和整体架构使用了定制铝型材加工搭建而成，使用了MKS作为步进电机的控制核心；自行搭建了一个简易的、低成本的小型荧光成像系统，使用470nm的LED作为光源，使用液体镜头作为对焦系统，可以清晰地对520nm的绿色荧光进行成像；系统还具有自动切换试剂的功能，气压源为一小型气泵，气压控制采用比例阀控制大小，电磁阀控制开关的机制，通过定制任务，可以完成不同试剂的切换工作。通过网页可以非常好的进行上述功能的远程控制。
 
 <div style="text-align: center;"><img src="imgs/back.jpg" width="50%"></div>
