@@ -1,4 +1,5 @@
 import pymysql
+#例子，需要把所有的表都导入，剩下的代码自己写；
 
 mydb = pymysql.connect(
     host="localhost",
