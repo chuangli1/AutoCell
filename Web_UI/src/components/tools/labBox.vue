@@ -154,6 +154,14 @@ export default Vue.extend({
         },
         editTask(task){
            const self:any = this;
+           if(task.isActive){
+               self.$notify({
+                    title: '警告',
+                    message: 'Please close this Task!!!!',
+                    type: 'warning'
+                    });
+                return;
+           }
            self.taskNew = {
                name:task.name,
                time:task.time.slice(),
@@ -239,7 +247,7 @@ export default Vue.extend({
            self.dialogVisible = true;
 
         },
-        teskTask(data){
+        testTask(data){
             const self:any = this;
             if(data.task_name===''||isNaN(self.taskNew.interval[0])||isNaN(self.taskNew.interval[1])||isNaN(self.taskNew.time[0])||isNaN(self.taskNew.time[1])
             ||parseInt(self.taskNew.time[1])<=parseInt(self.taskNew.time[0])||parseInt(self.taskNew.interval[0])===0||parseInt(self.taskNew.interval[1])===0||
@@ -304,7 +312,7 @@ export default Vue.extend({
                   task_username:sessionStorage.username
               }
               if(self.editId!==-1) data.task_id = self.editId;
-              if(self.teskTask(data)){
+              if(self.testTask(data)){
                   $.post(url,data).then(function(data){
                         if(data.code === 0){
                             self.$message.error('未知错误');
@@ -333,7 +341,7 @@ export default Vue.extend({
                   task_location:self.locationChecked.join(',')
               }
               if(self.editId!==-1) data.task_id = self.editId;
-              if(self.teskTask(data)){
+              if(self.testTask(data)){
                   $.post(url,data).then(function(data){
                         if(data.code === 0){
                             self.$message.error('未知错误');

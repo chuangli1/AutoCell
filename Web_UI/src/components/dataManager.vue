@@ -3,7 +3,7 @@
     <epm-2-table v-bind:items ="currentItems" :headers ="headers" v-if='isDataValid'>      
       <template v-slot:name={item}>
         <span :class="{'el-icon-film':item.Type==='video','el-icon-toilet-paper':item.Type==='number'}" class="icon"/>
-        <span class="sheet-name">{{item.name}}</span>
+        <span class="sheet-name">{{item.name.split(' ')[0]}}</span>
       </template>
       <template v-slot:action={item}>
             <button class='actionBtn' v-if="item.Type==='video'" @click="videoPlay(item.name)">

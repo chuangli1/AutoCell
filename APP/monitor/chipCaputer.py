@@ -6,8 +6,9 @@ class moveToChip():
         self.index = 0
     def moveNext(self,locationID,user):
         location = findLocations(locationID,user)
-        angle = int(location[3])
-        line = int(location[4])
+        print(location)
+        angle = int(location[0][3])
+        line = int(location[0][4])
         self.stage.changeLocation(line,angle)
         
 

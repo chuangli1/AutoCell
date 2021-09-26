@@ -16,7 +16,7 @@ class Focus():
         self.dirverOp.setCurrent(self.initCurrent)
     def autoFocus(self):
         print('autoFocus')
-        self.Af.start_af(2,30,30,1000,4000,10)
+        self.Af.start_af(0,20,20,1000,4000,10)
         t = self.dirverOp.getCurrent()
         self.initCurrent = ord(t[1:2])*256+ord(t[2:3])
         print(self.initCurrent)
