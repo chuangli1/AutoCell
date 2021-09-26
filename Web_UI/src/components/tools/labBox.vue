@@ -395,7 +395,7 @@ export default Vue.extend({
             });
         }
         else{
-                $.get('/loadTasks?type='+self.taskType).then(function(data){
+            $.get('/loadTasks?type='+self.taskType).then(function(data){
             data.tasks.forEach(e => {
                 tasks.push({
                     id:e[0],
