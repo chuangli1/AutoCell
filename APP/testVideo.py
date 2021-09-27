@@ -34,4 +34,6 @@ def login():
     return jsonify({'code':1})
 
 if __name__ == '__main__':
+   camera = cv2.VideoCapture(0);
+   
    app.run(threaded=True,port=5000)

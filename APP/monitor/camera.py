@@ -11,7 +11,7 @@ def gen(camera):
         camera.resume()
         time.sleep(0.01)
     while True:
-        frame = camera.frame
+        _,frame = camera.cap.read()
         ret, frame = cv2.imencode('.jpg', frame)
         try:
             yield (b'--frame\r\n'
