@@ -17,6 +17,7 @@ class valve_control():
     
     def openvalves(self,channel,valve):
         #if(channel==15 and self.sourceClose and valve==1): return
+        #valve:0|1
        
         #开关阀门
         if channel<8:

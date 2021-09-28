@@ -126,7 +126,7 @@ export default Vue.extend({
             }
              $.post('/deleteTask',dataD).then(function(data){
                 if(data.code === 0){
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
                 else{
                     self.$message({
@@ -139,7 +139,7 @@ export default Vue.extend({
             if(self.activeList.findIndex(d=>d[0]===id)!==-1){
             $.post('/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
                 if(data.code === 0){
-                        self.$message.error('未知错误');
+                        self.$message.error('未知错误, 请重试');
                     }
                 else{
                         self.$message({
@@ -262,7 +262,7 @@ export default Vue.extend({
             if(status){
                  $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
                       if(data.code === 0){
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                             task.isActive = !status;
                         }
                         else{
@@ -278,7 +278,7 @@ export default Vue.extend({
             else{
                 $.post('/deleteTaskList',{task_id:task.id, task_type:self.taskType}).then(data=>{
                       if(data.code === 0){
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                             task.isActive = !status;
                         }
                         else{
@@ -315,7 +315,7 @@ export default Vue.extend({
               if(self.testTask(data)){
                   $.post(url,data).then(function(data){
                         if(data.code === 0){
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                         }
                         else{
                             self.$message({
@@ -344,7 +344,7 @@ export default Vue.extend({
               if(self.testTask(data)){
                   $.post(url,data).then(function(data){
                         if(data.code === 0){
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                         }
                         else{
                             self.$message({

@@ -54,7 +54,7 @@ export default Vue.extend({
                     });                  
                 }
                 else{
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
             });
         }

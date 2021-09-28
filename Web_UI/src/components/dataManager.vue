@@ -93,7 +93,7 @@ export default Vue.extend({
                     });
                }
                else{
-                   self.$message.error('未知错误');
+                   self.$message.error('未知错误, 请重试');
                }
             });
         },
@@ -117,7 +117,7 @@ export default Vue.extend({
                 self.isDataValid = true;
             }
             else{
-                self.$message.error('未知错误');
+                self.$message.error('未知错误, 请重试');
             }
         });
         }

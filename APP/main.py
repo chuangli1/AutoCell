@@ -405,9 +405,29 @@ def deleteTaskList():
    except:
       return jsonify({'code':0})
 
+#传感器
 @app.route('/sensor',methods=['GET'])
 def sensor():
    return jsonify({'code':1,'data':genSensors()})
+
+#阀门控制
+@app.route('/valveControl',methods=['POST'])
+def valveControl():
+   try:
+      valveChecked = request.form['valveChecked']
+      presValue = request.form['presValue']
+      valves.pressure(presValue,0)
+      for i in range(0,8):
+         valves.openvalves(i,0);
+      for i in range(0,len(valveChecked)):
+         valve = int(valveChecked[i]);
+         valves.openvalves(valve,1);
+      return jsonify({'code':1})
+   except:
+      return jsonify({'code':0})
+
+    
+
 
 
 if __name__ == '__main__':

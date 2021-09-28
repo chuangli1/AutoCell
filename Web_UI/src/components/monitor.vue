@@ -9,7 +9,37 @@
                <span><i  class="el-icon-data-line"></i>实时温度：{{Temp}}</span>
                <span><i  class="el-icon-magic-stick"></i>实时CO2：{{CO2}}</span>
            </div>
-       </el-card> 
+       </el-card>
+       <div style="margin:0px 10px;color:#FFFFFF;  background: rgba(255, 255, 255, 0); position:absolute; top:5px; right:20px">
+            <el-button @click="isSwitch = true" type="primary" style="margin-right: 16px;">
+            阀门控制
+            </el-button>
+            <el-popover
+                placement="bottom"
+                title=""
+                max-width="300"
+                trigger="click">
+            <div style="width:100%">
+                <div style="display:inline-block;vertical-align:top">
+                    <div style="margin-right: 50px" v-for="(location,index) in locations" :key='index'>
+                        <el-tooltip :content="`转盘角度:${location.angle},直线位置:${location.line}`" placement="bottom">
+                            <el-radio
+                                style="margin:5px"
+                                @change="locationChange"
+                                v-model="optLocation" :label="index" border size="medium">
+                                {{location.name}}
+                            </el-radio>
+                        </el-tooltip>
+                        <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer;margin:0 10px 0 10px"></i>
+                        <el-button @click="editLocation(index)" type="primary" icon="el-icon-edit" circle></el-button>
+                    </div>
+                    <el-button @click="addLocation()" type="primary" icon="el-icon-plus" circle></el-button>
+                        
+                </div>
+            </div>
+                <el-button slot="reference" type="primary">更新位置</el-button>
+            </el-popover>
+       </div>
        <img src = '/video' width="100%">
    </div>
    <div class = "col-sm-3">
@@ -42,29 +72,6 @@
                 </div>
             </div>
          </el-card>
-   </div>
-   <div style="width:100%">
-        <el-card style="margin:15px;vertical-align:top">
-            <div slot="header" style="margin-left:6px;">
-                <span><i style="padding-right:6px" class="el-icon-s-tools"></i>监测位置控制</span>
-            </div>
-            <div style="display:inline-block;vertical-align:top">
-                <span style="margin-right: 50px" v-for="(location,index) in locations" :key='index'>
-                    <el-tooltip :content="`转盘角度:${location.angle},直线位置:${location.line}`" placement="bottom">
-                        <el-radio
-                            style="margin:5px"
-                            @change="locationChange"
-                            v-model="optLocation" :label="index" border size="medium">
-                            {{location.name}}
-                        </el-radio>
-                    </el-tooltip>
-                    <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer"></i>
-                    <el-button @click="editLocation(index)" type="primary" icon="el-icon-edit" circle></el-button>
-                </span>
-                <el-button @click="addLocation()" type="primary" icon="el-icon-plus" circle></el-button>
-                    
-            </div>
-        </el-card>
    </div>
    <el-drawer
         title="位置编辑"
@@ -119,9 +126,6 @@
             <el-button type="primary" @click="locationSave">确 定</el-button>
         </div>
     </el-drawer>
-    <el-button @click="isSwitch = true" type="primary" style="margin-left: 16px;">
-    点我打开
-    </el-button>
     <el-drawer
         title="阀门控制"
         style="overflow:auto"
@@ -205,6 +209,22 @@ export default Vue.extend({
         switchSave(){
             const self:any = this;
             console.log(self.valvesChecked[0][2],self.presValue)
+            const presData = {
+                valveChecked:self.valvesChecked.map(e=>e[2]),
+                presValue:self.presValue
+            }
+            $.post('/valveControl',presData).then((data)=>{
+                if(data.code===1){
+                    self.$message({
+                        message: '阀门调整成功',
+                        type: 'success'
+                    });
+                }
+                else{
+                    self.$message.error('未知错误, 请重试');
+                }
+
+            })
 
         },
         focus(way,dir){
@@ -233,7 +253,7 @@ export default Vue.extend({
                         if(self.autoFocus) self.foucs('auto','up')
                 }
                 else{
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
             });
 
@@ -268,7 +288,7 @@ export default Vue.extend({
                     });                 
                 }
                 else{
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
             });
 
@@ -286,7 +306,7 @@ export default Vue.extend({
                         self.$emit('refreshLocations')
                 }
                 else{
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
             });
 
@@ -312,7 +332,7 @@ export default Vue.extend({
                                 self.getLocations();
                         }
                         else{
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                         }
                 });        
             }
@@ -331,7 +351,7 @@ export default Vue.extend({
                                 });
                         }
                         else{
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                         }
                 });   
             };
@@ -405,7 +425,7 @@ export default Vue.extend({
                             });
                         }
                         else{
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                         }
                     })
                 }).catch(() => {
@@ -425,7 +445,7 @@ export default Vue.extend({
                         });
                 }
                 else{
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
             });
         },
@@ -461,7 +481,7 @@ export default Vue.extend({
                         self.$emit('refreshData')
                 }
                 else{
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
             });
         },

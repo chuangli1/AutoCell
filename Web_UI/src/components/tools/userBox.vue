@@ -57,7 +57,7 @@ export default Vue.extend({
           else
             $.post('/updateUser',data).then(data=>{
                if(data.code === 0){
-                  self.$message.error('未知错误');
+                  self.$message.error('未知错误, 请重试');
                }
                else{
                      self.$message({

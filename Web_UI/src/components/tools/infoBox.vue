@@ -48,7 +48,7 @@ export default Vue.extend({
                     };
                     $.post('/addInfo',infoData).then(function(data){
                         if(data.code === 0){
-                            self.$message.error('未知错误');
+                            self.$message.error('未知错误, 请重试');
                         }
                         else{
                             self.$message({
@@ -72,7 +72,7 @@ export default Vue.extend({
             }
              $.post('/deleteInfo',infoData).then(function(data){
                 if(data.code === 0){
-                    self.$message.error('未知错误');
+                    self.$message.error('未知错误, 请重试');
                 }
                 else{
                     self.$message({
