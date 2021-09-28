@@ -1,3 +1,5 @@
+##
+### 主要是用于windows等开发环境的测试
 from flask import url_for,redirect, session,Flask,render_template,request,jsonify,Response,send_from_directory
 from flask_cors import CORS
 import cv2

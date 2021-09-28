@@ -103,7 +103,7 @@ export default Vue.extend({
     data(){
         return{
            dialogVisible:false,
-           valves:['valve1','valve2','valve3','valve4','valve5','valve6','valve7','valve8'],
+           valves:['阀门1','阀门2','阀门3','阀门4','阀门5','阀门6','阀门7','阀门8'],
            valvesChecked:[],
            locationChecked:[],
            presValue:0,
@@ -299,7 +299,7 @@ export default Vue.extend({
             if(self.taskType==='regant'){
               let val = '';
               self.valvesChecked.forEach(e => {
-                  val = val+e[5];
+                  val = val+e[2];
               });
               let data:any = {
                   type:'regant',

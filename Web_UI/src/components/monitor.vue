@@ -50,12 +50,14 @@
             </div>
             <div style="display:inline-block;vertical-align:top">
                 <span style="margin-right: 50px" v-for="(location,index) in locations" :key='index'>
-                    <el-radio
-                        style="margin:5px"
-                        @change="locationChange"
-                        v-model="optLocation" :label="index" border size="medium">
-                        {{location.name}}
-                    </el-radio>
+                    <el-tooltip :content="`转盘角度:${location.angle},直线位置:${location.line}`" placement="bottom">
+                        <el-radio
+                            style="margin:5px"
+                            @change="locationChange"
+                            v-model="optLocation" :label="index" border size="medium">
+                            {{location.name}}
+                        </el-radio>
+                    </el-tooltip>
                     <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer"></i>
                     <el-button @click="editLocation(index)" type="primary" icon="el-icon-edit" circle></el-button>
                 </span>
@@ -71,9 +73,14 @@
         :format="format"
         size="25%"
         :modal="false">
-        <div style="margin:10px;text-align:center">
-            <div style="margin:10px;">转盘位置设定</div>
-            <el-progress :percentage="percentageAngle" :format="format" type="circle" :stroke-width="20"></el-progress>
+        <el-input placeholder="" v-model="myLocationName">
+            <template slot="prepend">自定义位置名称：</template>
+        </el-input>
+        <div class="card" style="text-align:center">
+            <div style="margin-bottom:10px">转盘位置设定</div>
+            <div>
+             <el-progress :percentage="percentageAngle" :format="format" type="circle" :stroke-width="20"></el-progress>
+            </div>
             <div style="margin:10px;">
                 <el-select v-model="stepAngle" placeholder="请选择" style="width:100px">
                     <el-option
@@ -88,7 +95,9 @@
                     <el-button icon="el-icon-plus" @click="increaseAngle"></el-button>
                 </el-button-group>
             </div>
-            <div style="margin:30px 10px 10px 10px;">直线位置设定</div>
+        </div>
+        <div class="card" style="text-align:center">
+            <div style="margin-bottom:10px">直线位置设定</div>
             <el-progress  :text-inside="true"  :format="formatLine" :stroke-width="20" :percentage="percentageLine"></el-progress>
             <div style="margin:10px;">
                 <el-select v-model="stepLine" placeholder="请选择" style="width:100px">
@@ -104,10 +113,45 @@
                     <el-button icon="el-icon-plus" @click="increaseLine"></el-button>
                 </el-button-group>
             </div>
-        </div>
-        <div style="float:right;margin-top:30px;margin-right:10px">
+         </div>
+        <div style="float:right;margin:30px 10px 30px 0;">
             <el-button @click="locationVisible = false">取 消</el-button>
             <el-button type="primary" @click="locationSave">确 定</el-button>
+        </div>
+    </el-drawer>
+    <el-button @click="isSwitch = true" type="primary" style="margin-left: 16px;">
+    点我打开
+    </el-button>
+    <el-drawer
+        title="阀门控制"
+        style="overflow:auto"
+        :visible.sync="isSwitch"
+        :modal='false'
+        direction="ltr"
+        size="25%"
+    >
+        <div class="card">
+            <div style="text-align:center;margin-bottom:10px">阀门开关</div>
+            <el-checkbox-group 
+                v-model="valvesChecked"
+                style="margin-left:10%"
+                :min="0">
+                <el-checkbox v-for="valve in valves" :label="valve" :key="valve">{{valve}}</el-checkbox>
+            </el-checkbox-group>
+        </div>
+        <div class="card">
+            <div style="text-align:center">压力设定</div>
+            <div style="text-align:center;margin:0 20px 0 20px">
+            <el-slider
+                v-model="presValue"
+                height="100px">
+            </el-slider>
+            <el-input-number v-model="presValue"  :min="0" :max="100"></el-input-number>
+            </div>
+        </div>
+        <div style="float:right;margin-top:30px;margin-right:10px">
+            <el-button @click="isSwitch = false">取 消</el-button>
+            <el-button type="primary" @click="switchSave">确 定</el-button>
         </div>
     </el-drawer>
 </div>
@@ -119,6 +163,11 @@ export default Vue.extend({
     name:'monitor',
     data(){
         return {
+            presValue:0,
+            isSwitch:false,
+            myLocationName:'',
+            valves:['阀门1','阀门2','阀门3','阀门4','阀门5','阀门6','阀门7','阀门8'],
+            valvesChecked:[],
             recordStatus: 0,
             videoName:'',
             Temp:37,
@@ -127,8 +176,8 @@ export default Vue.extend({
             myDate: new Date(),
             optLocation:'1',
             locations:[
-                {name:'位置1',id:'1',angle:10,line:40},
-                {name:'位置2',id:'2',angle:40,line:50}],
+                {name:'位置1: 芯片1',id:'1',angle:10,line:40},
+                {name:'位置2: 芯片2',id:'2',angle:40,line:50}],
             locationVisible:false,
             percentageAngle:50,
             optionsAngle:[
@@ -153,6 +202,11 @@ export default Vue.extend({
         }
     },
     methods:{
+        switchSave(){
+            const self:any = this;
+            console.log(self.valvesChecked[0][2],self.presValue)
+
+        },
         focus(way,dir){
             const self:any = this;
             if(way==='auto'&&!self.autoFocus) return;
@@ -195,6 +249,7 @@ export default Vue.extend({
             if(index!==-1){
                 self.percentageLine = self.locations[index].line;
                 self.percentageAngle = self.locations[index].angle;
+                self.myLocationName = self.locations[index].name.split(':')[1];
             }
             self.locationVisible = true;
 
@@ -242,7 +297,7 @@ export default Vue.extend({
                 let id = self.locations.length>0?Number(self.locations[self.locations.length-1].id)+1:1;
                 let newLocation = {
                     username:sessionStorage.username,
-                    name:'位置'+id,
+                    name:'位置'+id+': '+self.myLocationName,
                     angle:self.percentageAngle,
                     line:self.percentageLine
                 }
@@ -435,7 +490,18 @@ export default Vue.extend({
     
 })
 </script>
+<style>
+.el-drawer.ltr{
+    overflow: auto;
+}
+
+</style>
 <style lang="scss" scoped>
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    margin: 10px;
+    padding: 15px;
+}
 .recordCard{
     cursor: pointer;
     font-size: 14px;
