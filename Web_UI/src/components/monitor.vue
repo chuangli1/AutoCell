@@ -60,15 +60,13 @@
                 <span><i style="padding-right:6px" class="el-icon-video-camera"></i>对焦控制</span>
             </div>
             <div class="recordCard">
-                <el-switch
-                    v-model="autoFocus"
-                    @change="focus('auto','up')"
-                    active-text="自动对焦">
-                </el-switch>
+                <div style="margin:0 0 5px 5px">
+                    <el-button type="info" icon="el-icon-bangzhu" @click="focus('auto','up')">对焦</el-button>
+                </div>
                 <div class="general" style="margin:14px 0 0 0; height:120px; width:100px;">
                     <span class="title">手动控制</span>
-                    <div style="margin:0 10px"><el-button type="info" icon="el-icon-top" @click="focus('hand','up')"></el-button></div>
-                    <div style="margin:10px 10px 0 10px"><el-button type="info" icon="el-icon-bottom" @click="focus('hand','down')"></el-button></div>
+                    <div style="margin:0 5px"><el-button type="info" icon="el-icon-top" @click="focus('hand','up')"></el-button></div>
+                    <div style="margin:10px 5px 0 5px"><el-button type="info" icon="el-icon-bottom" @click="focus('hand','down')"></el-button></div>
                 </div>
             </div>
          </el-card>
@@ -176,7 +174,6 @@ export default Vue.extend({
             videoName:'',
             Temp:37,
             CO2:400,
-            autoFocus:false,
             myDate: new Date(),
             optLocation:'1',
             locations:[
@@ -229,14 +226,14 @@ export default Vue.extend({
         },
         focus(way,dir){
             const self:any = this;
-            if(way==='auto'&&!self.autoFocus) return;
-            if(way==='hand'&&self.autoFocus){
-                self.$notify({
-                        title: '警告',
-                        message: '请先关闭自动对焦!',
-                        type: 'warning'
-                });
-            return;}
+            // if(way==='auto'&&!self.autoFocus) return;
+            // if(way==='hand'&&self.autoFocus){
+            //     self.$notify({
+            //             title: '警告',
+            //             message: '请先关闭自动对焦!',
+            //             type: 'warning'
+            //     });
+            // return;}
             $.post('/focus',{way:way,direction:dir}).then(data=>{
             })
         },
@@ -250,7 +247,7 @@ export default Vue.extend({
                             message: '位置改变成功',
                             type: 'success'
                         });
-                        if(self.autoFocus) self.foucs('auto','up')
+                        //if(self.autoFocus) self.foucs('auto','up')
                 }
                 else{
                     self.$message.error('未知错误, 请重试');
@@ -618,7 +615,7 @@ export default Vue.extend({
         top: -12px;
         font-size: 14px;
         background-color: #ffffff;
-        padding: 0 8px;
+        padding: 0 5px;
     }
 }
 </style>
