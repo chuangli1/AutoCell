@@ -418,10 +418,10 @@ def valveControl():
       presValue = request.form['presValue']
       valves.pressure(presValue,0)
       for i in range(0,8):
-         valves.openvalves(i,0);
+         valves.openvalves(i,0)
       for i in range(0,len(valveChecked)):
-         valve = int(valveChecked[i]);
-         valves.openvalves(valve,1);
+         valve = int(valveChecked[i])
+         valves.openvalves(valve,1)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
