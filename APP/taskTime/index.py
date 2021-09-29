@@ -29,9 +29,9 @@ class taskManager():
         self.apsTask.deleteTask(taskId)
     def addRegantTask(self,taskID):
         regantTaskt = regantTask(self.valves)
-        regantTaskt.initRegant()
+        regantTaskt.initRegant(int(taskID))
         times = regantTaskt.times
-        interval = int(regantTaskt.interval[0]);
+        interval = int(regantTaskt.interval[0])
         taskId = str(taskID)+'R'
         print('试剂任务'+str(taskId)+':'+times[0]+'至'+times[1]+', 任务间隔：'+regantTaskt.interval[0]+'分')
         self.apsTask.addTask(regantTaskt.exeTask,times,interval,taskId)

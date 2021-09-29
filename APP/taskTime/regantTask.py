@@ -13,8 +13,7 @@ class regantTask():
         #排队
     def initRegant(self,taskID):
         #从数据库中拿到数据
-        taskD = findRegantTasks(taskID)[0];
-        print(taskD)
+        taskD = findRegantTasks(taskID)[0]
         if(taskD):
             timet = taskD[5].split(",")
             start_dates = (datetime.now()+timedelta(minutes=int(timet[0]))).strftime("%Y-%m-%d %H:%M:%S")
@@ -26,10 +25,10 @@ class regantTask():
     def exeTask(self):
         #执行任务
         for i in range(0,8):
-            self.valveControl.openvalves(i,0);
+            self.valveControl.openvalves(i,0)
         for i in range(0,len(self.valve)):
-            valve = int(self.valve[i]);
-            self.valveControl.openvalves(valve,1);
+            valve = int(self.valve[i])
+            self.valveControl.openvalves(valve,1)
         time.sleep(self.long)
         for i in range(0,8):
-            self.valveControl.openvalves(i,0);
+            self.valveControl.openvalves(i,0)

@@ -205,9 +205,8 @@ export default Vue.extend({
     methods:{
         switchSave(){
             const self:any = this;
-            console.log(self.valvesChecked[0][2],self.presValue)
             const presData = {
-                valveChecked:self.valvesChecked.map(e=>e[2]),
+                valveChecked:self.valvesChecked.map(e=>e[2]).join(' '),
                 presValue:self.presValue
             }
             $.post('/valveControl',presData).then((data)=>{

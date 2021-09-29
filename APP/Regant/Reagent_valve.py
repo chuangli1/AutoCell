@@ -1,5 +1,5 @@
 import time
-from .pres.pres_control import pres_control
+from .pres.pres_control import pres_control,pres_read
 from .pres.MCP23S17 import MCP23S17
 
 class valve_control():
@@ -38,13 +38,14 @@ class valve_control():
     def pressure(self,pres_r,i):
         print('启动压力调整程序')
         pres_control(pres_r,i)
+    def presGet(self):
+        return pres_read()
     def openSource(self):
-        self.openvalves(8,1)
-        time.sleep(5)
+        #self.openvalves(8,1)
         self.sourceClose = False
         self.openvalves(15,1)
     def closeSource(self):
         self.openvalves(15,0)
         time.sleep(1)
         self.sourceClose = True
-        self.openvalves(8,0)
+        #self.openvalves(8,0)

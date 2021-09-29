@@ -14,12 +14,13 @@ def pres_control(pres_set,i):
     try:
         DAC = DAC8532.DAC8532()
         kpa1 = pres_set
+        print(kpa1)
         temp1 = kpa1/20
         if i==0:
            DAC.DAC8532_Out_Voltage(DAC8532.channel_A,  temp1)
         else:
            DAC.DAC8532_Out_Voltage(DAC8532.channel_B,  temp1)
-        time.sleep(2)
+        time.sleep(1)
     except:
         DAC = DAC8532.DAC8532()
         kpa1 = pres_set / 1.37

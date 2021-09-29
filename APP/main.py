@@ -16,7 +16,7 @@ from Regant.Reagent_valve import valve_control
 from taskTime.index import taskManager
 valves = valve_control()
 camera = Camera(valves)
-from monitor.genSensors import genSensors
+#from monitor.genSensors import genSensors
 stageM = Stage()
 taskM = taskManager(camera,stageM,valves)
 camera.start()
@@ -376,11 +376,12 @@ def addTaskList():
    taskId = request.form['task_id']
    listDate= request.form['list_date']
    try:
-      addTaskLists(taskType,taskId,listDate)
       if(taskType=='regant'):
          taskM.addRegantTask(taskId)
       else:
          taskM.addMonitorTask(taskId)
+      addTaskLists(taskType,taskId,listDate)
+      print(taskType,taskId,listDate)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
@@ -405,23 +406,31 @@ def deleteTaskList():
    except:
       return jsonify({'code':0})
 
-#传感器
-@app.route('/sensor',methods=['GET'])
-def sensor():
-   return jsonify({'code':1,'data':genSensors()})
+# #传感器
+# @app.route('/sensor',methods=['GET'])
+# def sensor():
+#    return jsonify({'code':1,'data':genSensors()})
 
 #阀门控制
 @app.route('/valveControl',methods=['POST'])
 def valveControl():
    try:
       valveChecked = request.form['valveChecked']
-      presValue = request.form['presValue']
-      valves.pressure(presValue,0)
+      if(valveChecked==''):
+         valveChecked = []
+      else:
+         valveChecked = valveChecked.split(' ')
+      presValue = int(request.form['presValue'])
       for i in range(0,8):
          valves.openvalves(i,0)
-      for i in range(0,len(valveChecked)):
-         valve = int(valveChecked[i])
-         valves.openvalves(valve,1)
+      if(len(valveChecked)>0):
+         for i in range(0,len(valveChecked)):
+            valve = int(valveChecked[i])-1
+            valves.openvalves(valve,1)
+         valves.openSource()
+         valves.pressure(presValue,1)
+      else:
+         valves.closeSource()
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
