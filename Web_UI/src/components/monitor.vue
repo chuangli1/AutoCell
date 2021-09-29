@@ -268,6 +268,9 @@ export default Vue.extend({
                 self.percentageAngle = self.locations[index].angle;
                 self.myLocationName = self.locations[index].name.split(':')[1];
             }
+            else{
+                self.myLocationName = '';
+            }
             self.locationVisible = true;
 
         },
