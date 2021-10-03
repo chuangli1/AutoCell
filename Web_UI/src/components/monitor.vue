@@ -369,7 +369,7 @@ export default Vue.extend({
         },
         increaseLine() {
             const self:any = this
-	    if (self.percentageLine > 100) return;
+	        if (self.percentageLine > 100) return;
             self.percentageLine += self.stepLine;
             if (self.percentageLine > 100) {
                 self.percentageLine = 100;
@@ -488,19 +488,48 @@ export default Vue.extend({
             const self:any = this;
             $.get('/sensor').then(data=>{
                 if(data.code===1){
-                        self.Temp = data.data[2].toFixed(2)+' C';
-                        self.CO2 = (data.data[0]/10000).toFixed(2)+' %';
+                    self.Temp = data.data[2].toFixed(2)+' C';
+                    self.CO2 = (data.data[0]/10000).toFixed(2)+' %';
                 }
                 
             })
 
+        },
+        testValve(){
+            //离开系统前，关闭所有的阀门
+            const self:any = this;
+            if(self.valvesChecked.length>0){
+                const presData = {
+                    valveChecked:'',
+                    presValue:0
+                }
+                $.post('/valveControl',presData).then((data)=>{
+                    if(data.code===1){
+                        self.$message({
+                            message: '阀门关闭成功',
+                            type: 'success'
+                        });
+                    }
+                    else{
+                        self.$message.error('未知错误, 请重试');
+                    }
+
+                })
+
+            }
         }
+    },
+    destroyed(){
+        const self:any = this;
+        window.removeEventListener('beforeunload',self.testValve)
+
     },
     created(){
         const self:any = this;
         self.getLocations();
-	self.getSensors();	
-        self.getSensor = setInterval(()=>{self.getSensors()},30000)
+	    self.getSensors();	
+        self.getSensor = setInterval(()=>{self.getSensors()},30000);
+        window.addEventListener('beforeunload',self.testValve)
     },
     beforeDestroy() {
       const self:any = this;
