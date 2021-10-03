@@ -79,7 +79,7 @@
         size="25%"
         :modal="false">
         <el-input placeholder="" v-model="myLocationName">
-            <template slot="prepend">自定义位置名称：</template>
+            <template slot="prepend">位置名称：</template>
         </el-input>
         <div class="card" style="text-align:center">
             <div style="margin-bottom:10px">转盘位置设定</div>
