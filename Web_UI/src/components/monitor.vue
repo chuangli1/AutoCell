@@ -26,7 +26,7 @@
                             <el-radio
                                 style="margin:5px"
                                 @change="locationChange"
-                                v-model="optLocation" :label="index" border size="medium">
+                                v-model="optLocation" :label="location.id" border size="medium">
                                 {{location.name}}
                             </el-radio>
                         </el-tooltip>
@@ -79,7 +79,7 @@
         size="25%"
         :modal="false">
         <el-input placeholder="" v-model="myLocationName">
-            <template slot="prepend">自定义位置名称：</template>
+            <template slot="prepend">位置名称：</template>
         </el-input>
         <div class="card" style="text-align:center">
             <div style="margin-bottom:10px">转盘位置设定</div>
@@ -175,7 +175,7 @@ export default Vue.extend({
             Temp:37,
             CO2:400,
             myDate: new Date(),
-            optLocation:'1',
+            optLocation:-1,
             locations:[
                 {name:'位置1: 芯片1',id:'1',angle:10,line:40},
                 {name:'位置2: 芯片2',id:'2',angle:40,line:50}],
@@ -236,9 +236,10 @@ export default Vue.extend({
             $.post('/focus',{way:way,direction:dir}).then(data=>{
             })
         },
-        locationChange(index){
+        locationChange(id){
             const self:any = this;
-            let location = self.locations[index];
+            let index = self.locations.findIndex(n=>n.id===id);
+            const location = self.locations[index];
             $.post('/changeLocation',{angle:location.angle,
             line:location.line}).then(data=>{
                 if(data.code===1){
@@ -257,6 +258,7 @@ export default Vue.extend({
         },
         addLocation(){
             const self:any = this;
+            self.optLocation = -1;
             self.editLocation(-1)
         },
         editLocation(index){
@@ -270,6 +272,7 @@ export default Vue.extend({
             else{
                 self.myLocationName = '';
             }
+            self.optLocation = -1; 
             self.locationVisible = true;
 
         },
@@ -329,6 +332,7 @@ export default Vue.extend({
                                 });
                                 self.$emit('refreshLocations');
                                 self.getLocations();
+                                self.optLocation = id; 
                         }
                         else{
                             self.$message.error('未知错误, 请重试');
@@ -344,17 +348,19 @@ export default Vue.extend({
                 $.post('/updateLocation',{username:sessionStorage.username,
                 id:id,angle:self.percentageAngle,line:self.percentageLine}).then(data=>{
                         if(data.code===1){
-                                self.$message({
-                                    message: '修改成功',
-                                    type: 'success'
-                                });
+                            self.$message({
+                                message: '修改成功',
+                                type: 'success'
+                            });
+                            self.optLocation = id; 
                         }
                         else{
                             self.$message.error('未知错误, 请重试');
                         }
-                });   
+                });
             };
             self.locationVisible = false;
+
         },
         increaseAngle() {
             const self:any = this;
