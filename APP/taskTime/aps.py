@@ -2,6 +2,8 @@
 from datetime import date
 from apscheduler.schedulers.background import BackgroundScheduler
 import time
+from APP.db.index import deleteTaskLists
+from db.index import deleteTaskLists
 
 class apsTask():
     def __init__(self):
@@ -22,6 +24,7 @@ class apsTask():
         else:
             taskId = str(taskID)+'R'
         try:
+            deleteTaskLists(taskID,type)
             self.taskList.index(taskId)
             self.taskList.remove(taskId)
             self.scheduler.remove_job(str(taskId))
