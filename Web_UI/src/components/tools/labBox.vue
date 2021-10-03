@@ -124,7 +124,22 @@ export default Vue.extend({
                 'type':self.taskType,
                 'task_id':id
             }
-             $.post('/deleteTask',dataD).then(function(data){
+            if(self.activeList.findIndex(d=>d[0]===id)!==-1){
+                $.post('/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
+                    if(data.code === 0){
+                            self.$message.error('未知错误, 请重试');
+                        }
+                    else{
+                            self.$message({
+                                message: '任务关闭成功',
+                                type: 'success'
+                            });
+                            self.activeList.splice(self.activeList.findIndex(d=>d[0]===id),1);
+                        }
+                            
+                    });
+            }
+            $.post('/deleteTask',dataD).then(function(data){
                 if(data.code === 0){
                     self.$message.error('未知错误, 请重试');
                 }
@@ -136,21 +151,6 @@ export default Vue.extend({
                     self.tasks.splice(self.tasks.findIndex(e => e.id === id), 1) 
                 }
             });
-            if(self.activeList.findIndex(d=>d[0]===id)!==-1){
-            $.post('/deleteTaskList',{task_id:id, task_type:self.taskType}).then(data=>{
-                if(data.code === 0){
-                        self.$message.error('未知错误, 请重试');
-                    }
-                else{
-                        self.$message({
-                            message: '任务关闭成功',
-                            type: 'success'
-                        });
-                        self.activeList.splice(self.activeList.findIndex(d=>d[0]===id),1);
-                    }
-                        
-                });
-            }
         },
         editTask(task){
            const self:any = this;

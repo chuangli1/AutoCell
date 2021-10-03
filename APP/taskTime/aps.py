@@ -15,8 +15,12 @@ class apsTask():
         print('chuangli',times,interval,taskId)
         self.scheduler.add_job(task, 'interval', minutes=interval, start_date =times[0], end_date=times[1], id=str(taskId))
         self.scheduler.add_job(self.deleteTask, 'date', run_date=times[1], args=[taskId])
-    def deleteTask(self,taskId):
-        print('停止任务'+str(taskId))
+    def deleteTask(self,taskID,type):
+        print('停止任务'+str(taskID))
+        if(type=='monitor'):
+            taskId = str(taskID)+'M'
+        else:
+            taskId = str(taskID)+'R'
         try:
             self.taskList.index(taskId)
             self.taskList.remove(taskId)

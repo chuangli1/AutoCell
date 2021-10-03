@@ -21,12 +21,8 @@ class taskManager():
         print('视频任务'+str(taskId)+':'+times[0]+'至'+times[1]+', 任务间隔：'+monitorTaskt.interval[0]+'分')
         self.apsTask.addTask(monitorTaskt.monitorCap,times,interval,taskId)
         self.mi+=1
-    def deleteMonitorTask(self,taskId,type):
-        if(type=='monitor'):
-           taskId = str(taskId)+'M'
-        else:
-            taskId = str(taskId)+'R'
-        self.apsTask.deleteTask(taskId)
+    def deleteTask(self,taskId,type):
+        self.apsTask.deleteTask(taskId,type)
     def addRegantTask(self,taskID):
         regantTaskt = regantTask(self.valves)
         regantTaskt.initRegant(int(taskID))

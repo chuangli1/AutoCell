@@ -399,9 +399,9 @@ def deleteTaskList():
    try:
       deleteTaskLists(taskId,taskType)
       if(taskType=='regant'):
-            taskM.deleteMonitorTask(taskId,'regant')
+            taskM.deleteTask(taskId,'regant')
       else:
-            taskM.deleteMonitorTask(taskId,'monitor')
+            taskM.deleteTask(taskId,'monitor')
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
