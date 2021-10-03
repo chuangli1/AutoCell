@@ -240,8 +240,8 @@ export default Vue.extend({
             const self:any = this;
             let index = self.locations.findIndex(n=>n.id===id);
             const location = self.locations[index];
-            $.post('/changeLocation',{angle:location.angle,
-            line:location.line}).then(data=>{
+            $.post('/changeLocation',{angle:Math.floor(360*location.angle)/100,
+            line:Math.floor(location.line*200)/100}).then(data=>{
                 if(data.code===1){
                         self.$message({
                             message: '位置改变成功',
@@ -404,7 +404,7 @@ export default Vue.extend({
         decreaseLine() {
             const self:any = this;
             self.percentageLine -= self.stepLine;
-	    if (self.percentageAngle < 0) return;
+            if (self.percentageAngle < 0) return;
             if (self.percentageLine < 0) {
                 self.percentageLine = 0;
             }
