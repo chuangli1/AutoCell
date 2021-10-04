@@ -159,7 +159,7 @@ def findLocations(id,user):
     return result
 def updateLocations(angle,line,id,user):
     mydb.ping(reconnect=True)
-    cur.execute(findLocation,[angle,line,id,user])
+    cur.execute(updateLocation,[angle,line,id,user])
     mydb.commit()
 
 

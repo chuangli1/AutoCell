@@ -36,4 +36,4 @@ addLocation = 'insert into locationlist (user_name,location_name,location_angle,
 deleteLocation = "delete from locationlist where location_id=%s and user_name=%s;"
 searchLocation = 'select * from locationlist where user_name=%s;'
 findLocation = "select * from locationlist where location_id=%s and user_name=%s;"
-updateLocation = 'update locationList set location_angle=%s, location_line=%s where location_id=%s and user_name=%s'
+updateLocation = 'update locationlist set location_angle=%s, location_line=%s where location_id=%s and user_name=%s'

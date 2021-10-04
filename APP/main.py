@@ -1,4 +1,5 @@
 #main
+from logging import error
 from flask import url_for,redirect, session,Flask,render_template,request,jsonify,Response,send_from_directory
 from flask_cors import CORS
 import sys
@@ -180,9 +181,10 @@ def updateLocation():
    locationAngle = request.form['angle']
    locationLine = request.form['line']
    try:
-      updateLocations(locationAngle,locationLine,locationID,userName)
+      updateLocations(int(locationAngle),int(locationLine),locationID,userName)
       return jsonify({'code':1})
    except:
+      print(error)
       return jsonify({'code':0})
 
 #对焦

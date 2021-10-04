@@ -13,7 +13,7 @@ class moveToChip():
         line = int(location[0][4])*200/100
         self.stage.changeLocation(line,angle)
         time.sleep(2)
-        self.stage.autoFocus()
+        self.stage.autoFocus.autoFocus()
         time.sleep(10)
         
 
