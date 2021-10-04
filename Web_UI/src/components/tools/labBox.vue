@@ -176,7 +176,7 @@ export default Vue.extend({
            }
            else{
                console.log(task)
-               self.locationChecked = task.location.slice();
+               self.locationChecked = task.location.filter(n=>self.locations.findIndex(e=>e.id==n)!==-1);
            }
            self.editId = task.id;
            self.dialogVisible = true;
