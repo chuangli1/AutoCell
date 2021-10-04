@@ -210,7 +210,7 @@ export default Vue.extend({
                 });
             }
             else{
-                 $.get('/loadTasks?type='+self.taskType).then(function(data){
+                $.get('/loadTasks?type='+self.taskType).then(function(data){
                 data.tasks.forEach(e => {
                     tasks.push({
                         id:e[0],
@@ -260,8 +260,13 @@ export default Vue.extend({
         changeStatus(status,task){
             const self:any = this;
             if(status){
-                 $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
-                      if(data.code === 0){
+                if(self.taskType==='monitor'&&task.location.filter(n=>self.locations.findIndex(e=>e.id==n)!==-1).length!==task.location.length){
+                    self.$message.error('位置信息需要更新，请修改后重试');
+                    task.isActive = !status;
+                    return; 
+                }
+                $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
+                       if(data.code === 0){
                             self.$message.error('未知错误, 请重试');
                             task.isActive = !status;
                         }

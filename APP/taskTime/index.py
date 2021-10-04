@@ -19,7 +19,7 @@ class taskManager():
         interval = int(monitorTaskt.interval[0])
         taskId = str(taskId)+'M'
         print('视频任务'+str(taskId)+':'+times[0]+'至'+times[1]+', 任务间隔：'+monitorTaskt.interval[0]+'分')
-        self.apsTask.addTask(monitorTaskt.monitorCap,times,interval,taskId)
+        self.apsTask.addTask(monitorTaskt.monitorCap,times,interval,taskId,'monitor')
         self.mi+=1
     def deleteTask(self,taskId,type):
         self.apsTask.deleteTask(taskId,type)
@@ -30,7 +30,7 @@ class taskManager():
         interval = int(regantTaskt.interval[0])
         taskId = str(taskID)+'R'
         print('试剂任务'+str(taskId)+':'+times[0]+'至'+times[1]+', 任务间隔：'+regantTaskt.interval[0]+'分')
-        self.apsTask.addTask(regantTaskt.exeTask,times,interval,taskId)
+        self.apsTask.addTask(regantTaskt.exeTask,times,interval,taskId,'regant')
  
 
 
