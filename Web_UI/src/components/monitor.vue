@@ -22,7 +22,7 @@
             <div style="width:100%">
                 <div style="display:inline-block;vertical-align:top">
                     <div style="margin-right: 50px" v-for="(location,index) in locations" :key='index'>
-                        <el-tooltip :content="`转盘角度:${location.angle},直线位置:${location.line}`" placement="bottom">
+                        <el-tooltip :content="`转盘角度:${location.angle},直线位置:${location.line}`" placement="left">
                             <el-radio
                                 style="margin:5px"
                                 @change="locationChange"
