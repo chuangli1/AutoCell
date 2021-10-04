@@ -22,7 +22,15 @@
                  <i class="el-icon-warning-outline">压力大小：{{task.pres}}</i>
             </div>
             <div v-else>
-                 <i class="el-icon-warning-outline">成像位置：{{task.location}}</i>
+                <i class="el-icon-warning-outline">成像位置：{{task.location.map(n=>{
+                    const index = locations.findIndex(e=>e.id==n);
+                    if(index===-1){
+                        return '无效位置';
+                    }
+                    else{
+                        return locations[index].name;
+                    }
+                })}}</i>
             </div>
             <div style="float: right; padding: 3px 0;font-size:14px">{{task.username+'于'+task.date+'创建'}}</div>
         </div>
