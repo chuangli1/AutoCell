@@ -1,4 +1,6 @@
-from db.index import findLocations,findMonitorTasks
+from db.index import findLocations
+import time
+
 
 class moveToChip():
     def __init__(self,stage):
@@ -10,6 +12,9 @@ class moveToChip():
         angle = int(location[0][3])*360/100
         line = int(location[0][4])*200/100
         self.stage.changeLocation(line,angle)
+        time.sleep(2)
+        self.stage.autoFocus()
+        time.sleep(10)
         
 
 

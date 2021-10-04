@@ -21,6 +21,7 @@ stageM = Stage()
 taskM = taskManager(camera,stageM,valves)
 camera.start()
 focusM = Focus(camera)
+stageM.autoFocus = focusM
 
 
 managerName = 'chuangli'

@@ -9,6 +9,7 @@ class Stage():
     def __init__(self):
 
         self.OpenSerial()
+        self.autoFocus = None
     
     def resetzero(self,x):
         MotionComm = "G28 Z0"

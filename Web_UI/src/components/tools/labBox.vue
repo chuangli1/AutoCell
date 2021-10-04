@@ -268,7 +268,7 @@ export default Vue.extend({
         changeStatus(status,task){
             const self:any = this;
             if(status){
-                if(self.taskType==='monitor'&&task.location.filter(n=>self.locations.findIndex(e=>e.id==n)!==-1).length!==task.location.length){
+                if(self.taskType==='monitor'&&(task.location.filter(n=>self.locations.findIndex(e=>e.id==n)!==-1).length!==task.location.length||task.location.length===0)){
                     self.$message.error('位置信息需要更新，请修改后重试');
                     task.isActive = !status;
                     return; 

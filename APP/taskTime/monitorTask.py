@@ -36,7 +36,7 @@ class monitorTask():
         for i in range(0,len(self.location)):
             location = self.location[i]
             self.moveToChip.moveNext(int(location),self.userName)
-            time.sleep(3)
+            time.sleep(5)
             self.taskWait()
             self.videoNames = self.videoName+'locaiton'+str(location)+datetime.now().strftime(" %Y_%m_%d %H_%M_%S")
             addVideos(self.userName,self.videoNames,datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
