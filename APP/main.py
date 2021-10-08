@@ -196,7 +196,7 @@ def foucs():
          focusM.autoFocus()
       else:
          dir = request.form['direction']
-         focusM.moveByHand(100,dir)
+         focusM.moveByHand(20,dir)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})

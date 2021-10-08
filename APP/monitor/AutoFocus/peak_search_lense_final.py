@@ -15,7 +15,7 @@ def fibonacci_peak(cam,focus,ak,bk,aoi,hysteresis,tolerance):
   # aoi: area of interest in form [x1,y1,x2,y2]
   # hysteresis: offset to compensate hysteresis
   # tolerance: tolerance limit, algorithm stops when the search interval becomes smaller than tolerance
-  focus.reset()
+  focus.resetzero()
   which=0
   N=fibonacci(bk)[1]    #calculate theoretical number of loops needed for peak finding
   nCount=0          #variable to count actual number of loops used
