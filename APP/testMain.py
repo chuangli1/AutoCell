@@ -4,9 +4,6 @@ from flask import url_for,redirect, session,Flask,render_template,request,jsonif
 from flask_cors import CORS
 import cv2
 import sys
-sys.path.append('./db')
-from db.index import *
-import time #主要是用于处理Flask不适用于生产环境的原因
 managerName = 'chuangli'
 app = Flask(__name__, 
            template_folder= "../Web_UI/dist",

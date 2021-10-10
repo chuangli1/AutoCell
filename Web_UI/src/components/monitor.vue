@@ -40,7 +40,8 @@
                 <el-button slot="reference" type="primary">更新位置</el-button>
             </el-popover>
        </div>
-       <img src = '/video' width="100%">
+       <img src = '/video' width="100%" style="border-radius:5px;box-shadow:0 2px 12px 0 rgb(0 0 0 / 10%);
+}">
    </div>
    <div class = "col-sm-3">
         <el-card>
