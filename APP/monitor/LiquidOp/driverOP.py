@@ -15,8 +15,7 @@ class Opto():
         self.s.write(data)
     def readData(self):
         return self.s.readline()
-    def start(self):
-        
+    def start(self):   
         self.s=serial.Serial('/dev/ttyACM0',115200,timeout=0.5)
         self.s.write("Start".encode('ascii'))
         if(str(self.readData())[2:7] == 'Ready'): print('液体镜头连接成功！')

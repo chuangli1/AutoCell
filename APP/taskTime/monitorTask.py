@@ -38,7 +38,7 @@ class monitorTask():
             self.moveToChip.moveNext(int(location),self.userName)
             time.sleep(5)
             self.taskWait()
-            self.videoNames = self.videoName+'locaiton'+str(location)+datetime.now().strftime(" %Y_%m_%d %H_%M_%S")
-            addVideos(self.userName,self.videoNames,datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
+            self.videoNames = self.videoName+'locaiton'+str(location)+datetime.now().strftime(" %Y_%m_%d %H_%M")
+            addVideos(self.userName,self.videoNames,datetime.now().strftime("%Y/%m/%d %H:%M"))
             self.cap.start_c(self.videoNames,self.long)
 

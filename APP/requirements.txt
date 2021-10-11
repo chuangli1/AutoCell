@@ -9,3 +9,4 @@ pyserial==3.5
 RPi==0.0.1
 spidev==3.5
 opencv
+xlwt

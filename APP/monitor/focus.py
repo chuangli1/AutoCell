@@ -8,6 +8,7 @@ class Focus():
         self.initCurrent = 0
         self.stateMent = 0 # 0代表无工作，1代表正在自动对焦  
     def moveByHand(self,step,dir):
+        #手动对焦
         if(self.stateMent==1):
             return
         print(step,dir)
@@ -18,6 +19,7 @@ class Focus():
         print(self.initCurrent)
         self.dirverOp.setCurrent(self.initCurrent)
     def autoFocus(self):
+        #自动对焦
         print('autoFocus')
         self.stateMent = 1
         self.Af.start_af(2,20,20,1000,4000,10)

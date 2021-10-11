@@ -2,7 +2,7 @@
 <div>
     <epm-2-table v-bind:items ="currentItems" :headers ="headers" v-if='isDataValid'>      
       <template v-slot:name={item}>
-        <span :class="{'el-icon-film':item.Type==='video','el-icon-toilet-paper':item.Type==='number'}" class="icon"/>
+        <span :class="{'el-icon-film':item.Type==='video','el-icon-document':item.Type==='sensor'}" class="icon"/>
         <span class="sheet-name">{{item.name.split(' ')[0]}}</span>
       </template>
       <template v-slot:action={item}>
@@ -107,7 +107,7 @@ export default Vue.extend({
                     self.currentItems.push({
                         'name': e[1],
                         'date': e[3],
-                        'Type':'video',
+                        'Type':e[1].includes('传感器')?'sensor':'video',
                         'action':'',
                         'id':e[0],
                         'isMe':e[2]===sessionStorage.username
