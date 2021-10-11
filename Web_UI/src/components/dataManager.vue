@@ -73,8 +73,10 @@ export default Vue.extend({
         },
         downloadVideo (video_name) {
             const self:any = this;
-             let url = '/videoDownload?video_name='+video_name+'.avi'
-             window.open(url);
+            let url = '/videoDownload?video_name='+video_name;
+            if(video_name.includes('传感器')) url+='.xls';
+            else url+='.avi';
+            window.open(url);
         },
         deleteVideo(videoID) {
             const self:any = this;
