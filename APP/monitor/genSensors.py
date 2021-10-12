@@ -14,7 +14,6 @@ def recordSensors():
     scheduler.add_job(record, 'interval', minutes=5, id='sensor',args=[warningN,workbook])
     scheduler.start()
 def record(warningN,workbook):
-    print(warningN)
     if(warningN[0]%480==0):#每天的数据保存到一个新文件里
         workbook.pop()
         workbook.pop()
