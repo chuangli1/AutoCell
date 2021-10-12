@@ -6,8 +6,9 @@
                <span><i style="padding-right:6px" class="el-icon-odometer"></i>环境监测</span>
            </div>
            <div class="envCard">
-               <span><i  class="el-icon-data-line"></i>实时温度：{{Temp}}</span>
                <span><i  class="el-icon-magic-stick"></i>实时CO2：{{CO2}}</span>
+               <span><i  class="el-icon-data-line"></i>实时温度：{{Temp}}</span>
+               <span><i  class="el-icon-magic-stick"></i>实时湿度：{{HUMI}}</span>
            </div>
        </el-card>
        <div style="margin:0px 10px;color:#FFFFFF;  background: rgba(255, 255, 255, 0); position:absolute; top:5px; right:20px">
@@ -175,6 +176,7 @@ export default Vue.extend({
             videoName:'',
             Temp:37,
             CO2:400,
+            HUMI:50,
             myDate: new Date(),
             optLocation:-1,
             locations:[
@@ -497,6 +499,7 @@ export default Vue.extend({
                 if(data.code===1){
                     self.Temp = data.data[2].toFixed(2)+' C';
                     self.CO2 = (data.data[0]/10000).toFixed(2)+' %';
+                    self.HUMI = (data.data[3]).toFixed(2)+' %';
                 }
                 
             })
