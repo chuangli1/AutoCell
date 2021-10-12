@@ -4,7 +4,7 @@
     
     <el-card v-for="(info,index) in infos" :key='index' class="box-card infoBox">
         <div slot="header" class="clearfix">
-            <span>{{info[1]}}</span>
+            <span :style="{color:info[1].includes('系统')?'red':'black'}">{{info[1]}}</span>
             <span style="float: right; padding: 3px 0">
                 <i v-if='info[1]===userName||isManager' class="el-icon-delete deleteIcon" @click="deleteInfo(info[0])"></i>
             </span>
@@ -14,7 +14,7 @@
             <i class="el-icon-warning-outline"></i>
             <span style="font-size:14px">{{info[2]}}</span>
             </div>
-            <div style="float: right; padding: 3px 0;font-size:14px">{{info[3].split(' ')[0]}}</div>
+            <div style="float: right; padding: 3px 0;font-size:14px">{{info[3]}}</div>
         </div>
         </el-card>
   </div>

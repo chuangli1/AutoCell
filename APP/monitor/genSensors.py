@@ -11,9 +11,10 @@ def recordSensors():
     scheduler = BackgroundScheduler()
     warningN = [0,0,0]
     workbook = [0,0]
-    scheduler.add_job(record(), 'interval', minutes=3, start_date =time.localtime(), end_date=times[1], id=str(taskId),args=[warningN,workbook])
-
+    scheduler.add_job(record, 'interval', minutes=5, id='sensor',args=[warningN,workbook])
+    scheduler.start()
 def record(warningN,workbook):
+    print(warningN)
     if(warningN[0]%480==0):#每天的数据保存到一个新文件里
         workbook.pop()
         workbook.pop()
@@ -22,22 +23,22 @@ def record(warningN,workbook):
         workbook[1].append(['时间','二氧化碳','温度','湿度'])
         workbook[0].save('./video/传感器数据记录表%s.xlsx'%(int(warningN[0]/480))) #一个新文件
         warningN[0] = warningN[0]+1
-        addVideos('系统','传感器数据记录表%s.xlsx'%(warningN[0]%480),time.strftime('%Y/%m/%d %H:%M',time.localtime()))
+        addVideos('系统','传感器数据记录表%s'%(int(warningN[0]/480)),time.strftime('%Y/%m/%d %H:%M',time.localtime()))
     data = genSensors()
     if data[0]>1000 or data[2]>38 or data[3]>80 or data[0]<300 or data[2]<36 or data[3]<20:
         warningN[1] = warningN[1]+1
         warningN[2] = 0
         if(warningN[1]>5): #短时间内出现5次以上异常数据，记录
-            addInfos('系统：环境数据异常！！！',"CO2: %s; \n 温度：%s; \n 湿度：%s。"%(data[0],data[2],data[3]),time.strftime('%Y/%m/%d %H:%M:%S',time.localtime()))    
+            addInfos('系统：环境异常!',"CO2: %sppm; \n 温度：%s度; \n 湿度：%s%。"%(data[0],data[2],data[3]),time.strftime('%Y/%m/%d %H:%M:%S',time.localtime()))    
             warningN[1] = 0
     else:
         warningN[1] = warningN[1]-1
         warningN[2] = warningN[2]+1
         if(warningN[2]>10): #连续10次监测数据正常，异常情况排除
             warningN[1] = 0
-    workbook[1].append(time.strftime('%Y/%m/%d %H:%M',time.localtime()),data[0],data[2],data[3]]) # 不带样式的写入
+    workbook[1].append([time.strftime('%Y/%m/%d %H:%M',time.localtime()),data[0],data[2],data[3]]) # 不带样式的写入
     if(warningN[0]%5==0):#每15分钟保存一次数据
-        workbook.save('./video/传感器数据记录表%s.xlsx'%(int(warningN[0]/480))) # 保存文件
+        workbook[0].save('./video/传感器数据记录表%s.xlsx'%(int(warningN[0]/480))) # 保存文件
     warningN[0] = warningN[0]+1
     
     

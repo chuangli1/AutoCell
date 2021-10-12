@@ -74,7 +74,7 @@ export default Vue.extend({
         downloadVideo (video_name) {
             const self:any = this;
             let url = '/videoDownload?video_name='+video_name;
-            if(video_name.includes('传感器')) url+='.xls';
+            if(video_name.includes('传感器')) url+='.xlsx';
             else url+='.avi';
             window.open(url);
         },
@@ -112,7 +112,7 @@ export default Vue.extend({
                         'Type':e[1].includes('传感器')?'sensor':'video',
                         'action':'',
                         'id':e[0],
-                        'isMe':e[2]===sessionStorage.username
+                        'isMe':e[2]===sessionStorage.username||(sessionStorage.isManager == 'true')
                     })
                 });
                 console.log(self.currentItems);
