@@ -379,6 +379,7 @@ def addTaskList():
    taskType = request.form['type']
    taskId = request.form['task_id']
    listDate= request.form['list_date']
+   taskM.addRegantTask(taskId)
    try:
       if(taskType=='regant'):
          taskM.addRegantTask(taskId)

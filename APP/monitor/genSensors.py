@@ -28,7 +28,7 @@ def record(warningN,workbook):
         warningN[1] = warningN[1]+1
         warningN[2] = 0
         if(warningN[1]>5): #短时间内出现5次以上异常数据，记录
-            addInfos('系统：环境异常!',"CO2: %sppm; \n 温度：%s度; \n 湿度：%s%。"%(data[0],data[2],data[3]),time.strftime('%Y/%m/%d %H:%M:%S',time.localtime()))    
+            addInfos('系统：环境异常!',"CO2: %sppm; \n 温度：%s度; \n 湿度：%s%%。"%(data[0],data[2],data[3]),time.strftime('%Y/%m/%d %H:%M:%S',time.localtime()))    
             warningN[1] = 0
     else:
         warningN[1] = warningN[1]-1

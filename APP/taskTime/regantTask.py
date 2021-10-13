@@ -21,11 +21,11 @@ class regantTask():
             self.times = [start_dates,end_dates]
             self.interval = taskD[7].split(",")
             self.long = int(self.interval[1])
-            self.valve = taskD[4].split(',')
+            self.valve = taskD[4]
     def exeTask(self):
         #执行任务
-        for i in range(0,8):
-            self.valveControl.openvalves(i,0)
+        # for i in range(0,8):
+        #     self.valveControl.openvalves(i,0)
         for i in range(0,len(self.valve)):
             valve = int(self.valve[i])
             self.valveControl.openvalves(valve,1)
