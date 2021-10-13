@@ -120,7 +120,6 @@ export default Vue.extend({
                time:[0,0],
                interval:[0,0]
            },
-           myDate:new Date(),
            editId:-1,
            tasks:[]
         }
@@ -281,14 +280,14 @@ export default Vue.extend({
                     task.isActive = !status;
                     return; 
                 }
-                $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
+                $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:new Date().toLocaleString()}).then(data=>{
                        if(data.code === 1){
                              self.$message({
                                 message: '任务开启成功',
                                 type: 'success'
                             });
-                            task.activeDate = self.myDate.toLocaleString();
-                            self.activeList.push([task.id,self.myDate.toLocaleString()]);
+                            task.activeDate = new Date().toLocaleString();
+                            self.activeList.push([task.id,new Date().toLocaleString()]);
                         }
                         else{
                             self.$message.error('未知错误, 请重试');
@@ -325,7 +324,7 @@ export default Vue.extend({
               let data:any = {
                   type:'regant',
                   task_name:self.taskNew.name,
-                  task_date:self.myDate.toLocaleString(),
+                  task_date:new Date().toLocaleString(),
                   task_interval:self.taskNew.interval[0].toString()+','+self.taskNew.interval[1].toString(),
                   task_time:self.taskNew.time[0].toString()+','+self.taskNew.time[1].toString(),
                   task_valve:val,
@@ -355,7 +354,7 @@ export default Vue.extend({
                 let data:any = {
                   type:'monitor',
                   task_name:self.taskNew.name,
-                  task_date:self.myDate.toLocaleString(),
+                  task_date:new Date().toLocaleString(),
                   task_interval:self.taskNew.interval[0].toString()+','+self.taskNew.interval[1].toString(),
                   task_time:self.taskNew.time[0].toString()+','+self.taskNew.time[1].toString(),
                   task_username:sessionStorage.username,
