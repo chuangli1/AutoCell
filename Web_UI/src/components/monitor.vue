@@ -498,7 +498,7 @@ export default Vue.extend({
             const self:any = this;
             $.get('/sensor').then(data=>{
                 if(data.code===1){
-                    self.Temp = data.data[2].toFixed(2)+' C';
+                    self.Temp = data.data[2].toFixed(2)+'℃';
                     self.CO2 = (data.data[0]/10000).toFixed(2)+' %';
                     self.HUMI = (data.data[3]).toFixed(2)+' %';
                 }
