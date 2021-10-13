@@ -6,7 +6,8 @@ class regantTask():
         #初始化
         self.times = [0,0]
         self.interval = [0,0]
-        self.valve = []
+        self.valve = ''
+        self.press = 0
         self.valveControl = valves
     def taskWait(self):
         print('任务进入队列')
@@ -22,13 +23,16 @@ class regantTask():
             self.interval = taskD[7].split(",")
             self.long = int(self.interval[1])
             self.valve = taskD[4]
+            self.press = int(taskD[6])
     def exeTask(self):
         #执行任务
         # for i in range(0,8):
         #     self.valveControl.openvalves(i,0)
+        self.valveControl.openSource(self.press,1)
         for i in range(0,len(self.valve)):
-            valve = int(self.valve[i])
+            valve = int(self.valve[i])-1
             self.valveControl.openvalves(valve,1)
         time.sleep(self.long)
         for i in range(0,8):
             self.valveControl.openvalves(i,0)
+        self.valveControl.closeSource(1)

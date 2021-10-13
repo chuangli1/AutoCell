@@ -379,14 +379,12 @@ def addTaskList():
    taskType = request.form['type']
    taskId = request.form['task_id']
    listDate= request.form['list_date']
-   taskM.addRegantTask(taskId)
    try:
       if(taskType=='regant'):
          taskM.addRegantTask(taskId)
       else:
          taskM.addMonitorTask(taskId)
       addTaskLists(taskType,taskId,listDate)
-      print(taskType,taskId,listDate)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})

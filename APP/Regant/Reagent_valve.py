@@ -40,12 +40,13 @@ class valve_control():
         pres_control(pres_r,i)
     def presGet(self):
         return pres_read()
-    def openSource(self):
+    def openSource(self,press,i):
         #self.openvalves(8,1)
         self.sourceClose = False
         self.openvalves(15,1)
-    def closeSource(self):
+        self.pressure(press,i)
+    def closeSource(self,i):
         self.openvalves(15,0)
-        time.sleep(1)
         self.sourceClose = True
+        self.pressure(0,i)
         #self.openvalves(8,0)
