@@ -430,10 +430,9 @@ def valveControl():
          for i in range(0,len(valveChecked)):
             valve = int(valveChecked[i])-1
             valves.openvalves(valve,1)
-         valves.openSource()
-         valves.pressure(presValue,1)
+         valves.openSource(presValue,1)
       else:
-         valves.closeSource()
+         valves.closeSource(1)
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
