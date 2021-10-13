@@ -34,6 +34,10 @@ export default Vue.extend({
     created(){
         const self:any = this;
         $.get('/loadTeam').then(data=>{
+            if(data.code === 0){
+                self.$message.error('未知错误, 请重试');
+                return
+            }
             data.members.forEach(e => {
                 self.members.push({
                     'name':e[0],

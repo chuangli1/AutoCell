@@ -411,10 +411,10 @@ def deleteTaskList():
    except:
       return jsonify({'code':0})
 
-# #传感器
-# @app.route('/sensor',methods=['GET'])
-# def sensor():
-#    return jsonify({'code':1,'data':genSensors()})
+#传感器
+@app.route('/sensor',methods=['GET'])
+def sensor():
+   return jsonify({'code':1,'data':genSensors()})
 
 #阀门控制
 @app.route('/valveControl',methods=['POST'])
