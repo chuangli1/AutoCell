@@ -1,7 +1,7 @@
 <template>
   <div style="height:100%">
     <div class='title'>
-      <span>AutoCell Cloud System 1.0</span>
+      <span>AutoCell System</span>
     </div>
     <div class="body">
       <router-view></router-view>
