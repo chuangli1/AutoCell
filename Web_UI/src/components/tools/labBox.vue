@@ -195,6 +195,10 @@ export default Vue.extend({
             let tasks:any = [];
             if(self.taskType==='regant'){
                 $.get('/loadTasks?type='+self.taskType).then(function(data){
+                if(data.code === 0){
+                    self.$message.error('未知错误, 请重试');
+                    return
+                }
                 data.tasks.forEach(e => {
                     tasks.push({
                         id:e[0],
@@ -219,6 +223,10 @@ export default Vue.extend({
             }
             else{
                 $.get('/loadTasks?type='+self.taskType).then(function(data){
+                if(data.code === 0){
+                    self.$message.error('未知错误, 请重试');
+                    return
+                }
                 data.tasks.forEach(e => {
                     tasks.push({
                         id:e[0],
@@ -274,33 +282,33 @@ export default Vue.extend({
                     return; 
                 }
                 $.post('/addTaskList',{type:self.taskType,task_id:task.id,list_date:self.myDate.toLocaleString()}).then(data=>{
-                       if(data.code === 0){
-                            self.$message.error('未知错误, 请重试');
-                            task.isActive = !status;
-                        }
-                        else{
-                            self.$message({
+                       if(data.code === 1){
+                             self.$message({
                                 message: '任务开启成功',
                                 type: 'success'
                             });
                             task.activeDate = self.myDate.toLocaleString();
                             self.activeList.push([task.id,self.myDate.toLocaleString()]);
                         }
+                        else{
+                            self.$message.error('未知错误, 请重试');
+                            task.isActive = !status;
+                        }
                 });
             }
             else{
                 $.post('/deleteTaskList',{task_id:task.id, task_type:self.taskType}).then(data=>{
-                      if(data.code === 0){
-                            self.$message.error('未知错误, 请重试');
-                            task.isActive = !status;
-                        }
-                        else{
-                            self.$message({
+                      if(data.code === 1){
+                           self.$message({
                                 message: '任务关闭成功',
                                 type: 'success'
                             });
                             task.activeDate = -1;
                             self.activeList.splice(self.activeList.findIndex(d=>d===task.id),1);
+                        }
+                        else{
+                            self.$message.error('未知错误, 请重试');
+                            task.isActive = !status;
                         }
                 });
             }
@@ -330,7 +338,7 @@ export default Vue.extend({
                         if(data.code === 0){
                             self.$message.error('未知错误, 请重试');
                         }
-                        else{
+                        else if(data.code===1){
                             self.$message({
                                 message: (self.editId===-1)?'添加成功':'修改成功',
                                 type: 'success'
@@ -359,7 +367,7 @@ export default Vue.extend({
                         if(data.code === 0){
                             self.$message.error('未知错误, 请重试');
                         }
-                        else{
+                        else if(data.code === 1){
                             self.$message({
                                 message: (self.editId===-1)?'添加成功':'修改成功',
                                 type: 'success'
@@ -385,6 +393,10 @@ export default Vue.extend({
         let tasks:any = [];
         if(self.taskType==='regant'){
             $.get('/loadTasks?type='+self.taskType).then(function(data){
+            if(data.code === 0){
+                self.$message.error('未知错误, 请重试');
+                return;
+            }
             data.tasks.forEach(e => {
                 tasks.push({
                     id:e[0],
@@ -409,6 +421,10 @@ export default Vue.extend({
         }
         else{
             $.get('/loadTasks?type='+self.taskType).then(function(data){
+            if(data.code === 0){
+                self.$message.error('未知错误, 请重试');
+                return
+            }
             data.tasks.forEach(e => {
                 tasks.push({
                     id:e[0],

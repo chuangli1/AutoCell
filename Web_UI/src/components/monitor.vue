@@ -292,8 +292,9 @@ export default Vue.extend({
                         }
                     });                 
                 }
-                else{
+                else if(data.code === 0){
                     self.$message.error('未知错误, 请重试');
+                    return
                 }
             });
 
