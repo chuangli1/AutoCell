@@ -24,6 +24,7 @@ def record(warningN,workbook):
         warningN[0] = warningN[0]+1
         addVideos('系统','传感器数据记录表%s'%(int(warningN[0]/480)),time.strftime('%Y/%m/%d %H:%M',time.localtime()))
     data = genSensors()
+    print('传感器实时监测log')
     if data[0]>1000 or data[2]>38 or data[3]>80 or data[0]<300 or data[2]<36 or data[3]<20:
         warningN[1] = warningN[1]+1
         warningN[2] = 0
