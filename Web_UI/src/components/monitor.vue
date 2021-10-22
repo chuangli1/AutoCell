@@ -136,21 +136,26 @@
     >
         <div class="card">
             <div style="text-align:center;margin-bottom:10px">阀门开关</div>
-            <el-checkbox-group 
+            <el-checkbox-group
+                :disabled="closeSwitch"
                 v-model="valvesChecked"
                 style="margin-left:10%"
                 :min="0">
                 <el-checkbox v-for="valve in valves" :label="valve" :key="valve">{{valve}}</el-checkbox>
+                <div style="display:inline-block;margin-top:17px">
+                    <el-switch v-model="closeSwitch" @change='closeAllSwitch' active-text="关闭所有阀门"></el-switch>
+                </div>
             </el-checkbox-group>
         </div>
         <div class="card">
             <div style="text-align:center">压力设定</div>
             <div style="text-align:center;margin:0 20px 0 20px">
             <el-slider
+               :disabled="closeSwitch"
                 v-model="presValue"
                 height="100px">
             </el-slider>
-            <el-input-number v-model="presValue"  :min="0" :max="100"></el-input-number>
+            <el-input-number :disabled="closeSwitch" v-model="presValue"  :min="0" :max="100"></el-input-number>
             </div>
         </div>
         <div style="float:right;margin-top:30px;margin-right:10px">
@@ -168,6 +173,7 @@ export default Vue.extend({
     data(){
         return {
             presValue:0,
+            closeSwitch:false,
             isSwitch:false,
             myLocationName:'',
             valves:['阀门1','阀门2','阀门3','阀门4','阀门5','阀门6','阀门7','阀门8'],
@@ -206,6 +212,12 @@ export default Vue.extend({
         }
     },
     methods:{
+        closeAllSwitch(){
+            const self:any = this;
+            self.valvesChecked = [];
+            self.presValue = 0;
+            self.switchSave();
+        },
         switchSave(){
             const self:any = this;
             const presData = {
