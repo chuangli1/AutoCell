@@ -214,6 +214,7 @@ export default Vue.extend({
     methods:{
         closeAllSwitch(){
             const self:any = this;
+            if(!self.closeSwitch) return;
             self.valvesChecked = [];
             self.presValue = 0;
             self.switchSave();
