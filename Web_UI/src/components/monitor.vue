@@ -142,7 +142,7 @@
                 style="margin-left:10%"
                 :min="0">
                 <el-checkbox v-for="valve in valves" :label="valve" :key="valve">{{valve}}</el-checkbox>
-                <div style="display:inline-block;margin-top:17px">
+                <div style="display:block;margin-top:17px">
                     <el-switch v-model="closeSwitch" @change='closeAllSwitch' active-text="关闭所有阀门"></el-switch>
                 </div>
             </el-checkbox-group>
