@@ -10,6 +10,15 @@ class Stage():
 
         self.OpenSerial()
         self.autoFocus = None
+        #self.resetXY('X')
+        self.resetXY('Y')
+    def resetXY(self,dir):
+        MotionComm = "G28 %s0"%(dir)
+        if self.board:
+              self.do_commandtest(self.board, MotionComm)
+              time.sleep(10)   
+        print('%s 方向回零成功'%(dir))
+
     
     def resetzero(self,x):
         MotionComm = "G28 Z0"
@@ -17,6 +26,7 @@ class Stage():
         if self.board:
               self.do_commandtest(self.board, MotionComm)
               time.sleep(10)
+        self.rotate(100)
         self.MotionCommmand(5,x,200)
         time.sleep(10)
         MotionComm = "G92 Z0"
@@ -41,6 +51,7 @@ class Stage():
         self.step = float(step)
         self.speed = int(speed)
         MotionComm = "G0 "+MotionChar[dir]+str(self.step)+' F'+str(60*self.speed)
+        print(MotionComm)
         if self.board:
               self.do_commandtest(self.board, MotionComm)
               time.sleep(0.5)
@@ -61,6 +72,7 @@ class Stage():
         #commands = '$$'
         grbl.write(commands.encode())
         print(grbl)
+        time.sleep(2)
         line = grbl.read_all()
         print(line)
         # log('grbl').info("<<<< "+response)
@@ -72,7 +84,7 @@ class Stage():
         command="M17\n"
         cmd=command.encode()
         self.board.write(cmd)
-        time.sleep(2)
+        time.sleep(0.5)
         line = self.board.read_all()
         print(line)
         command="G90\n"
