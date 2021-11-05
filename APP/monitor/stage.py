@@ -84,7 +84,7 @@ class Stage():
         command="M17\n"
         cmd=command.encode()
         self.board.write(cmd)
-        time.sleep(0.5)
+        time.sleep(2)
         line = self.board.read_all()
         print(line)
         command="G90\n"

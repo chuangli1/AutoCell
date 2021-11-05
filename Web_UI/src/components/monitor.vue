@@ -189,7 +189,7 @@ export default Vue.extend({
                 {name:'位置1: 芯片1',id:'1',angle:10,line:40},
                 {name:'位置2: 芯片2',id:'2',angle:40,line:50}],
             locationVisible:false,
-            percentageAngle:50,
+            percentageAngle:0,
             optionsAngle:[
                 {label:'1°',value:1/3.6},
                 {label:'3.6°',value:1},
@@ -204,7 +204,7 @@ export default Vue.extend({
                 {label:'2cm',value:20},
             ],
             stepAngle:10,
-            percentageLine:50,
+            percentageLine:0,
             stepLine:10,
             editID:-1,
             getSensor:null
