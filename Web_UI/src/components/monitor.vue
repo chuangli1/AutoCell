@@ -388,7 +388,7 @@ export default Vue.extend({
             if (self.percentageAngle > 100) {
                 self.percentageAngle = 100;
             }
-            $.post('/stage',{type:'angle',angle:Math.floor(360*self.percentageAngle)/100}).then(data=>{
+            $.post('/stage',{type:'angle',angle:Math.floor(360*self.percentageAngle)/180}).then(data=>{
 
             })
         },
