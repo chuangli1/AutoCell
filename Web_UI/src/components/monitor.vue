@@ -303,7 +303,9 @@ export default Vue.extend({
                             angle:n[3],
                             line:n[4]
                         }
-                    });                 
+                    }); 
+                    self.percentageAngle = data.locationX/200;
+                    self.percentageLine = data.locationY                
                 }
                 else if(data.code === 0){
                     self.$message.error('未知错误, 请重试');

@@ -10,14 +10,18 @@ class Stage():
 
         self.OpenSerial()
         self.autoFocus = None
-        #self.resetXY('X')
+        self.resetXY('X')
         self.resetXY('Y')
+        self.x = 0
+        self.y = 0
     def resetXY(self,dir):
         MotionComm = "G28 %s0"%(dir)
         if self.board:
-              self.do_commandtest(self.board, MotionComm)
-              time.sleep(10)   
-        print('%s 方向回零成功'%(dir))
+            self.do_commandtest(self.board, MotionComm)
+            time.sleep(10)   
+            print('%s 方向回零成功'%(dir))
+            if(dir=='X'): self.x = 0
+            else: self.y = 0
 
     
     def resetzero(self,x):
@@ -44,7 +48,9 @@ class Stage():
         print(MotionComm)
         if self.board:
             self.do_commandtest(self.board, MotionComm)
-            time.sleep(0.5)
+            time.sleep(1)
+            self.x = line
+            self.y = angle
 
     def MotionCommmand(self,dir,step,speed):
         #发送位移命令
@@ -53,8 +59,10 @@ class Stage():
         MotionComm = "G0 "+MotionChar[dir]+str(self.step)+' F'+str(60*self.speed)
         print(MotionComm)
         if self.board:
-              self.do_commandtest(self.board, MotionComm)
-              time.sleep(0.5)
+            self.do_commandtest(self.board, MotionComm)
+            time.sleep(1)
+            if(dir==1): self.x = step
+            if(dir==3): self.y = step
     def rotate(self,angle):
         self.MotionCommmand(1,angle,100)
         
@@ -72,7 +80,7 @@ class Stage():
         #commands = '$$'
         grbl.write(commands.encode())
         print(grbl)
-        time.sleep(2)
+        time.sleep(1)
         line = grbl.read_all()
         print(line)
         # log('grbl').info("<<<< "+response)

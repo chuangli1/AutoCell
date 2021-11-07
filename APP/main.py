@@ -152,7 +152,7 @@ def getLocation():
    try:
       time.sleep(0.4)
       locationList =  searchLocations(userName)
-      return jsonify({'code':1,'locationList':locationList})
+      return jsonify({'code':1,'locationList':locationList,'locationX':stageM.x,'locationY':stageM.y})
    except:
       return jsonify({'code':0})
 @app.route('/addLocation',methods=['POST'])
