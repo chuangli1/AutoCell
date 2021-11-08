@@ -191,16 +191,16 @@ export default Vue.extend({
             locationVisible:false,
             percentageAngle:0,
             optionsAngle:[
-                {label:'1°',value:1/3.6},
-                {label:'3.6°',value:1},
-                {label:'36°',value:10},
-                {label:'75°',value:25},
-                {label:'180°',value:50},
+                {label:'1.8°',value:1},
+                {label:'3.6°',value:2},
+                {label:'36°',value:20},
+                {label:'72°',value:40},
+                {label:'180°',value:100},
             ],
             optionsLine:[
                 {label:'1cm',value:10},
                 {label:'0.1cm',value:1},
-                {label:'0.01cm',value:0.1},
+                {label:'0.05cm',value:0.5},
                 {label:'2cm',value:20},
             ],
             stepAngle:10,
@@ -256,18 +256,20 @@ export default Vue.extend({
             const self:any = this;
             let index = self.locations.findIndex(n=>n.id===id);
             const location = self.locations[index];
-            $.post('/changeLocation',{angle:Math.floor(360*location.angle)/100,
-            line:Math.floor(location.line*200)/100}).then(data=>{
-                if(data.code===1){
+            $.post('/changeLocation',{angle:Math.floor(360*location.angle)/180,
+                line:Math.floor(location.line*89)/100}).then(data=>{
+                    if(data.code===1){
+                        self.percentageAngle = location.angle;
+                        self.percentageLine = location.line;
                         self.$message({
                             message: '位置改变成功',
                             type: 'success'
                         });
                         //if(self.autoFocus) self.foucs('auto','up')
-                }
-                else{
-                    self.$message.error('未知错误, 请重试');
-                }
+                    }
+                    else{
+                        self.$message.error('未知错误, 请重试');
+                    }
             });
 
 
@@ -344,18 +346,18 @@ export default Vue.extend({
                 }
                 self.locations.push(newLocation);
                 $.post('/addLocation',newLocation).then(data=>{
-                        if(data.code===1){
-                                self.$message({
-                                    message: '保存成功',
-                                    type: 'success'
-                                });
-                                self.$emit('refreshLocations');
-                                self.getLocations();
-                                self.optLocation = id; 
-                        }
-                        else{
-                            self.$message.error('未知错误, 请重试');
-                        }
+                    if(data.code===1){
+                            self.$message({
+                                message: '保存成功',
+                                type: 'success'
+                            });
+                            self.$emit('refreshLocations');
+                            self.getLocations();
+                            self.optLocation = id; 
+                    }
+                    else{
+                        self.$message.error('未知错误, 请重试');
+                    }
                 });        
             }
             else{
@@ -399,24 +401,24 @@ export default Vue.extend({
             if (self.percentageLine > 100) {
                 self.percentageLine = 100;
             };
-            $.post('/stage',{type:'line',line:Math.floor(200*self.percentageLine)/100}).then(data=>{
+            $.post('/stage',{type:'line',line:Math.floor(89*self.percentageLine)/100}).then(data=>{
 
             })
         },
         format(percentage) {
-            return `${Math.floor(360*percentage)/100}°`;
+            return `${Math.floor(360*percentage)/180}°`;
         },
         formatLine(percentage) {
-            return `${Math.floor(percentage*200)/100} mm`;
+            return `${Math.floor(percentage*89)/100} mm`;
         },
         decreaseAngle() {
             const self:any = this;
-	    if (self.percentageAngle < 0) return;
+	       if (self.percentageAngle < 0) return;
             self.percentageAngle -= self.stepAngle;
             if (self.percentageAngle < 0) {
                 self.percentageAngle = 0;
             }
-            $.post('/stage',{type:'angle',angle:Math.floor(360*self.percentageAngle)/100}).then(data=>{
+            $.post('/stage',{type:'angle',angle:Math.floor(360*self.percentageAngle)/180}).then(data=>{
 
             })
         },
@@ -427,7 +429,7 @@ export default Vue.extend({
             if (self.percentageLine < 0) {
                 self.percentageLine = 0;
             }
-            $.post('/stage',{type:'line',line:Math.floor(200*self.percentageLine)/100}).then(data=>{
+            $.post('/stage',{type:'line',line:Math.floor(89*self.percentageLine)/100}).then(data=>{
 
             })
         },
