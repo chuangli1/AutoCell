@@ -31,7 +31,7 @@
                                 {{location.name}}
                             </el-radio>
                         </el-tooltip>
-                        <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer;margin:0 10px 0 10px"></i>
+                        <i @click="deleteLocation(index,location.id)" class="el-icon-delete" style="cursor:pointer;margin:0 10px 0 10px"></i>
                         <el-button @click="editLocation(index)" type="primary" icon="el-icon-edit" circle></el-button>
                     </div>
                     <el-button @click="addLocation()" type="primary" icon="el-icon-plus" circle></el-button>
@@ -191,21 +191,21 @@ export default Vue.extend({
             locationVisible:false,
             percentageAngle:0,
             optionsAngle:[
-                {label:'1.8°',value:1},
-                {label:'3.6°',value:2},
-                {label:'36°',value:20},
-                {label:'72°',value:40},
-                {label:'180°',value:100},
+                {label:'1.8°',value:0.5},
+                {label:'3.6°',value:1},
+                {label:'36°',value:10},
+                {label:'72°',value:20},
+                {label:'180°',value:50},
             ],
             optionsLine:[
-                {label:'1cm',value:10},
-                {label:'0.1cm',value:1},
-                {label:'0.05cm',value:0.5},
-                {label:'2cm',value:20},
+                {label:'1cm',value:1000/89},
+                {label:'0.1cm',value:100/89},
+                {label:'0.05cm',value:50/89},
+                {label:'2cm',value:2000/89},
             ],
             stepAngle:10,
             percentageLine:0,
-            stepLine:10,
+            stepLine:100/89,
             editID:-1,
             getSensor:null
 
@@ -278,14 +278,14 @@ export default Vue.extend({
             const self:any = this;
             self.optLocation = -1;
             self.editLocation(-1)
+            console.log(self.percentageLine,self.percentageAngle)
         },
-        editLocation(index){
+        editLocation(index,id){
             const self:any = this;
             self.editID = index;
             if(index!==-1){
-                self.percentageLine = self.locations[index].line;
-                self.percentageAngle = self.locations[index].angle;
                 self.myLocationName = self.locations[index].name.split(':')[1];
+                self.locationChange(id)
             }
             else{
                 self.myLocationName = '';
@@ -306,8 +306,8 @@ export default Vue.extend({
                             line:n[4]
                         }
                     }); 
-                    self.percentageAngle = data.locationX/200;
-                    self.percentageLine = data.locationY                
+                    self.percentageAngle = parseInt(data.locationX)/2;
+                    self.percentageLine = parseInt(data.locationY)*100/89;                
                 }
                 else if(data.code === 0){
                     self.$message.error('未知错误, 请重试');
@@ -406,7 +406,7 @@ export default Vue.extend({
             })
         },
         format(percentage) {
-            return `${Math.floor(360*percentage)/180}°`;
+            return `${Math.floor(360*percentage)/100}°`;
         },
         formatLine(percentage) {
             return `${Math.floor(percentage*89)/100} mm`;
