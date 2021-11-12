@@ -31,8 +31,8 @@
                                 {{location.name}}
                             </el-radio>
                         </el-tooltip>
-                        <i @click="deleteLocation(index,location.id)" class="el-icon-delete" style="cursor:pointer;margin:0 10px 0 10px"></i>
-                        <el-button @click="editLocation(index)" type="primary" icon="el-icon-edit" circle></el-button>
+                        <i @click="deleteLocation(index)" class="el-icon-delete" style="cursor:pointer;margin:0 10px 0 10px"></i>
+                        <el-button @click="editLocation(index,location.id)" type="primary" icon="el-icon-edit" circle></el-button>
                     </div>
                     <el-button @click="addLocation()" type="primary" icon="el-icon-plus" circle></el-button>
                         
