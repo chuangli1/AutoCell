@@ -254,6 +254,7 @@ export default Vue.extend({
         },
         locationChange(id){
             const self:any = this;
+            let tempOpt = self.optLocation;
             let index = self.locations.findIndex(n=>n.id===id);
             const location = self.locations[index];
             $.post('/changeLocation',{angle:Math.floor(360*location.angle)/180,
@@ -265,10 +266,13 @@ export default Vue.extend({
                             message: '位置改变成功',
                             type: 'success'
                         });
+                        self.optLocation = id;
                         //if(self.autoFocus) self.foucs('auto','up')
                     }
                     else{
                         self.$message.error('未知错误, 请重试');
+                        self.optLocation = tempOpt;
+                        self.locationVisible = false;
                     }
             });
 
@@ -290,7 +294,7 @@ export default Vue.extend({
             else{
                 self.myLocationName = '';
             }
-            self.optLocation = -1; 
+            //self.optLocation = -1; 
             self.locationVisible = true;
 
         },
