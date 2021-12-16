@@ -39,7 +39,7 @@ python3 -m pip install -r requirements.txt
 sudo apt-get install mariadb-server
 ```
 
-安装完数据库后请初始化数据库，相关方法可以自行上网搜索，并将‘***/APP/db/autocell.sql***’文件导入数据库，更改’***/APP/db/index.py***‘中数据库连接的用户和密码, 向数据库中的‘***user***‘表写入初始用户和密码，并将’**/APP/main.py**'中的managerName改为初始用户。
+安装完数据库后请初始化数据库，相关方法可以自行上网搜索，并将‘***/APP/db/autocell.sql***’文件导入数据库，更改’***/APP/db/index.py***‘中数据库连接的用户和密码, 向数据库中的‘***user***‘表写入初始用户和密码，向’***/APP/***‘下创建`video`文件夹用于存储数据，并将’**/APP/main.py**'中的managerName改为初始用户。
 
 确保所有的硬件安装完成，运行服务器：
 
