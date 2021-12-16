@@ -52,6 +52,7 @@ python3 main.py
 安装依赖：
 
 ```js
+cd Web_UI
 npm i
 ```
 
