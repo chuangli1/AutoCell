@@ -12,7 +12,7 @@
 
 项目运行的过程如下图所示：
 
-![](imgs\动画1.gif)
+<img title="" src="imgs/动画1.gif" alt="" data-align="center" width="440">
 
 ### 安装与部署
 
