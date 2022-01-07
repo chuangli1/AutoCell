@@ -16,7 +16,6 @@ app.use(express.static('dist'));
 
 
 const remoteInst = "http://localhost:5000";
-console.log(remoteInst);
 app.use(function(req, res, next) {
     if(!req.path.startsWith('/dist')) {
         proxy.web(req, res, { target: remoteInst, secure: false });
@@ -27,10 +26,10 @@ app.use(function(req, res, next) {
         res.end(str);
     }
 });
-
 const server = http.createServer(app);
-
 server.listen(6789);
+
+
 console.log("App is running on http://localhost:6789")
 
 

@@ -134,8 +134,7 @@ def stage():
          stageM.rotate(angle)
          return jsonify({'code':1})
    except:
-      return jsonify({'code':0})
-    
+      return jsonify({'code':0})   
 @app.route('/changeLocation',methods=['POST'])
 def changeLocation():
    line = request.form['line']
@@ -201,7 +200,6 @@ def foucs():
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
-
 
 #视频传输相关
 @app.route('/video',methods=['GET'])
@@ -436,10 +434,6 @@ def valveControl():
       return jsonify({'code':1})
    except:
       return jsonify({'code':0})
-
-    
-
-
 
 if __name__ == '__main__':
    app.run(threaded=True,port=5000)
